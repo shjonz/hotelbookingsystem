@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hotel Search Results</title>
+  <link rel="stylesheet" type="text/css" href="search.css">
+</head>
+<body>
+
+
+  <nav class="navbar">
+    <div class="nav-item">
+      <label for="destination">Destination:</label>
+      <input type="text" id="destination" name="destination" placeholder="Enter destination">
+    </div>
+    <div class="nav-item">
+      <label for="check-in">Check-in Date:</label>
+      <input type="text" id="check-in" name="check-in" placeholder="MM/DD/YYYY">
+    </div>
+    <div class="nav-item">
+      <label for="check-out">Check-out Date:</label>
+      <input type="text" id="check-out" name="check-out" placeholder="MM/DD/YYYY">
+    </div>
+    <div class="nav-item">
+      <label for="rooms">Rooms:</label>
+      <input type="number" id="rooms" name="rooms" min="1" max="10" value="1">
+    </div>
+    <div class="nav-item">
+      <label for="adults">Adults:</label>
+      <input type="number" id="adults" name="adults" min="1" max="10" value="1">
+    </div>
+    <div class="nav-item">
+      <label for="children">Children:</label>
+      <input type="number" id="children" name="children" min="0" max="10" value="0">
+    </div>
+    <button class="search-btn">Search</button>
+  </nav>
+
+  <main>
+
+
+    <aside class="filter-sidebar">
+      <h3>Search Filters</h3>
+      
+      <div class="filter-item">
+        <label for="hotel-name">Hotel Name:</label>
+        <input type="text" id="hotel-name" name="hotel-name">
+      </div>
+      
+      <div class="filter-item">
+        <label for="price-range">Price Range:</label>
+        <div id="price-values"></div> <!-- Element to display handle values -->
+        <div id="price-slider"></div>
+        <input type="hidden" id="price-range" name="price-range">
+      </div>
+      
+      <div class="filter-item">
+        <label for="amenities">Amenities:</label>
+        <div class="checkbox-group">
+          <input type="checkbox" id="amenity-pool" name="amenities" value="pool">
+          <label for="amenity-pool">Pool</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="amenity-gym" name="amenities" value="gym">
+          <label for="amenity-gym">Gym</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="amenity-wifi" name="amenities" value="wifi">
+          <label for="amenity-wifi">Wi-Fi</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="amenity-parking" name="amenities" value="parking">
+          <label for="amenity-parking">Parking</label>
+        </div>
+      </div>
+    </aside>
+
+
+
+    <section class="search-results">
+      <h2>Search Results</h2>
+
+      <div class="hotel-card">
+        <div class="photo-section">
+          <img src="img/hotel1.jpg" alt="Hotel Photo" class="hotel-photo">
+        </div>
+        <div class="info-section">
+          <h3 class="hotel-name">Hotel ABC</h3>
+          <p class="hotel-location">City, Country</p>
+          <ul class="hotel-amenities">
+            <li>Free Wi-Fi</li>
+            <li>Swimming Pool</li>
+            <li>Gym</li>
+          </ul>
+        </div>
+        <div class="price-section">
+          <p class="hotel-price">$200</p>
+          <button class="book-now-btn">Book Now</button>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="photo-section">
+          <img src="img/hotel2.jpg" alt="Hotel Photo" class="hotel-photo">
+        </div>
+        <div class="info-section">
+          <h3 class="hotel-name">Hotel ABC</h3>
+          <p class="hotel-location">City, Country</p>
+          <ul class="hotel-amenities">
+            <li>Free Wi-Fi</li>
+            <li>Swimming Pool</li>
+            <li>Gym</li>
+          </ul>
+        </div>
+        <div class="price-section">
+          <p class="hotel-price">$200</p>
+          <button class="book-now-btn">Book Now</button>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <div class="photo-section">
+          <img src="img/hotel1.jpg" alt="Hotel Photo" class="hotel-photo">
+        </div>
+        <div class="info-section">
+          <h3 class="hotel-name">Hotel ABC</h3>
+          <p class="hotel-location">City, Country</p>
+          <ul class="hotel-amenities">
+            <li>Free Wi-Fi</li>
+            <li>Swimming Pool</li>
+            <li>Gym</li>
+          </ul>
+        </div>
+        <div class="price-section">
+          <p class="hotel-price">$200</p>
+          <button class="book-now-btn">Book Now</button>
+        </div>
+      </div>
+      
+      <div class="hotel-card">
+        <div class="photo-section">
+          <img src="img/hotel2.jpg" alt="Hotel Photo" class="hotel-photo">
+        </div>
+        <div class="info-section">
+          <h3 class="hotel-name">Hotel ABC</h3>
+          <p class="hotel-location">City, Country</p>
+          <ul class="hotel-amenities">
+            <li>Free Wi-Fi</li>
+            <li>Swimming Pool</li>
+            <li>Gym</li>
+          </ul>
+        </div>
+        <div class="price-section">
+          <p class="hotel-price">$200</p>
+          <button class="book-now-btn">Book Now</button>
+        </div>
+      </div>
+      
+      <!-- Add more hotel cards here -->
+      
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Hotel Booking Website. All rights reserved.</p>
+  </footer>
+
+  <link rel="stylesheet" href="lib/noUiSlider-15.7.1/dist/nouislider.css">
+  <script src="lib/noUiSlider-15.7.1/dist/nouislider.min.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>
+
