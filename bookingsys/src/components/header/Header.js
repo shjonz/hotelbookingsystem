@@ -5,9 +5,11 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { useState } from "react";
 import {format} from 'date-fns';
+import { useNavigate } from "react-router-dom";
 
 
-const Header = (type) => {
+const Header = ({type}) => {
+    const [destination, setDestination] = useState("");
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
 
@@ -32,6 +34,8 @@ const Header = (type) => {
         }
       );
 
+    const navigate = useNavigate();
+
     //this is to handle the options up and down
     //prev is the previous state
     const handleOption = (name, operation ) => {
@@ -42,6 +46,10 @@ const Header = (type) => {
             }; 
         });
     };
+
+    const handleSearch = () => {
+        navigate("/hotels", { state: { destination, date, options } });
+    };
       
     return (
         <div className="header" style={{
@@ -50,11 +58,13 @@ const Header = (type) => {
         <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
         { type !== "list" && 
             <div className="headerSearch">
+
                 <div className="headerSearchItem1">
                     <input className="headerSearchInput" type="text" 
-                    placeholder="Search for your Destination" />
-
+                    placeholder="Search for your Destination"
+                    onChange={(e) => setDestination(e.target.value)} />
                 </div>
+
                 <div className="headerSearchItem2">
                     <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText">{`${format(date[0].startDate, "MM/dd/yyyy")} to 
                     ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
@@ -66,6 +76,7 @@ const Header = (type) => {
                         className="date"
                     /> }
                 </div>
+
                 <div className="headerSearchItem3">
                     <span onClick={ () => setOpenOptions( !openOptions ) }
                     className="headerSearchText">{`${options.adult} adult ${options.children} children 
@@ -108,8 +119,9 @@ const Header = (type) => {
                         </div>
                     </div> )}
                 </div>
+                
                 <div className="headerSearchItem4">
-                    <button className="headerButton">Search</button>
+                    <button className="headerButton" onClick={handleSearch}>Search</button>
 
                 </div>
 
