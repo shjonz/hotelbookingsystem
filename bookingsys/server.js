@@ -1,0 +1,13 @@
+require('dotenv').config()
+const express=require('express')
+const app = express()
+const mongoose = require('mongoose')
+mongoose.connect(process.env.DATABASE_URL,{useNewUrlParser:true})
+//mongoose.connect('mongodb://127.0.0.1:27017/hotels',{useNewUrlParser:true} )
+const db=mongoose.connection
+db.on('error', (error)=>console.error(error))
+db.once('open', ()=> console.log('Connection to DataBase server established'))
+app.use(express.json())
+const hotelsRouter  = require('./routes/accounts')
+app.use('/accounts',hotelsRouter)
+app.listen(3002,() => console.log('listening on port'))
