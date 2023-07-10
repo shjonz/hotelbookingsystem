@@ -1,7 +1,6 @@
 const express=require('express')
 const router=express.Router()
 const hotel=require('../models/accounts')
-const accounts = require('../models/accounts')
 //Getting all
 router.get('/',async(req,res) =>{
 try{
@@ -13,19 +12,45 @@ try{
     //res.send('hello world')
 })
 
-router.get('/:emailid',(req,res) =>{
-    /*try{
-        const  accounts= await acconts.find()
+// Deleting an account
+router.delete('/:emailId', getAccount, async (req, res) => {
+  try {
+    await res.account.deleteOne();
+    res.json({ message: 'Deleted account' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Updating an account
+router.patch('/:emailId', getAccount, async (req, res) => {
+    if (req.body.emailId!= null) {
+      res.account.emailId = req.body.emailId
+    }
+    if (req.body.emailId != null) {
+      res.account.emailId = req.body.emailId
+    }
+    try {
+      const updatedAccount = await res.account.save();
+      res.json(updatedAccount);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  });
+
+router.get('/:emailId',async(req,res) =>{
+    try{
+        const  accounts= await hotel.find()
         res.json(accounts)
     }catch(err){
         res.status(500).json({ message:err.message})
-    }*/
-    res.send(req.params.id)
+    }
+    //res.send(req.params)
 })
 
 //Creating One
 router.post('/',async(req,res)=>{
-    const account = new accounts({
+    const account = new hotel({
         firstName: req.body.firstName,
         secondName: req.body.secondName,
         emailId: req.body.emailId,
@@ -41,6 +66,20 @@ router.post('/',async(req,res)=>{
         res.status(400).json({message:err.message})
     }
 })
+
+async function getAccount(req, res, next) {
+    try {
+      const account = await hotel.findOne({ emailId: req.params.emailId });
+      if (account == null) {
+        return res.status(404).json({ message: 'Cannot find account' });
+      }
+      res.account = account;
+      next();
+    } catch (err) {
+      return res.status(500).json({ message: err.message });
+    }
+  }
+  
 
 
 

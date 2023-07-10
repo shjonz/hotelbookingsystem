@@ -2,7 +2,7 @@ GET http://localhost:3002/accounts
 
 
 ###
-GET http://localhost:3002/accounts/12
+GET http://localhost:3002/accounts/satiyam94@gmail.com
 
 ###
 
@@ -10,13 +10,29 @@ POST  http://localhost:3002/accounts
 Content-Type: application/json
 
 {
-    "userName": "vlogganesh1",
+    "userName": "vlogganesh3",
     "firstName": "Venkatakrishnan",
     "secondName": "Logganesh",
     "emailId": "satiyam94@gmail.com",
     "password": "abcd1234",
     "Phone": "92392913"
 }
+
+###
+
+PATCH http://localhost:3002/accounts/satiyam94@gmail.com
+Content-type:application/json
+
+{
+    "emailId": "vlogganesh@gmail.com"
+}
+
+###
+
+DELETE http://localhost:3002/accounts/vlogganesh@gmail.com
+
+###
+
 
 
 
