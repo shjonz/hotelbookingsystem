@@ -6,7 +6,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { useState } from "react";
 import {format} from 'date-fns';
 import { useNavigate } from "react-router-dom";
-
+import destdata from "../../destinations.json";
 
 const Header = ({type}) => {
     const [destination, setDestination] = useState("");
@@ -47,10 +47,21 @@ const Header = ({type}) => {
         });
     };
 
-    const handleSearch = () => {
-        navigate("/hotels", { state: { destination, date, options } });
+    //const handleSearch = () => {
+      //  navigate("/hotels", { state: { destination, date, options } });
+    //};
+
+    const onChange = (event) => {
+        setDestination(event.target.value);
+    }
+
+    const onSearch = (searchTerm) => {
+        setDestination(searchTerm);
+        console.log("search ", searchTerm);
     };
-      
+    
+    //onChange={(e) => setDestination(e.target.value)}
+
     return (
         <div className="header" style={{
             backgroundImage : `url(${background})`
@@ -60,9 +71,36 @@ const Header = ({type}) => {
             <div className="headerSearch">
 
                 <div className="headerSearchItem1">
-                    <input className="headerSearchInput" type="text" 
-                    placeholder="Search for your Destination"
-                    onChange={(e) => setDestination(e.target.value)} />
+                    <input className="headerSearchInput" 
+                    type="text" 
+                    placeholder="Search your destination..."
+                    value = {destination}
+                    onChange={onChange} />
+                    
+                </div>
+
+                <div className="dropdown">
+                    {destdata
+                        .filter( (item) => {
+                        const searchTerm = destination.toLowerCase();
+                        const fullName = item.term.toLowerCase();
+
+                        return (
+                            searchTerm &&
+                            fullName.startsWith(searchTerm) &&
+                            fullName !== searchTerm
+                        );
+                        })
+                        .slice(0, 10)
+                        .map( (item) => (
+                        <div
+                        onClick={() => onSearch(item.term)}
+                        className="dropdown-row"
+                        key={item.term}
+                        >
+                        {item.term}
+                        </div>
+                    ))}
                 </div>
 
                 <div className="headerSearchItem2">
@@ -121,7 +159,7 @@ const Header = ({type}) => {
                 </div>
                 
                 <div className="headerSearchItem4">
-                    <button className="headerButton" onClick={handleSearch}>Search</button>
+                    <button className="headerButton" onClick={ () => onSearch(destination) }>Search</button>
 
                 </div>
 
