@@ -7,6 +7,7 @@ import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import fetch from "node-fetch";
 import fs from "fs";
+//import data from "./destinations.json";
 
 import {Client} from "@googlemaps/google-maps-services-js";
 
@@ -89,7 +90,7 @@ app.get('/:location/:checkin/:checkout/:lang/:currency/:guests/:partner_id', asy
   const partner_id = req.params.partner_id; // 1 for now, for loyalty points
 
   // Get UID from destinations.json
-  const data = fs.readFileSync('destinations.json', 'utf8');
+  const data = fs.readFileSync('./destinations.json', 'utf8');
   const destinations = JSON.parse(data);
   const destination = destinations.find(dest => dest.term === location);
   if (!destination) {
@@ -177,6 +178,9 @@ app.get('/:hotel', async (req, res) => {
 })
 //TODO: CREATE BOOKING API
 
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
 
 
 

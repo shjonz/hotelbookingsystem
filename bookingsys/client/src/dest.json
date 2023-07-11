@@ -67,6 +67,27 @@
         "type": "airport"
     },
     {
+        "term": "Singapore, Singapore (SIN-Changi)",
+        "uid": "WD0M",
+        "lat": 1.355172,
+        "lng": 103.988953,
+        "type": "airport"
+    },
+    {
+        "term": "Chennai, India (MAA-Chennai Intl.)",
+        "uid": "JVRT",
+        "lat": 12.983817,
+        "lng": 80.164833,
+        "type": "airport"
+    },
+    {
+        "term": "Singapore, Singapore (XSP-Seletar)",
+        "uid": "IFRH",
+        "lat": 1.418872,
+        "lng": 103.864502,
+        "type": "airport"
+    },
+    {
         "term": "Alicante, Spain",
         "uid": "6FXD",
         "lat": 38.345203,
