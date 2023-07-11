@@ -1,6 +1,9 @@
-import Header from "../../components/header/Header"
+import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
 import "./Hotel.css"
+import { HotelRoom } from "../../components/hotelRoom/HotelRoom";
+import React, { useRef } from 'react';
 
 const Hotel = () => {
     const photos = [
@@ -12,14 +15,18 @@ const Hotel = () => {
         {src: "https://annaeverywhere.com/wp-content/uploads/2014/12/DSC00749.jpg"}
     ];
 
+    const roomListRef = useRef(null);
 
+    const scrollToRoomList = () => {
+    roomListRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
   return (
     <div>
         <Navbar/>
         <Header type="list"/>
         <div className="hotelContainer">
             <div className="hotelWrapper">
-              <button className="bookNow">Book Now</button>
+              <button className="bookNow" onClick={scrollToRoomList}>Book Now</button>
                 <h1 className="hotelTitle">
                     Marina Bay Sands
                 </h1>
@@ -46,19 +53,21 @@ const Hotel = () => {
                         Words Words Words Words Words Words Words Words Words Words Words Words
                         </p>
                     </div>
-                    <div className="hotelDetailsPrice"><h1>
+                    <div className="hotelDetailsExtra"><h1>
                     Words Words Words Words Words
                         </h1>
                         <span>
                         Words Words Words Words Words Words Words Words Words Words Words Words
                         </span>
-                        <h2><b>$945</b> (9 nights)
-                        </h2>
-                        <button>Book Now</button>
                       </div>
                 </div>
+                <div ref={roomListRef} className="roomList">
+                            <HotelRoom/>
+                            <HotelRoom/>
+                        </div>
             </div>
         </div>
+        <Footer/>
     </div>
   )
 }
