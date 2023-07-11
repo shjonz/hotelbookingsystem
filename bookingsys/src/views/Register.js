@@ -96,7 +96,7 @@ const renderForm = (
         <div className="app">
         <div className="login-form">
           <div className="title">Register</div>
-          {isSubmitted ? <div>User is successfully logged in
+          {isSubmitted ? <div>User is successfully registered
           </div> : renderForm}
           <Link className="reg-button" to={"/Login"}>Sign in</Link>
         </div>

@@ -18,9 +18,17 @@ const Profile = () => {
   const [country, setCountry] = useState("");
   const [pass, setPass] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const [changesSaved, setChangesSaved] = useState(true); 
 
   const handleEditProfile = () => {
     setEditMode(true); // Enable edit mode when the button is clicked
+    setChangesSaved(false); // Reset changesSaved state when entering edit mode
+  };
+
+  const handleSaveChanges = () => {
+    // Perform saving changes logic here
+    setChangesSaved(true);
+    setEditMode(false);
   };
 
   return (
@@ -31,19 +39,26 @@ const Profile = () => {
 
       </div>
       <div className="tabs-container">
-        <Tabs
-          defaultActiveKey="profile"
-          id="profile-tabs"
-          className="mb-3"
-        >     
+        <Tabs defaultActiveKey="profile"id="profile-tabs"className="mb-3">     
           <Tab eventKey="profile" title="Profile">
 
 
             <div>
               <div className="utitle">
-                <h2>User Information</h2>
-                {!editMode && ( // Display the "Edit Profile" button only when not in edit mode
-              <Button variant="primary" onClick={handleEditProfile}>Edit Profile</Button>)}
+                <h2>My Profile</h2>
+
+                {!editMode && changesSaved && ( // Display the "Edit Profile" button only when not in edit mode
+                  <Button variant="primary" onClick={handleEditProfile}>
+                    Edit Profile
+                  </Button>
+                )}
+                {editMode && (
+                  <Button variant="primary" onClick={handleSaveChanges}>
+                    Save Changes
+                  </Button>
+                )}
+
+
               </div>
               <div className="user-info">
 
@@ -54,6 +69,7 @@ const Profile = () => {
                   placeholder="First Name"
                   value={fname}
                   onChange={(e) => setFname(e.target.value)}
+                  disabled ={!editMode}
                   readOnly={!editMode} // Set the readOnly attribute based on edit mode
                 />
                 </Form.Group>
@@ -105,7 +121,7 @@ const Profile = () => {
                 <Form.Group controlId="pass">
                   <Form.Label>Password </Form.Label>
                   <Form.Control
-                    type="pass"
+                    type="password"
                     placeholder="Password"
                     value={pass}
                     onChange={(e) => setPass(e.target.value)}
