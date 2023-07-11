@@ -1,11 +1,12 @@
-const express=require('express');
-const hotel=require('../models/User');
+import express from "express";
+import User  from "../models/User.js";
+
 const router = express.Router();
 
 //Getting all
 router.get('/',async(req,res) =>{
 try{
-        const accounts= await hotel.find()
+        const accounts= await User.find()
         res.json(accounts)
     }catch(err){
         res.status(500).json({ message:err.message})
@@ -41,7 +42,7 @@ router.patch('/:emailId', getAccount, async (req, res) => {
 
 router.get('/:emailId',async(req,res) =>{
     try{
-        const  accounts= await hotel.find()
+        const  accounts= await User.find()
         res.json(accounts)
     }catch(err){
         res.status(500).json({ message:err.message})
@@ -51,7 +52,7 @@ router.get('/:emailId',async(req,res) =>{
 
 //Creating One
 router.post('/',async(req,res)=>{
-    const account = new hotel({
+    const account = new User({
         firstName: req.body.firstName,
         secondName: req.body.secondName,
         emailId: req.body.emailId,
@@ -70,7 +71,7 @@ router.post('/',async(req,res)=>{
 
 async function getAccount(req, res, next) {
     try {
-      const account = await hotel.findOne({ emailId: req.params.emailId });
+      const account = await User.findOne({ emailId: req.params.emailId });
       if (account == null) {
         return res.status(404).json({ message: 'Cannot find account' });
       }
@@ -85,4 +86,4 @@ async function getAccount(req, res, next) {
 
 
 
-module.exports=router
+export default router;

@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import Search from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
+import FetchSearch from '../../hooks/FetchSearch';
 
 const HotelsList = () => {
   const location = useLocation();
@@ -19,9 +20,14 @@ const HotelsList = () => {
   // const [max, setMax] = useState(undefined);
 
   //const { data, loading, error, reFetch } = useFetch(
-    //"https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU"
+   // "https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU"
    // `/hotels?city=${destination}&min=${min || 0 }&max=${max || 999}`
   //);
+
+  const { data, loading, error, reFetch } = FetchSearch(
+    //`/{destination}`
+    `/Singapore-Singapore/2023-10-15/2023-10-20/en_US/SGD/2/1`
+  );
 
   //console.log(data);
 
