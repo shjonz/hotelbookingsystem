@@ -10,6 +10,7 @@ import Search from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
 import FetchSearch from '../../hooks/FetchSearch';
 import destdata from "../../dest.json";
+import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
 
 const HotelsList = () => {
@@ -34,6 +35,18 @@ const HotelsList = () => {
   //);
 
   //console.log(data);
+
+  //JDs filter search for facilities ==========================================
+  const [wifiChecked, setWifiChecked] = useState(false);
+  const [poolChecked, setPoolChecked] = useState(false);
+
+  const handleWifiChange = () => {
+    setWifiChecked(!wifiChecked);
+  };
+
+  const handlePoolChange = () => {
+    setPoolChecked(!poolChecked);
+  };
 
   
     const postsData = async () => {
@@ -175,19 +188,23 @@ const HotelsList = () => {
             </div>
             <div className="lsItem">
               <label>Options</label>
+
               <div className="lsOptions">
+
                 <div className="lsOptionItem">
                   <span className="lsOptionText">
                     Min price <small>per night</small>
                   </span>
                   <input type="number" className="lsOptionInput" />
                 </div>
+
                 <div className="lsOptionItem">
                   <span className="lsOptionText">
                     Max price <small>per night</small>
                   </span>
                   <input type="number" className="lsOptionInput" />
                 </div>
+
                 <div className="lsOptionItem">
                   <span className="lsOptionText">Adult</span>
                   <input
@@ -197,6 +214,7 @@ const HotelsList = () => {
                     placeholder={options.adult}
                   />
                 </div>
+
                 <div className="lsOptionItem">
                   <span className="lsOptionText">Children</span>
                   <input
@@ -206,6 +224,7 @@ const HotelsList = () => {
                     placeholder={options.children}
                   />
                 </div>
+
                 <div className="lsOptionItem">
                   <span className="lsOptionText">Room</span>
                   <input
@@ -219,6 +238,53 @@ const HotelsList = () => {
             </div>
             <button onClick={handleClick}>Search</button>
           </div>
+
+
+          <div className="listFilter">
+            <h1 className="lsTitle">Filter</h1>
+            <div className="lsItem">
+            <label>Hotel</label>
+            <input placeholder="Hotel" type="text"/>
+          </div>
+
+          <div className="lsItem">
+            <label>Price Range</label>
+            <div className="priceRangeSlider">
+              <MultiRangeSlider
+                min={1}
+                max={1000}
+                onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+              /> 
+            </div>
+          </div>
+
+          <div className="lsItem">
+            <div className="checkboxes">
+            <label>Amenities</label>
+            <label htmlFor="wifi">
+            <input
+              type="checkbox"
+              id="wifi"
+              checked={wifiChecked}
+              onChange={handleWifiChange}
+              />
+            Free Wifi
+            </label>
+            <label htmlFor="pool">
+            <input
+              type="checkbox"
+              id="pool"
+              checked={poolChecked}
+              onChange={handlePoolChange}
+            />
+            Swimming Pool
+            </label>
+            </div>
+          </div>
+          </div>
+          
+        
+
           <div className="listResult">
             <Search />
             <Search />
