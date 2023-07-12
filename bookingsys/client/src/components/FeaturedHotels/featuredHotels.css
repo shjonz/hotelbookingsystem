@@ -1,0 +1,43 @@
+.fh {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.fhItem {
+    flex: 1;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.fhImg {
+    width: 100%;
+}
+
+.fhName {
+    font-weight: bold;
+}
+
+.fhCity {
+    font-weight: 300;
+}
+
+.fhPrice {
+    font-weight: 500;
+}
+
+.fhRating > button{
+    background-color: #003580;
+    color: white;
+    border: none;
+    padding: 3px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.fhRating > span {
+    font-size: 14px;
+}
