@@ -1,4 +1,5 @@
 import "./navbar.css"
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     return (
@@ -9,11 +10,11 @@ const Navbar = () => {
                     
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Cities</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Featured</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
-                        <button className="navButton">Register</button>
-                        <button className="navButton">Login</button>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/profile">Contact</a></li>
+                        <button className="navButton"><Link to={"/register"}>Register</Link></button>
+                        <button className="navButton"><Link to={"/login"}>Login</Link></button>
                     
                 </div>
             </div>
