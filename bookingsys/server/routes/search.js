@@ -1,6 +1,6 @@
 import express, { response } from "express";
 
-import destination from "../models/destination.js";
+import Destinations from "../models/Destinations.js";
 
 const router = express.Router();
 
@@ -36,7 +36,7 @@ async function searchBar(req, res, next) {
                 }}
             ];
             // Run Pipeline
-            results = await destination.aggregate(agg)}
+            results = await Destinations.aggregate(agg)}
     } catch (e) {res.send(e);}
 
     res.results = results;
@@ -46,7 +46,7 @@ async function searchBar(req, res, next) {
 async function destIDSearch(req, res, next) {
     let destID;
     try {
-        destID = await destination.findById(req.query.id)
+        destID = await Destinations.findById(req.query.id)
     } catch (e) {res.send(e);}
 
     res.destID = destID;
@@ -56,7 +56,7 @@ async function destIDSearch(req, res, next) {
 async function destNameSearch(req, res, next) {
     let destName;
     try {
-        destName = await destination.findOne({"name": req.query.name})
+        destName = await Destinations.findOne({"name": req.query.name})
     } catch (e) {res.send(e);}
 
     res.destName = destName;

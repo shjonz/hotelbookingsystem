@@ -17,9 +17,13 @@ app.use(express.urlencoded({extended: true}));
 
 import searchRoute from "./routes/search.js";
 import hotelsRoute from "./routes/hotels.js";
+import authRoute from "./routes/auth.js";
+import usersRoute from "./routes/users.js";
 
 app.use("/search", searchRoute);
 app.use("/api/hotels", hotelsRoute);
+app.use("/api/auth",authRoute);
+app.use("/api/users",usersRoute);
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500

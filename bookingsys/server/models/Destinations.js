@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
-const destinationSchema = new Schema({
+const DestinationSchema = new Schema({
     uid: {type: String, required: true},
     lat: {type: Number, required: true},
     lng: {type: Number, required: true},
@@ -10,5 +10,5 @@ const destinationSchema = new Schema({
     name: {type: String, required: true},
 })
 
-const destination = model("destinations", destinationSchema);
-export default destination;
+const Destination = model("Destinations", DestinationSchema);
+export default Destination;
