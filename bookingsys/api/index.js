@@ -1,43 +1,46 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config()
 import mongoose from "mongoose";
-import fetch from "node-fetch";
-import fs from "fs";
-
 import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
+import fetch from "node-fetch";
+import fs from "fs";
+//import data from "./destinations.json";
 
-import {MongoClient} from "mongodb";
 import {Client} from "@googlemaps/google-maps-services-js";
 
-// Initialize MongoDB and Mongoose Client
-const app = express();
-const client = new MongoClient(process.env.MONGO);
-client.connect().then(() => console.log("Connected to Database"))
+const app = express()
+dotenv.config()
 
+//Jia kangs code
+//const fetch = require('node-fetch') 
+//const googleMapsClient = require('@google/maps').createClient({
+  //  key: "Google API Key",
+    //Promise: Promise
+  //})
+const googleMapsClient = new Client({})
+
+const port = 8383
+//const fs = require('fs')
+
+//srees code
 const connect = async () => {
-  try {
-      await mongoose.connect(process.env.MONGO);
-      console.log("Mongoose Initialized")
-} catch (error) {
-  throw error
-}
+    try {
+        await mongoose.connect(process.env.MONGO);
+        console.log("Connected to mongoDB.")
+  } catch (error) {
+    throw error
+  }
 };
 
 mongoose.connection.on("disconnected",()=>{
-  console.log("mongoDB disconnected!")
+    console.log("mongoDB disconnected!")
 });
 
-// Middleware
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true
-  })
-);
+//middlewares
+app.use(express.json())
 
 app.use("/api/auth",authRoute);
 app.use("/api/users",usersRoute);
@@ -55,87 +58,23 @@ app.use((err,req,res,next)=>{
   })
 })
 
-
-app.get("/search", async (req, res) => {
-  try {
-    if (req.query.name) {
-      await client.connect();
-      console.log("This works.")
-
-      // Set namespace
-      let results;
-      const db = client.db("bookingServer");
-      const coll = db.collection("destinations");
-
-      // Define Aggregate Pipeline
-      const agg = [
-        {
-          $search: {
-            index: "autoSearch",
-            autocomplete: {
-              query: req.query.name,
-              path: "name",
-              fuzzy: { maxEdits: 1 },
-              tokenOrder: "sequential"
-            }
-          }
-        },
-        {
-          $limit: 10
-        },
-        {
-          $project: {
-            _id: 0,
-            name: 1,
-          }
-        }
-      ];
-
-      // Run Pipeline
-      results = await coll.aggregate(agg).toArray();
-
-      await results.forEach((doc) => console.log(doc));
-
-      return res.send(results);
-    }
-    res.send([]);
-  } finally {
-    await client.close();
-  }
+app.listen(8800,() => {
+    connect();
+    console.log("Connected to backend.")
 })
 
 
-//Jia kangs code
-//const fetch = require('node-fetch') 
-//const googleMapsClient = require('@google/maps').createClient({
-  //  key: "Google API Key",
-    //Promise: Promise
-  //})
-const googleMapsClient = new Client({})
 
-
-//const fs = require('fs')
-
-
-
-
-
-// //JIA KANG APIS CALL 
-// // All destinations (i.e. countries and cities) to showcase to user in dropdown box to type and match
-
-// app.get('/', async (req, res) => {
-
-//   await client.connect();
-//   console.log("Getting Data");
-//   const data = await client.db("Accounts").collection("Destinations").find().toArray();
-//   console.log("Data Obtained");
-//   await client.close();
-  
-//   const terms = data.map(destination => destination.term);
-//   const uniqueTerms = [...new Set(terms)];
-//   uniqueTerms.sort();
-//   res.send(uniqueTerms);
-// })
+//JIA KANG APIS CALL 
+// All destinations (i.e. countries and cities) to showcase to user in dropdown box to type and match
+app.get('/', async (req, res) => {
+  const data = fs.readFileSync('destinations.json', 'utf8');
+  const destinations = JSON.parse(data);
+  const terms = destinations.map(destination => destination.term);
+  const uniqueTerms = [...new Set(terms)];
+  uniqueTerms.sort();
+  res.send(uniqueTerms);
+})
 
 // 1. Search for destination in destination.json, return uid 
 // 2. Call price and hotel APIs to get info on a list of hotels 
@@ -239,6 +178,10 @@ app.get('/:hotel', async (req, res) => {
 })
 //TODO: CREATE BOOKING API
 
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
+
 
 
 // mongoose.connection.on("connected",()=>{
@@ -249,23 +192,3 @@ app.get('/:hotel', async (req, res) => {
 //     res.send("hello first request")
 
 // }) need to put this in another file
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Do not go below this
-const port = process.env.PORT;
-
-app.listen({port},() => {
-  connect();
-  console.log(`Server running at http://localhost:${port}`)
-})

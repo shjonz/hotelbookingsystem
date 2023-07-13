@@ -15,7 +15,6 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "mongodb": "^5.7.0",
     "mongoose": "^7.3.1",
     "node-fetch": "^3.3.1",
     "nodemon": "^1.14.9"

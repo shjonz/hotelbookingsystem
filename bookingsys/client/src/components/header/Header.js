@@ -178,8 +178,7 @@ const Header = ({type}) => {
 
                 </div>
 
-            </div> 
-            }
+            </div> }
         </div>    
         </div>
     );
