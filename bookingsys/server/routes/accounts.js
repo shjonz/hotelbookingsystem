@@ -60,7 +60,7 @@ router.post('/',async(req,res)=>{
         password: req.body.password,
     })
     try{
-        const newaccounts= await account.save()
+        const newaccounts = await account.save()
         res.status(201).json(newaccounts)
     }catch(err){
         res.status(400).json({message:err.message})
@@ -79,9 +79,5 @@ async function getAccount(req, res, next) {
       return res.status(500).json({ message: err.message });
     }
   }
-  
-
-
-
 
 export default router;

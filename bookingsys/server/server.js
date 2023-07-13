@@ -18,12 +18,14 @@ app.use(express.urlencoded({extended: true}));
 import searchRoute from "./routes/search.js";
 import hotelsRoute from "./routes/hotels.js";
 import authRoute from "./routes/auth.js";
-import usersRoute from "./routes/users.js";
+import accountsRoute from "./routes/accounts.js";
+import bookingRoute from "./routes/bookings.js";
 
 app.use("/search", searchRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/auth",authRoute);
-app.use("/api/users",usersRoute);
+app.use("/api/accounts",accountsRoute);
+app.use("/api/bookings",bookingRoute);
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500
@@ -36,9 +38,7 @@ app.use((err,req,res,next)=>{
     })
 })
 
-// Functions begin here
-
-
+// Functions Space
 
 // Don't touch anything below this
 const port = process.env.PORT;
