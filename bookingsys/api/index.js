@@ -5,14 +5,26 @@ import authRoute from "./routes/auth.js";
 import usersRoute from "./routes/users.js";
 import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
+import searchRoute from "./routes/search.js";
+import accountsRoute from "./routes/accounts.js";
+import bookingRoute from "./routes/bookings.js";
 import fetch from "node-fetch";
 import fs from "fs";
+import { loadStripe } from "@stripe/stripe-js";
+import stripePackage from "stripe";
+import Stripe from "stripe";
+import {resolve } from "path";
+
+//import { Stripe } from "@stripe/stripe-js";
 //import data from "./destinations.json";
 
 import {Client} from "@googlemaps/google-maps-services-js";
+import {MongoClient} from "mongodb";
 
 const app = express()
+//const env = dotenv.config({ path: "./.env"});
 dotenv.config()
+
 
 //Jia kangs code
 //const fetch = require('node-fetch') 
@@ -21,31 +33,60 @@ dotenv.config()
     //Promise: Promise
   //})
 const googleMapsClient = new Client({})
+const client = new MongoClient(process.env.MONGO);
+client.connect().then( () => console.log("connected to DB") );
 
-const port = 8383
+//const port = 8383
 //const fs = require('fs')
 
 //srees code
 const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO);
-        console.log("Connected to mongoDB.")
+        console.log("mongoose initialized.")
   } catch (error) {
-    throw error
+    throw error;
   }
 };
 
 mongoose.connection.on("disconnected",()=>{
-    console.log("mongoDB disconnected!")
+    console.log("mongoDB disconnected!");
 });
 
+
+//const stripe = await loadStripe();
+//console.log(stripe);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2022-11-15',
+});
+//console.log(stripe);
+
+// const customer = await stripe.customers.create({
+//   email: 'customer@example.com',
+// });
+
+// console.log(customer.id);
+//const stripe = new Stripe(process.env.STRIPE_PUBLISHABLE_KEY);
+//const customer = await stripe.customers.create({
+  //email: 'customer@example.com',
+//});
+//const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE_KEY);
+
 //middlewares
-app.use(express.json())
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
 
 app.use("/api/auth",authRoute);
-app.use("/api/users",usersRoute);
+//app.use("/api/users",usersRoute);
 app.use("/api/hotels",hotelsRoute);
 app.use("/api/rooms",roomsRoute);
+app.use("/search", searchRoute);
+app.use("/api/accounts", accountsRoute);
+app.use("/api/bookings", bookingRoute);
 
 app.use((err,req,res,next)=>{
   const errorStatus=err.status || 500
@@ -56,25 +97,70 @@ app.use((err,req,res,next)=>{
     message:errorMessage,
     stack:err.stack,
   })
-})
+});
 
-app.listen(8800,() => {
-    connect();
-    console.log("Connected to backend.")
-})
+// app.listen(8800,() => {
+//     connect();
+//     console.log("Connected to backend.")
+// })
+
+app.use(express.static(process.env.STATIC_DIR));
+
+app.get("/", (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + "./index.html");
+  res.sendFile(path);
+});
+
+app.get("/config", (req, res) => {
+  console.log(' inside /config in server ');
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
+  console.log(process.env.STRIPE_PUBLISHABLE_KEY);
+});
+
+
+app.post("/create-payment-intent", async (req, res) => {
+  console.log('inside create payment intent');
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      currency: "EUR",
+      amount: 1999,
+      automatic_payment_methods: { enabled: true },
+    });
+
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (e) {
+    return res.status(400).send({
+      error: {
+        message: e.message,
+      },
+    });
+  }
+});
 
 
 
 //JIA KANG APIS CALL 
+//const fetch = require('node-fetch') 
+//const googleMapsClient = require('@google/maps').createClient({
+  //  key: "Google API Key",
+    //Promise: Promise
+  //})
+  //const fs = require('fs')
+
 // All destinations (i.e. countries and cities) to showcase to user in dropdown box to type and match
-app.get('/', async (req, res) => {
-  const data = fs.readFileSync('destinations.json', 'utf8');
-  const destinations = JSON.parse(data);
-  const terms = destinations.map(destination => destination.term);
-  const uniqueTerms = [...new Set(terms)];
-  uniqueTerms.sort();
-  res.send(uniqueTerms);
-})
+// app.get('/', async (req, res) => {
+//   const data = fs.readFileSync('destinations.json', 'utf8');
+//   const destinations = JSON.parse(data);
+//   const terms = destinations.map(destination => destination.term);
+//   const uniqueTerms = [...new Set(terms)];
+//   uniqueTerms.sort();
+//   res.send(uniqueTerms);
+// })
 
 // 1. Search for destination in destination.json, return uid 
 // 2. Call price and hotel APIs to get info on a list of hotels 
@@ -178,7 +264,9 @@ app.get('/:hotel', async (req, res) => {
 })
 //TODO: CREATE BOOKING API
 
-app.listen(port, () => {
+const port = process.env.PORT;
+app.listen( {port} , () => {
+  connect();
   console.log(`Server running at http://localhost:${port}`);
 });
 

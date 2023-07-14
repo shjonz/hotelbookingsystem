@@ -4,6 +4,8 @@ import Header from '../../components/header/Header';
 import Payment from '../../components/payment/Payment';
 import Footer from '../../components/Footer/Footer';
 
+
+
 const PaymentPage = () => {
     return (
         <div>
