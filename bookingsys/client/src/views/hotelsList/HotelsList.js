@@ -20,6 +20,7 @@ const HotelsList = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
   // const [min, setMin] = useState(undefined);
   // const [max, setMax] = useState(undefined);
   console.log("location ,destination ", location, " ", destination);
@@ -48,113 +49,28 @@ const HotelsList = () => {
     setPoolChecked(!poolChecked);
   };
 
+  useEffect( () => {
+    setLoading(true);
+    try {
+      console.log(' use effet on header component ' );
+         fetch('/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1')
+        .then(
+            response => response.json()
+        ).then(data => {
+            console.log('inside use effect fetch ', data);
+            setData(data);
+        })
+    } catch (err) {
+      console.log(' use effect error');
+    }
+    setLoading(false);
+    
+    }, [])
+    console.log('use effect has collected data ', data);
   
-    const postsData = async () => {
-
-        // Till the data is fetch using API 
-        // the Loading page will show.
-        //setLoading(true);
-
-        // Await make wait until that 
-        // promise settles and return its result
-    const location = destination;
-    const checkin = "2023-10-15";
-    const checkout = "2023-10-16";
-    const lang = "en_US";
-    const guests = "2";
-    const partner_id = "1";
-    const currency = "SGD";
-    
-    
-    //const destin = destdata.find(dest => dest.term === location);
-    const destin = destdata.find(
-      (dest) => dest.term.toLowerCase() === location.toLowerCase()
-    );
-    //const destin = destdata.filter( (dest) => dest.term.includes(location));
-    console.log(' data inside handle click ', location, checkin, checkout, lang, guests, partner_id, currency);
-    console.log(' inside handleclick ', destin);
-    if (!destin) {
-        //res.status(404).send('No destination found for the specified location.');
-        console.log("error in destin");
-        return;
-    }
-    const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${destin.uid}`);
-    if (!response.ok) {
-      console.log("error in response ")
-      //console.error(`Error fetching hotel list: ${response2.status} ${response2.statusText}`);
-      //res.status(500).send('An error occurred while processing your request.');
-      return;
-    }
-    const hotelData = await response.json();
-  //console.log("okay");
-
-    let country_code;
-      if (hotelData.length > 0) {
-        country_code = hotelData[0].original_metadata.country;
-      } else {
-        console.error('No hotels found for the specified destination.');
-        //res.status(404).send('No hotels found for the specified destination.');
-        return;
-      }
-  const hotels = hotelData.map(hotel => ({
-      id: hotel.id,
-      name: hotel.name,
-      address: hotel.address,
-      latitude: hotel.latitude,
-      longitude: hotel.longitude,
-      image: hotel.image_details ? hotel.image_details.prefix + hotel.image_details.suffix : null,
-      rating: hotel.rating,
-      country: hotel.original_metadata.country,
-  }));
-  //console.log(hotelData.length);
-// console.log(hotelData[0].original_metadata);
-// console.log(hotelData[0].original_metadata.country);
-// console.log(country_code);
-
-  // Fetch prices from second prices API
-  const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destin.uid}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&country_code=${country_code}&guests=${guests}&partner_id=1`);
-  if (!response2.ok) {
-      console.error(`Error fetching hotel list: ${response2.status} ${response2.statusText}`);
-      //res.status(500).send('An error occurred while processing your request.');
-      return;
-  }
-  const hotelprices = await response2.json();
-  if (hotelprices.hotels.length === 0) {
-      console.log("error no hotels found for the categrory ")
-      //res.status(404).send('No hotels found for the specified search criteria.');
-      return;
-  }
-  const extractedHotelprices = hotelprices.hotels.map(hotel => ({
-      id: hotel.id,
-      searchRank: hotel.searchRank,
-      price: hotel.price,
-      market_rates: hotel.market_rates,
-  }));
-  console.log("okay");
-
-
-  // Combine the data from the two APIs
-  const combinedData = hotels.map(hotel => {
-      const priceData = extractedHotelprices.find(price => price.id === hotel.id);
-      return {
-          ...hotel,
-          ...priceData
-      };
-  });
-  // Send data containing hotels - So far only tested for Singapore 
-  //res.send(combinedData);
-  console.log(combinedData);
-  setData(combinedData);
-
-        // After fetching data stored it in posts state.
-        //setPosts(response.data);
-
-        // Closed the loading page
-        //setLoading(false);
-    }
 
   const handleClick  = () => {
-    postsData();
+    
     console.log("location ,destination ", location, " ", destination);
     console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
@@ -286,15 +202,15 @@ const HotelsList = () => {
         
 
           <div className="listResult">
-            <Search />
-            <Search />
-            <Search />
-            <Search />
-            <Search />
-            <Search/>
-            <Search />
-            <Search />
-            <Search />
+          {loading ? (
+              "loading"
+            ) : (
+              <>
+                {data.map((item) => (
+                  <Search item={item} key={item.id} />
+                ))}
+              </>
+            )}
           </div>
         </div>
       </div>

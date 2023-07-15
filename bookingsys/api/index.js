@@ -32,9 +32,14 @@ dotenv.config()
   //  key: "Google API Key",
     //Promise: Promise
   //})
-const googleMapsClient = new Client({})
-const client = new MongoClient(process.env.MONGO);
-client.connect().then( () => console.log("connected to DB") );
+const googleMapsClient = new Client({});
+
+mongoose.connect(process.env.MONGO);
+const db = mongoose.connection;
+db.on( 'error', (error) => console.error(error) );
+db.once('open', (error) => console.log(" connected to db "));
+
+
 
 //const port = 8383
 //const fs = require('fs')
@@ -104,12 +109,12 @@ app.use((err,req,res,next)=>{
 //     console.log("Connected to backend.")
 // })
 
-app.use(express.static(process.env.STATIC_DIR));
+//app.use(express.static(process.env.STATIC_DIR));
 
-app.get("/", (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + "./index.html");
-  res.sendFile(path);
-});
+//app.get("/", (req, res) => {
+//  const path = resolve(process.env.STATIC_DIR + "./index.html");
+//  res.sendFile(path);
+//});
 
 app.get("/config", (req, res) => {
   console.log(' inside /config in server ');

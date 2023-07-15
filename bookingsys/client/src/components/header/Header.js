@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import "./header.css";
 import background from '../images/sample.jpeg';
 import { DateRange } from 'react-date-range';
@@ -6,8 +6,9 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format} from 'date-fns';
 import { useNavigate } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 //import data from "../../destinations.json";
-import data from "../../dest.json";
+//import data from "../../dest.json";
 
 const Header = ({type}) => {
     const UserContext = createContext();
@@ -50,6 +51,11 @@ const Header = ({type}) => {
         });
     };
 
+    // useEffect( () => {
+    //     searchBar("/").then(res => res.json()).then(data => setDestination(destination))
+    // }, [])
+
+
     const handleSearch = () => {
         navigate("/hotels", { state: { destination, date, options } });
     };
@@ -62,6 +68,18 @@ const Header = ({type}) => {
         setDestination(searchTerm);
         console.log("search ", searchTerm);
     };
+
+    
+    // useEffect( () => {
+    //     console.log(' use effet on header component ' );
+    //     fetch('/search?name=Singapore')
+    //     .then(
+    //         response => response.json()
+    //     ).then(data => {
+    //         console.log('inside use effect fetch ', data);
+    //     })
+    // }, [])
+    //console.log(' data ' , data);
 
     const FilterFunction = (list) => {
         //const user = useContext(UserContext);
@@ -90,8 +108,9 @@ const Header = ({type}) => {
                     } } />  
             </div>
 
+            
 
-            <div className="dropdown">
+            {/* <div className="dropdown">
                 {data
                     .filter( (item) => {
                     const searchTerm = destination.toLowerCase();
@@ -106,14 +125,14 @@ const Header = ({type}) => {
                     .slice(0, 10)
                     .map((item) => (
                     <div
-                    onClick={() => onSearch(item.term)}
+                    onClick={() => searchBar(item.term)}
                     className="dropdown-row"
                     key={item.term}
                     >
                     {item.term}
                     </div>
                 ))}
-            </div>
+            </div> */}
 
                 
 

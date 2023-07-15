@@ -8,7 +8,7 @@ const DestinationSchema = new Schema({
     type: {type: String, required: true},
     state: {type: String, required: false},
     name: {type: String, required: true},
-});
+})
 
 const Destination = model("Destinations", DestinationSchema);
 export default Destination;
