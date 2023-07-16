@@ -12,18 +12,20 @@ const useFetch = (url) => {
       console.log(' use effect ');
       setLoading(true);
       try {
-
+        console.log(' usefetch useeffet on header component ' );
         //const res = await axios.get(url);
-        const res = await fetch('/search?name=Singapore');
-        const jsonResult = await res.json();
-        //fetch('http://localhost:8800/search?name=Singapore')
-        //.then(res=> {
-          //return res.json();
-        //}).then(data => {
-          //console.log(data);
-        //})
-        console.log(' use effect hook fetch data fn ', jsonResult);
-        setData(res.data);
+        fetch(`/search?name=${url}`)
+        .then(
+            response => response.json()
+        ).then(data => {
+            console.log('inside use effect fetch ', data);
+            setData(data);
+        }).catch( error => {
+          if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
+            console.error('Truncated data: Not all of the JSON data was received');
+          }
+        })
+        console.log(' use effect hook fetch data fn ');
       } catch (err) {
         setError(err);
       }
@@ -36,10 +38,19 @@ const useFetch = (url) => {
     setLoading(true);
     try {
       //const res = await axios.get(url);
-      const res = await fetch('/search?name=Singapore');
-      const jsonResult = await res.json();
-      console.log(' use effect hook refetch function ', jsonResult);
-      setData(res.data);
+      console.log(' REFETCH on header component ' );
+        fetch(`/search?name=${url}`)
+        .then(
+            response => response.json()
+        ).then(data => {
+            console.log('inside use effect REFETCH ', data);
+            setData(data);
+        }).catch( error => {
+          if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
+            console.error('Truncated data: Not all of the JSON data was received');
+          }
+        })
+        console.log(' use effect hook REFETCH data fn ');
     } catch (err) {
       setError(err);
     }

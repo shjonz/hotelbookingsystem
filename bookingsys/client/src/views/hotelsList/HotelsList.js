@@ -12,7 +12,6 @@ import FetchSearch from '../../hooks/FetchSearch';
 import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
-
 const HotelsList = () => {
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -59,7 +58,7 @@ const HotelsList = () => {
         ).then(data => {
             console.log('inside use effect fetch ', data);
             setData(data);
-        })
+        });
     } catch (err) {
       console.log(' use effect error');
     }

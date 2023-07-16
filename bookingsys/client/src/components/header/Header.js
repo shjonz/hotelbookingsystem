@@ -16,6 +16,7 @@ const Header = ({type}) => {
     const [destination, setDestination] = useState("");
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
+    const [dropDownList, setDropdownList] = useState([]);
 
     //this is to select the dates
     const [date, setDate] = useState([
@@ -60,14 +61,57 @@ const Header = ({type}) => {
         navigate("/hotels", { state: { destination, date, options } });
     };
 
-    const onChange = (event) => {
-        setDestination(event.target.value);
-    };
+    // const onChange = (event) => {
+    //     setDestination(event.target.value);
+    //     reFetch();
+    // };
+
+    // const {data, loading, error, reFetch } = useFetch(destination);
+    // console.log(' HEADER FETCH data ', data);
 
     const onSearch = (searchTerm) => {
         setDestination(searchTerm);
         console.log("search ", searchTerm);
     };
+
+    const fetchData = (value) => {
+        //setLoading(true);
+        try {
+      
+            console.log(' inside search bar itself ' );
+            fetch(`/search?name=${value}`)
+            .then( (response) => response.json() )
+            .then( (data) => {
+                console.log('inside fetchdata try ', value, data);
+                const results = data.filter( (item) => {
+                    return (
+                    value && 
+                    item && 
+                    item.name && 
+                    item.name.toLowerCase().includes(value)
+                    );
+                });
+                console.log('results ', results);
+                
+                //console.log('results ', results, dropDownList);
+                setDropdownList(results);
+        }).catch( error => {
+            if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
+                console.error('Truncated data: Not all of the JSON data was received');
+            }
+        })
+        //console.log(' use effect hook REFETCH data fn ');
+        } catch (err) {
+            console.log('error catched');
+            //setError(err);
+        }
+        //setLoading(false);
+    }
+
+    const handleChange = (value) => {
+        setDestination(value);
+        fetchData(value);
+    }
 
     
     // useEffect( () => {
@@ -103,18 +147,26 @@ const Header = ({type}) => {
                     type="text" 
                     placeholder="Search your destination..."
                     
-                    onChange={ (event) => {
-                        setDestination(event.target.value);
-                    } } />  
-            </div>
+                    onChange={ (e) => handleChange(e.target.value) } />  
+            </div> 
 
-            
+            <div className="dropdown">
+                {dropDownList
+                    .map((item) => (
+                    <div
+                    className="dropdown-row"
+                    key={item._id}
+                    >
+                    {item.name}
+                    </div>
+                ))}
+            </div> 
 
             {/* <div className="dropdown">
                 {data
                     .filter( (item) => {
                     const searchTerm = destination.toLowerCase();
-                    const fullName = item.term.toLowerCase();
+                    const fullName = item.name.toLowerCase();
 
                     return (
                         searchTerm &&
@@ -125,16 +177,14 @@ const Header = ({type}) => {
                     .slice(0, 10)
                     .map((item) => (
                     <div
-                    onClick={() => searchBar(item.term)}
+                    onClick={() => onSearch(item.name)}
                     className="dropdown-row"
-                    key={item.term}
+                    key={item._id}
                     >
-                    {item.term}
+                    {item.name}
                     </div>
                 ))}
-            </div> */}
-
-                
+            </div>  */}
 
             <div className="headerSearchItem2">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "MM/dd/yyyy")} to 
