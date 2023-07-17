@@ -13,6 +13,7 @@ import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
 const HotelsList = () => {
+  //again go see how to use use States and useLocation()
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
   const [date, setDate] = useState(location.state.date);
@@ -20,39 +21,36 @@ const HotelsList = () => {
   const [options, setOptions] = useState(location.state.options);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [dest_id, setDestID] = useState(location.state.dest_id);
+
+  //@John-David-Tan this for u to edit
   // const [min, setMin] = useState(undefined);
   // const [max, setMax] = useState(undefined);
-  console.log("location ,destination ", location, " ", destination);
+
+  //this is just to check that my data from localhost:3000 when i press the search bar, information should carry over, if it doesnt means somethings wrong
+  console.log("location ,destination ", location, " ", destination, " ", dest_id);
   console.log(destination, date.startDate, date.endDate, options.adult);
-  //const { data, loading, error, reFetch } = useFetch(
-   // "https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU"
-   // `/hotels?city=${destination}&min=${min || 0 }&max=${max || 999}`
-  //);
-
-  //const { data, loading, error, reFetch } = FetchSearch(
-    //`/{destination}`
-    //`/Singapore-Singapore/2023-10-15/2023-10-20/en_US/SGD/2/1`
-  //);
-
-  //console.log(data);
 
   //JDs filter search for facilities ==========================================
   const [wifiChecked, setWifiChecked] = useState(false);
   const [poolChecked, setPoolChecked] = useState(false);
 
+  //this happens when u click the checkbox
   const handleWifiChange = () => {
     setWifiChecked(!wifiChecked);
   };
 
+  //this happens when u click the checkbox
   const handlePoolChange = () => {
     setPoolChecked(!poolChecked);
   };
 
+  //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect( () => {
     setLoading(true);
     try {
       console.log(' use effet on header component ' );
-         fetch('/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1')
+         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1`)
         .then(
             response => response.json()
         ).then(data => {
@@ -68,8 +66,8 @@ const HotelsList = () => {
     console.log('use effect has collected data ', data);
   
 
+  //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
   const handleClick  = () => {
-    
     console.log("location ,destination ", location, " ", destination);
     console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
@@ -78,20 +76,27 @@ const HotelsList = () => {
   return (
     <div>
       <Navbar />
+
       <Header type="list" />
+
       <div className="listContainer">
+
         <div className="listWrapper">
+
           <div className="listSearch">
+
             <h1 className="lsTitle">Search</h1>
+
             <div className="lsItem">
               <label>Destination</label>
               <input placeholder={destination} type="text" />
             </div>
+
             <div className="lsItem">
               <label>Check-in Date</label>
               <span onClick={() => setOpenDate(!openDate)}>{`${format(
                 date[0].startDate,
-                "MM/dd/yyyy"
+                "MM/dd/yyyy" //this is the dates that will open up when u click
               )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
               {openDate && (
                 <DateRange
@@ -101,6 +106,7 @@ const HotelsList = () => {
                 />
               )}
             </div>
+
             <div className="lsItem">
               <label>Options</label>
 
@@ -151,7 +157,8 @@ const HotelsList = () => {
                 </div>
               </div>
             </div>
-            <button onClick={handleClick}>Search</button>
+            <button //this is the search enginer at the side
+            onClick={handleClick}>Search</button>
           </div>
 
 
@@ -161,6 +168,7 @@ const HotelsList = () => {
             <label>Hotel</label>
             <input placeholder="Hotel" type="text"/>
           </div>
+
 
           <div className="lsItem">
             <label>Price Range</label>
@@ -172,6 +180,7 @@ const HotelsList = () => {
               /> 
             </div>
           </div>
+
 
           <div className="lsItem">
             <div className="checkboxes">
@@ -202,7 +211,7 @@ const HotelsList = () => {
 
           <div className="listResult">
           {loading ? (
-              "loading"
+              "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
             ) : (
               <>
                 {data.map((item) => (

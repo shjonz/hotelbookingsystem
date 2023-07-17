@@ -7,16 +7,15 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format} from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-//import data from "../../destinations.json";
-//import data from "../../dest.json";
 
 const Header = ({type}) => {
-    const UserContext = createContext();
-    //const [searchTerm, setSearchTerm] = useState("");
+    //use state this one go search yourself its v useful
     const [destination, setDestination] = useState("");
+    const [dest_id, setDestID] = useState("");
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
     const [dropDownList, setDropdownList] = useState([]);
+
 
     //this is to select the dates
     const [date, setDate] = useState([
@@ -27,8 +26,10 @@ const Header = ({type}) => {
         }
       ]);
 
+
     //for opening up the option to choose room type and number of children n adults
     const [openOptions, setOpenOptions] = useState(false);
+
 
     //this is to select room type, num of children n adults
     const [options, setOptions] = useState(
@@ -39,7 +40,6 @@ const Header = ({type}) => {
         }
       );
 
-    const navigate = useNavigate();
 
     //this is to handle the options up and down
     //prev is the previous state
@@ -52,32 +52,27 @@ const Header = ({type}) => {
         });
     };
 
-    // useEffect( () => {
-    //     searchBar("/").then(res => res.json()).then(data => setDestination(destination))
-    // }, [])
 
-
+    //this is to navigate to website the diff /hotels page when i click the search button
+    const navigate = useNavigate();
     const handleSearch = () => {
-        navigate("/hotels", { state: { destination, date, options } });
+        navigate("/hotels", { state: { destination, date, options, dest_id } });
     };
 
-    // const onChange = (event) => {
-    //     setDestination(event.target.value);
-    //     reFetch();
-    // };
-
-    // const {data, loading, error, reFetch } = useFetch(destination);
-    // console.log(' HEADER FETCH data ', data);
-
+    //this is used to change the dropdown list when i click on the dropdown list suggestions
     const onSearch = (searchTerm) => {
+        
+        const item_json = dropDownList.find( ({ name }) => name === searchTerm );
+        console.log("onSearch value ", searchTerm, item_json, item_json.uid );
         setDestination(searchTerm);
-        console.log("search ", searchTerm);
+        setDestID(item_json.uid);
+        //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
     };
 
+    
+    //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
     const fetchData = (value) => {
-        //setLoading(true);
         try {
-      
             console.log(' inside search bar itself ' );
             fetch(`/search?name=${value}`)
             .then( (response) => response.json() )
@@ -87,51 +82,29 @@ const Header = ({type}) => {
                     return (
                     value && 
                     item && 
-                    item.name && 
-                    item.name.toLowerCase().includes(value)
+                    item.name 
+                    //item.name.toLowerCase().includes(value.toLowerCase())
                     );
                 });
                 console.log('results ', results);
-                
-                //console.log('results ', results, dropDownList);
                 setDropdownList(results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
                 console.error('Truncated data: Not all of the JSON data was received');
             }
         })
-        //console.log(' use effect hook REFETCH data fn ');
         } catch (err) {
             console.log('error catched');
-            //setError(err);
         }
-        //setLoading(false);
     }
 
+    //this causes the changes in the input when u type stuff in the search input box
     const handleChange = (value) => {
+        console.log("handlechange value ", value, value.name, value.id);
         setDestination(value);
-        fetchData(value);
+        fetchData(value);  
     }
 
-    
-    // useEffect( () => {
-    //     console.log(' use effet on header component ' );
-    //     fetch('/search?name=Singapore')
-    //     .then(
-    //         response => response.json()
-    //     ).then(data => {
-    //         console.log('inside use effect fetch ', data);
-    //     })
-    // }, [])
-    //console.log(' data ' , data);
-
-    const FilterFunction = (list) => {
-        //const user = useContext(UserContext);
-        if ( destination === "") return list;
-        else if (list.term.toLowerCase().includes( destination.toLowerCase())) return list;
-    }
-    
-    //onChange={(e) => setDestination(e.target.value)}
 
     return (
         <div className="header" style={{
@@ -145,51 +118,33 @@ const Header = ({type}) => {
                     <div className="destinationorhotel">Destination or Hotel</div>
                     <input className="headerSearchInput" 
                     type="text" 
+                    //this is the input 
                     placeholder="Search your destination..."
-                    
+                    value = {destination}
                     onChange={ (e) => handleChange(e.target.value) } />  
             </div> 
 
+
             <div className="dropdown">
                 {dropDownList
-                    .map((item) => (
+                    .map( (item) => (
+                        //this is responsible for drop down that appears
                     <div
                     className="dropdown-row"
-                    key={item._id}
+                    key={item.uid}
+                    onClick={() => onSearch(item.name)}
                     >
                     {item.name}
                     </div>
                 ))}
             </div> 
 
-            {/* <div className="dropdown">
-                {data
-                    .filter( (item) => {
-                    const searchTerm = destination.toLowerCase();
-                    const fullName = item.name.toLowerCase();
-
-                    return (
-                        searchTerm &&
-                        fullName.startsWith(searchTerm) &&
-                        fullName !== searchTerm
-                    );
-                    })
-                    .slice(0, 10)
-                    .map((item) => (
-                    <div
-                    onClick={() => onSearch(item.name)}
-                    className="dropdown-row"
-                    key={item._id}
-                    >
-                    {item.name}
-                    </div>
-                ))}
-            </div>  */}
-
+                    
             <div className="headerSearchItem2">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "MM/dd/yyyy")} to 
                 ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
                 {openDate && <DateRange
+                    //this is ur calendar that opens when u click the dates 
                     editableDateInputs = {true}
                     onChange = { (item) => setDate( [item.selection] ) }
                     moveRangeOnFirstSelection={false}
@@ -198,12 +153,13 @@ const Header = ({type}) => {
                 /> }
             </div>
 
+
             <div className="headerSearchItem3">
                 <span onClick={ () => setOpenOptions( !openOptions ) }
                 className="headerSearchText2">{`${options.adult} adult ${options.children} children 
                 ${options.room} room`}</span>
 
-                {openOptions && (
+                {openOptions && ( //this opens up the 3 options - adult, children and room when u click on it. 
                 <div className="options">
 
                     <div className="optionItem">
@@ -242,8 +198,11 @@ const Header = ({type}) => {
                     </div> )}
                 </div>
                 
+
                 <div className="headerSearchItem4">
-                    <button className="headerButton" onClick={handleSearch}>Search</button>
+                    <button className="headerButton" 
+                    //search button click here brings u to next page /hotels list page
+                    onClick={handleSearch}>Search</button>
 
                 </div>
 
