@@ -141,14 +141,15 @@ const Header = ({type}) => {
 
                     
             <div className="headerSearchItem2">
-                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "MM/dd/yyyy")} to 
-                ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
+                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
+                ${format(date[0].endDate + 1, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
                     //this is ur calendar that opens when u click the dates 
                     editableDateInputs = {true}
                     onChange = { (item) => setDate( [item.selection] ) }
                     moveRangeOnFirstSelection={false}
                     ranges={date}
+                    minDate={new Date()}
                     className="date"
                 /> }
             </div>
