@@ -6,10 +6,11 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Card from 'react-bootstrap/Card';
+// import Card from 'react-bootstrap/Card';
 import mbs from '../../components/images/mbs.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ProfileCard from '../../components/profilePage/ProfileCard.js'
+import FormField from '../../components/profilePage/ProfileForm.js'
 
 const Profile = () => {
   const [fname, setFname] = useState("");
@@ -63,6 +64,65 @@ const Profile = () => {
               </div>
               <div className="user-info">
 
+              <FormField
+                  controlId="fname"
+                  label="First Name"
+                  type="text"
+                  placeholder="First Name"
+                  value={fname}
+                  onChange={(e) => setFname(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="lname"
+                  label="Last Name"
+                  type="text"
+                  placeholder="Last Name"
+                  value={lname}
+                  onChange={(e) => setLname(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="email"
+                  label="Email Address"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="phone"
+                  label="Phone Number"
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="country"
+                  label="Country"
+                  type="text"
+                  placeholder="Country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="pass"
+                  label="Password"
+                  type="password"
+                  placeholder="Password"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  readOnly={!editMode}
+                />
+
+
+
+
+{/* 
               <Form.Group controlId="fname">                
                 <Form.Label>First Name </Form.Label>
                 <Form.Control
@@ -128,13 +188,18 @@ const Profile = () => {
                     onChange={(e) => setPass(e.target.value)}
                     readOnly={!editMode} // Set the readOnly attribute based on edit mode
                   />
-                </Form.Group>
+                </Form.Group> */}
+
+
+
               </div>
             </div>
           </Tab>
           <Tab eventKey="bookings" title="Bookings">
             <p>Tab content for Bookings hehehehehe</p>
-            <Card style={{ width: '18rem' }}>
+
+
+            {/* <Card style={{ width: '18rem' }}>
               <Card.Img variant="top" src={mbs} />
               <Card.Body>
                 <Card.Title>Hotel Name</Card.Title>
@@ -145,11 +210,18 @@ const Profile = () => {
                 <Button variant="primary">Details</Button>
                 </Link>
               </Card.Body>
-            </Card>
+            </Card> */}
+
+            <ProfileCard
+              title= "Hotel Name"
+              imageSrc={mbs}
+              description="some description"
+              buttonText="Details"
+              buttonLink="/" />
+
+
           </Tab>
-          <Tab eventKey="disabled" title="Disabled" disabled>
-            Tab content for Disabled
-          </Tab>
+
         </Tabs>
 
 
