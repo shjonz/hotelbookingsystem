@@ -10,21 +10,21 @@ function Payment(props) {
     const [clientSecret, setClientSecret] = useState("");
 
     useEffect( () => {
-        fetch("/config").then(async (r) => {
+        fetch("api/stripe/config").then(async (r) => {
             const {publishableKey} = await r.json();
-            console.log(' payment component /config ', publishableKey);
+            //console.log(' payment component /config ', publishableKey);
             setStripePromise(loadStripe(publishableKey));
         });
     }, [] )
 
     useEffect( () => {
         console.log(' inside payment component use effect ');
-        fetch("/create-payment-intent", {
+        fetch("api/stripe/create-payment-intent", {
             method: "POST",
             body: JSON.stringify({}),
         }).then(async (r) => {
             const {clientSecret} = await r.json();
-            console.log(' inside payment component ', clientSecret);
+            //console.log(' inside payment component ', clientSecret);
             setClientSecret(clientSecret);
         });
     }, [] );

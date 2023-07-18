@@ -3,20 +3,18 @@ import Accounts from "../models/Accounts.js";
 
 const router = express.Router();
 
-// TODO: Fix up CRUD and understand what is going on here!
-
-//Getting all
+//Getting all accounts and listing them down.
 router.get('/',async(req,res) =>{
 try{
-        const accounts = await Accounts.find()
-        res.json(accounts)
+        const account = await Accounts.find()
+        res.json(account)
     }catch(err){
         res.status(500).json({ message:err.message})
     }
     //res.send('hello world')
 })
 
-// Deleting an account
+// Deleting an account.
 router.delete('/:emailId', getAccount, async (req, res) => {
   try {
     await res.account.deleteOne();
@@ -26,7 +24,7 @@ router.delete('/:emailId', getAccount, async (req, res) => {
   }
 });
 
-// Updating an account
+// Updating an account.
 router.patch('/:emailId', getAccount, async (req, res) => {
     if (req.body.emailId!= null) {
       res.account.emailId = req.body.emailId
@@ -42,22 +40,13 @@ router.patch('/:emailId', getAccount, async (req, res) => {
     }
   });
 
-router.get('/:emailId',async(req,res) =>{
-    try{
-        const  accounts = await Accounts.find()
-        res.json(accounts)
-    }catch(err){
-        res.status(500).json({ message:err.message})
-    }
-    //res.send(req.params)
-})
-
-//Creating One
-router.post('/',async(req,res)=>{
+// This creates an account using a post.
+router.post('/create',async(req,res)=>{
     const account = new Accounts({
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
+        bookingInfo: JSON.parse("{}"),
     })
     try{
         const newaccounts = await account.save()

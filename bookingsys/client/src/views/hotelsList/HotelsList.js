@@ -29,7 +29,7 @@ const HotelsList = () => {
 
   //this is just to check that my data from localhost:3000 when i press the search bar, information should carry over, if it doesnt means somethings wrong
   console.log("location ,destination ", location, " ", destination, " ", dest_id);
-  console.log(destination, date.startDate, date.endDate, options.adult);
+  console.log(' check dates ', destination, date[0].startDate, date[0].endDate, options.adult);
 
   //JDs filter search for facilities ==========================================
   const [wifiChecked, setWifiChecked] = useState(false);
@@ -45,12 +45,18 @@ const HotelsList = () => {
     setPoolChecked(!poolChecked);
   };
 
+  
+
   //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect( () => {
     setLoading(true);
+    
     try {
-      console.log(' use effet on header component ' );
-         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1`)
+        const start_date = format(date[0].startDate,"yyyy-MM-dd");
+        const end_date = format(date[0].endDate,"yyyy-MM-dd");
+        console.log(' use effet on header component ' , start_date, end_date);
+         //fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1`)
+         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${start_date}&checkout=${end_date}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
         .then(
             response => response.json()
         ).then(data => {
