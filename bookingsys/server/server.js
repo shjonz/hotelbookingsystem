@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 //import Payment from "../client/src/components/payment/Payment.js";
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use("/api/auth",authRoute);
 app.use("/api/accounts",accountsRoute);
 app.use("/api/bookings",bookingRoute);
 app.use("/api/stripe", stripeRoute);
+
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500
