@@ -6,17 +6,32 @@ const router = express.Router();
 
 // Basic search function. Use + over spaces when trying to query from here thank you. This returns name, uid and the _id of the destination so you can use it elsewhere.
 router.get("/", searchBar, (req, res) => {
+<<<<<<< Updated upstream
     res.send(res.results)
+=======
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8800');
+    res.status(200).send(res.results)
+>>>>>>> Stashed changes
 })
 
 // Destination search gives you your uid that you need for your parsing. Search using the unique _id of the destination.
 router.get("/dest/id", destIDSearch, (req, res) => {
+<<<<<<< Updated upstream
     res.send(res.destID.uid)
+=======
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8800');
+    res.status(200).send(res.destID.uid)
+>>>>>>> Stashed changes
 })
 
 // Destination search gives you your uid that you need for your parsing. Search using the name of the destination.
 router.get("/dest/name", destNameSearch, (req, res) => {
+<<<<<<< Updated upstream
     res.send(res.destName.uid)
+=======
+    res.set('Access-Control-Allow-Origin', 'http://localhost:8800');
+    res.status(200).send(res.destName.uid)
+>>>>>>> Stashed changes
 })
 
 // Function Space
