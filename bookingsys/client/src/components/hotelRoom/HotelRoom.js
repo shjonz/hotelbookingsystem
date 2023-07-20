@@ -2,10 +2,7 @@ import "./hotelRoom.css"
 
 export const HotelRoom = ({item}) => {
 
-  const getRandomSubset = (arr, size) => {
-    const shuffled = arr.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, size);
-  };
+
 
 
   return (

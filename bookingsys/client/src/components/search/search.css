@@ -1,12 +1,13 @@
-.searchItem {
+  .searchItem {
     border: 1px solid lightgray;
-    width: 90%;
+    width: 80% ;
     padding: 10px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     gap: 20px;
     margin-bottom: 20px;
+    max-width: 800px;
   }
   
   .siImg {
@@ -18,46 +19,25 @@
   .siDesc {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 40px;
     flex: 2;
   }
   
   .siTitle {
     font-size: 20px;
+    font-weight: bold;
     color: #0071c2;
   }
   
-  .siDistance {
+  .siMap {
     font-size: 12px;
+    cursor: pointer;
+    color: #0071c2;
   }
   
-  .siTaxiOp {
+  .siTaxOp {
     font-size: 12px;
-    background-color: grey;
-    color: white;
-    width: max-content;
-    padding: 3px;
-    border-radius: 5px;
-  }
-  
-  .siSubtitle{
-    font-size: 12px;
-    font-weight: bold;
-  }
-  
-  .siFeatures{
-    font-size: 12px;
-  }
-  
-  .siCancelOp{
-    font-size: 12px;
-    color: grey;
-    font-weight: bold;
-  }
-  
-  .siCancelOpSubtitle{
-    font-size: 12px;
-    color: grey;
+    color: gray;
   }
   
   .siDetails {
@@ -75,13 +55,41 @@
   .siRating>span{
     font-weight: 500;
   }
+
   .siRating>button{
-   background-color: grey;
-   color: white;
-   padding: 5px;
-   font-weight: bold;
-   border: none;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border: none;
+   }
+
+  /* Define different colors based on the rating */
+.siRating button.rating1 {
+  background-color: rgb(254, 70, 70); /* Change this color as per your preference */
+}
+
+.siRating button.rating2 {
+  background-color: orange; /* Change this color as per your preference */
+}
+
+.siRating button.rating3 {
+  background-color: yellow; /* Change this color as per your preference */
+}
+
+.siRating button.rating4 {
+  background-color: green; /* Change this color as per your preference */
+}
+
+
+.siRating button.rating5 {
+  background-color: blue; /* Change this color as per your preference */
+}
+
+  
+  .siRating>span{
+    font-weight: 500;
   }
+
   
   .siDetailTexts{
     text-align: right;
@@ -92,19 +100,17 @@
   
   .siPrice{
     font-size: 24px;
-  }
-  
-  .siTaxOp{
-    font-size: 12px;
-    color: gray;
+    color: green;
   }
   
   .siCheckButton{
-    background-color: grey;
+    background-color: #003580;
     color: white;
     font-weight: bold;
     padding: 10px 5px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    max-width: max-content;
+    margin-left: auto;
   }

@@ -26,8 +26,13 @@ const HotelsList = () => {
   const setDate = useState(date)
  
   //@John-David-Tan this for u to edit
-  // const [min, setMin] = useState(undefined);
-  // const [max, setMax] = useState(undefined);
+  const [min, setMin] = useState(1);
+  const [max, setMax] = useState(10000);
+
+  const handlePriceRangeChange = ({ min, max }) => {
+    setMin(min);
+    setMax(max);
+  };
 
   
   //JDs filter search for facilities ==========================================
@@ -55,6 +60,7 @@ const HotelsList = () => {
             response => response.json()
         ).then(data => {
             setData(data);
+            console.log("data", data)
 
         });
     } catch (err) {
@@ -71,6 +77,30 @@ const HotelsList = () => {
     console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
 
+
+  const sortBySearchRank = (hotelA, hotelB) => {
+    // Check if both hotels have searchRank
+    if (hotelA.searchRank !== undefined && hotelB.searchRank !== undefined) {
+      return hotelB.searchRank - hotelA.searchRank; // Sort in descending order
+    } else if (hotelA.searchRank === undefined && hotelB.searchRank !== undefined) {
+      return 1; // hotelA has no searchRank, so move it to the end
+    } else if (hotelA.searchRank !== undefined && hotelB.searchRank === undefined) {
+      return -1; // hotelB has no searchRank, so move it to the end
+    } else {
+      return 0; // Both hotels have no searchRank, keep their order unchanged
+    }
+  };
+  
+  const sortedHotels = data.sort(sortBySearchRank);
+  
+  // Filter the hotels based on the current min and max prices
+  const filteredHotels = data.filter((hotel) => {
+    if (hotel.price !== undefined) {
+      return hotel.price >= min && hotel.price <= max;
+    }
+    // If the hotel has no price, include it in the filtered results
+    return true;
+  });
 
   return (
     <div>
@@ -110,21 +140,6 @@ const HotelsList = () => {
               <label>Options</label>
 
               <div className="lsOptions">
-
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">
-                    Min price <small>per night</small>
-                  </span>
-                  <input type="number" className="lsOptionInput" />
-                </div>
-
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">
-                    Max price <small>per night</small>
-                  </span>
-                  <input type="number" className="lsOptionInput" />
-                </div>
-
                 <div className="lsOptionItem">
                   <span className="lsOptionText">Adult</span>
                   <input
@@ -173,15 +188,15 @@ const HotelsList = () => {
             <label>Price Range</label>
             <div className="priceRangeSlider">
               <MultiRangeSlider
-                min={1}
+                min={0}
                 max={1000}
-                onChange={({ min, max }) => console.log(`min = ${min}, max = ${max}`)}
+                onChange={handlePriceRangeChange}
               /> 
             </div>
           </div>
 
 
-          <div className="lsItem">
+          {/* <div className="lsItem">
             <div className="checkboxes">
             <label>Amenities</label>
             <label htmlFor="wifi">
@@ -203,7 +218,7 @@ const HotelsList = () => {
             Swimming Pool
             </label>
             </div>
-          </div>
+          </div> */}
           </div>
           
           
@@ -213,7 +228,7 @@ const HotelsList = () => {
               "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
             ) : (
               <>
-                {data.map((item) => (
+                {filteredHotels.map((item) => (
                   <Search item={item} key={item.id} />
                 ))}
               </>

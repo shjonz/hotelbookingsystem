@@ -84,6 +84,7 @@
 .listResult {
   flex: 3;
   position: relative;
+  margin-left: 20px;
 }
 
 .listFilter{
@@ -95,9 +96,11 @@
   height: max-content;
 }
 
-.priceRangeSlider{
+.priceRangeSlider,
+.ratingRangeSlider{
   max-height: 30px;
 }
+
 
 .lsTitle{
   font-size: 20px;
