@@ -10,6 +10,7 @@ router.post('/create', createBooking, (req, res) => {
 })
 
 router.get("/", getBooking, (req, res) => {
+    console.log(" inside router.get / ")
     res.status(200).send(res.getBooking)
 })
 
@@ -38,8 +39,8 @@ async function createBooking(req, res, next) {
 
 async function getBooking(req, res, next) {
     try {
-        //console.log()
-        const getBooking = await Bookings.findById(req.query.uid)
+        console.log(' get booking  ', req.query.uid);
+        const getBooking = await Bookings.findById(req.query.uid);
         res.getBooking = getBooking;
     } catch (e) {res.send(e);}
     next();

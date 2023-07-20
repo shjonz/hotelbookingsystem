@@ -17,7 +17,7 @@ const [userInfo, setUserInfo] = useState({
   email: undefined
 });
 
-const { loadingauth, error, dispatch } = useContext(AuthContext);
+const { user, loadingauth, error, dispatch } = useContext(AuthContext);
 
 //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   // useEffect( (email) => {
@@ -130,6 +130,8 @@ const handleSubmit = (event) => {
   //   setErrorMessages({ name: "uname", message: errors.uname });
   // }
 };
+
+console.log('login page check for user info ', user )
 
 // Generate JSX code for error message
 const renderErrorMessage = (name) =>

@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Searches for a list of hotels based on the UID of the destination.
 // http://localhost:8800/api/hotels/default?destination_id=WD0M
-router.get("/default", hotelList, (req, res) => {
+router.get("/default", hotelList, (req, res) => { 
     res.send(res.hotelList)
 })
 
