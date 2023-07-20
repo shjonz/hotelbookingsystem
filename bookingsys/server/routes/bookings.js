@@ -9,6 +9,7 @@ router.post('/create', createBooking, (req, res) => {
     res.status(200).send(res.createBooking)
 })
 
+// lol whoops
 router.get("/", getBooking, (req, res) => {
     res.status(200).send(res.getBooking)
 })

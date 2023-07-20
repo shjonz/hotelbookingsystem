@@ -43,7 +43,7 @@ app.use((err,req,res,next)=>{
 // Don't touch anything below this
 const port = process.env.PORT;
 
-module.exports = app;
+export default app;
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen({port},() => {
