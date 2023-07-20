@@ -105,11 +105,7 @@ async function hotelListPrices(req, res, next) {
         };
     });
 
-<<<<<<< Updated upstream
-    res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined);;
-=======
     res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined);
->>>>>>> Stashed changes
     next();
 }
 
