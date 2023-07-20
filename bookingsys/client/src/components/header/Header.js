@@ -5,16 +5,19 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format} from 'date-fns';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 
 const Header = ({type}) => {
     //use state this one go search yourself its v useful
+    
     const [destination, setDestination] = useState("");
     const [dest_id, setDestID] = useState("");
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
     const [dropDownList, setDropdownList] = useState([]);
+    
+   
 
 
     //this is to select the dates

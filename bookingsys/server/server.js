@@ -43,9 +43,6 @@ app.use((err,req,res,next)=>{
       stack:err.stack,
     })
 })
-
-
-
 // Functions Space
 
 // Don't touch anything below this
