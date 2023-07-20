@@ -27,25 +27,19 @@
 }
 
 .hotelTitle{
-    font-size: 24px;
+    flex: 1;
 }
 
 .hotelAddress{
-    font-size: 12px;
+    font-size: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.hotelDistance{
+    cursor: pointer;
     color: #0071c2;
-    font-weight: 500;
 }
 
-.hotelPriceHighlight{
-    color: #008009;
-    font-weight: 500;
-}
+
 
 .hotelImages{
     display: flex;

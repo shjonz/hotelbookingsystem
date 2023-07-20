@@ -114,7 +114,7 @@ const Header = ({type}) => {
         { type !== "list" && 
             <div className="headerSearch">
 
-                <div className="headerSearchItem1">
+            <div className="headerSearchItem1">
                     <div className="destinationorhotel">Destination or Hotel</div>
                     <input className="headerSearchInput" 
                     type="text" 
@@ -122,10 +122,8 @@ const Header = ({type}) => {
                     placeholder="Search your destination..."
                     value = {destination}
                     onChange={ (e) => handleChange(e.target.value) } />  
-            </div> 
-
-
-            <div className="dropdown">
+                
+                <div className="dropdown">
                 {dropDownList
                     .map( (item) => (
                         //this is responsible for drop down that appears
@@ -138,11 +136,14 @@ const Header = ({type}) => {
                     </div>
                 ))}
             </div> 
-
+            </div>
+            
+            
+           
                     
             <div className="headerSearchItem2">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
-                ${format(date[0].endDate + 1, "yyyy-MM-dd")}`}</span>
+                ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
                     //this is ur calendar that opens when u click the dates 
                     editableDateInputs = {true}
@@ -209,6 +210,7 @@ const Header = ({type}) => {
 
             </div> }
         </div>    
+        
         </div>
     );
 };

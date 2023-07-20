@@ -29,7 +29,7 @@ const HotelsList = () => {
 
   //this is just to check that my data from localhost:3000 when i press the search bar, information should carry over, if it doesnt means somethings wrong
   console.log("location ,destination ", location, " ", destination, " ", dest_id);
-  console.log(destination, date.startDate, date.endDate, options.adult);
+  console.log(destination, date[0].startDate, date[0].endDate, options.adult);
 
   //JDs filter search for facilities ==========================================
   const [wifiChecked, setWifiChecked] = useState(false);
@@ -50,7 +50,7 @@ const HotelsList = () => {
     setLoading(true);
     try {
       console.log(' use effet on header component ' );
-         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${format(date.startDate,"yyyy-MM-dd")}&checkout=${format(date.endDate,"yyyy-MM-dd")}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
+         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${format(date[0].startDate,"yyyy-MM-dd")}&checkout=${format(date[0].endDate,"yyyy-MM-dd")}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
         .then(
             response => response.json()
         ).then(data => {
@@ -207,9 +207,9 @@ const HotelsList = () => {
           </div>
           </div>
           
-        
-
-          <div className="listResult">
+          
+        </div>
+        <div className="listResult">
           {loading ? (
               "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
             ) : (
@@ -220,7 +220,6 @@ const HotelsList = () => {
               </>
             )}
           </div>
-        </div>
       </div>
     </div>
   );

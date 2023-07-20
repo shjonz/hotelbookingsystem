@@ -10,16 +10,18 @@ const Hotel = () => {
     const location = useLocation();
     console.log('location ', location);
     const id = location.pathname.split("/"[0]);
-    console.log(' id ', id[2]);
+    console.log("pathname", location.pathname)
+    console.log(' id ', id);
     const id_f = id[2];
+    
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
 
     useEffect( () => {
         setLoading(true);
         try {
-          console.log(' use effet on header component for room ' );
-             fetch(`/api/hotels/default/${id_f}`)
+            const fetchFile1 = fetch(`/api/hotels/default/${id_f}`);
+            const fetchFile2 = fetch(`/api/hotels/price?uid=${id_f}&destination_id=WD0M`)
             .then(
                 response => response.json()
             ).then(data => {
@@ -48,6 +50,11 @@ const Hotel = () => {
     const scrollToRoomList = () => {
     roomListRef.current.scrollIntoView({ behavior: 'smooth' });
     };
+
+    // const desc = data.description.split(/<[^>]+>/g).filter((text) => text.trim() !== "")
+    const renderedHTML = <div dangerouslySetInnerHTML={{ __html: data.description }} />;
+
+    
   return (
     <div>
         <Navbar/>
@@ -62,12 +69,6 @@ const Hotel = () => {
                 <div className="hotelAddress">
                     <span>{data.address}</span>
                 </div>
-                <span className="hotelDistance">
-                    Excellent location - 500m from center
-                </span>
-                <span className="hotelPriceHighlight">
-                    Book a stay over $114 at this property and get a free airport taxi
-                </span>
                 <div className="hotelImages">
                     {photos.map(photo=>(
                         <div className="hotelImgWrapper">
@@ -77,17 +78,28 @@ const Hotel = () => {
                 </div>
                 <div className="hotelDetails">
                     <div className="hotelDetailsTexts">
-                        <h1 className="hotelTitle">Words Words Words Words Words Words Words</h1>
+                        <h1 className="hotelTitle">Hotel Description</h1>
                         <p className="hotelDesc">
-                        {data.description}
+                        {renderedHTML}
                         </p>
                     </div>
                     <div className="hotelDetailsExtra"><h1>
-                    Words Words Words Words Words
+                    Amenities
                         </h1>
-                        <span>
-                        Words Words Words Words Words Words Words Words Words Words Words Words
-                        </span>
+                    
+                    {Object.entries(data).map(([key,value]) =>{
+                        if (key === "amenities") {
+                            return (
+                                // <div>{key}:{JSON.stringify(value)}</div>
+                                <div>{Object.entries(value).map(([amen,bool]) =>{
+                                    return (
+                                        <div>{amen}</div>
+                                    );
+                                })}</div>
+                            );
+                        }
+                    })}
+
                       </div>
                 </div>
                 <div ref={roomListRef} className="roomList">

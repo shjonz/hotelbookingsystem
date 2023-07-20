@@ -5,10 +5,14 @@
   }
   
   .listWrapper {
-    width: 100%;
-    max-width: 1024px;
+    margin-left: 10%;
+    width: 33%;
+    height: max-content;
+    max-width: max-content;
     display: flex;
+    flex-direction: column;
     gap: 20px;
+    position: relative;
   }
   
   .listSearch {
@@ -16,7 +20,6 @@
     background-color: lightblue;
     padding: 10px;
     border-radius: 10px;
-    position: sticky;
     top: 10px;
     height: max-content;
   }
@@ -80,6 +83,7 @@
   
   .listResult {
     flex: 3;
+    position: relative;
   }
 
   .listFilter{
