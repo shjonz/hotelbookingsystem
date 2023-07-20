@@ -22,11 +22,17 @@
     "node-fetch": "^3.3.1",
     "nodemon": "^1.14.9",
     "stripe": "^12.13.0",
-    "supertest": "^6.3.3"
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
     "@babel/preset-react": "^7.22.5",
     "babel-jest": "^29.6.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }
