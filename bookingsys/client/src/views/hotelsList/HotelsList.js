@@ -3,7 +3,7 @@ import "./hotelsList.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import Search from "../../components/search/Search";
@@ -13,6 +13,25 @@ import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
 const HotelsList = () => {
+  //useRef is a value that persists after each render becoz inside react every single thing we do is only stored inside that render unless its part of our state
+  //if we wanna store sth btwn renders tat isnt part of our state, need to useRef, gd for storing references to elements
+  const observer = useRef(); //need to get reference to last element, 
+  //useRef not part of our state, so it doesnt update every time state changes, so when our reference changes, it doesnt actly rerun our component, so we need useCallback
+  const lastElementRef = useCallback( node => {
+    if (loading) return 
+    if (observer.current) observer.current.disconnect() 
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPage
+      }
+    })
+    if (node ) observer.current.observe(node)
+
+    //this is wtv current iteration of tat variable is, so if we hv an observer wat we do is disconnect the observer from the prev element, so our new last element 
+    //will be hooked up correctly coz we gonna reconnect it
+    console.log(' hotels list inside use callback ', node)
+  }, loading, hasMore );
+
   //again go see how to use use States and useLocation()
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -216,15 +235,32 @@ const HotelsList = () => {
         
 
           <div className="listResult">
-          {loading ? (
+          {/* {loading ? (
               "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
             ) : (
               <>
-                {data.map((item) => (
-                  <Search item={item} key={item.id} />
+                {data.slice(0, 15).map( (item, index) => (
+                  
+                  <Search ref={lastElementRef} item={item} key={item.id} />
                 ))}
               </>
+            )} */}
+
+            {loading ? (
+              "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
+            ) : (
+              <>
+                {data.map( (item, index) => {
+                  if (item.length === index + 1) {
+                    return <Search ref={lastElementRef} item={item} key={item.id} />
+                  } else {
+                    return <Search item={item} key={item.id} />
+                  }
+                }
+                )}
+              </>
             )}
+
           </div>
         </div>
       </div>
