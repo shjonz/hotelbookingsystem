@@ -105,7 +105,7 @@ async function hotelListPrices(req, res, next) {
         };
     });
 
-    res.hotelListPrices = hotelListPrices;
+    res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined); //this is to filter out all those with no prices. 
     next();
 }
 
