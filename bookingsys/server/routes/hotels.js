@@ -4,26 +4,26 @@ const router = express.Router();
 
 // Searches for a list of hotels based on the UID of the destination.
 // http://localhost:8800/api/hotels/default?destination_id=WD0M
-router.get("/default", hotelList, (req, res) => { 
-    res.send(res.hotelList)
+router.get("/default", hotelList, (req, res) => {
+    res.status(200).send(res.hotelList)
 })
 
 // Searches for a specific hotel based on its UID.
 // http://localhost:8800/api/hotels/default/diH7
 router.get("/default/:uid", hotelSearch, (req, res) => {
-    res.send(res.hotelSearch)
+    res.status(200).send(res.hotelSearch)
 })
 
 // Searches for a list of hotels based on UID of destination, extracts its prices and gives it back.
 // localhost:8800/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/prices", hotelListPrices, (req, res) => {
-    res.send(res.hotelListPrices)
+    res.status(200).send(res.hotelListPrices)
 })
 
 // Searches for a specific hotel based on its UID, follows same parameters as the above route so remember to save state. **DOES NOT RETURN HOTEL DETAILS**
 // localhost:8800/api/hotels/price?uid=diH7&destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/price", hotelSearchPrices, (req, res) => {
-    res.send(res.hotelSearchPrices)
+    res.status(200).send(res.hotelSearchPrices)
 })
 
 // Function Space
@@ -69,7 +69,7 @@ async function hotelListPrices(req, res, next) {
 
     const cc = list[0].original_metadata.country;
 
-    // Idk why I have to do this 
+    // Idk why I have to do this but fuck you Ascenda
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
     prices = await price_response.json()
 
@@ -105,7 +105,7 @@ async function hotelListPrices(req, res, next) {
         };
     });
 
-    res.hotelListPrices = hotelListPrices;
+    res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined);
     next();
 }
 
@@ -118,7 +118,7 @@ async function hotelSearchPrices(req, res, next) {
 
     const cc = search.original_metadata.country;
 
-    // Idk why I have to do this
+    // Idk why I have to do this but fuck you Ascenda
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${req.query.uid}/price?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`);
     price = await price_response.json();
 
