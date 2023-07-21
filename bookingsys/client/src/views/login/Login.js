@@ -19,39 +19,6 @@ const [userInfo, setUserInfo] = useState({
 
 const { user, loadingauth, error, dispatch } = useContext(AuthContext);
 
-//this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
-  // useEffect( (email) => {
-  //   setLoading(true);
-  //   try {
-  //       console.log(' use effet login page ' );
-  //       fetch(`/api/accounts/${email}`)
-  //        //fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${start_date}&checkout=${end_date}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
-  //       .then(
-  //           response => response.json()
-  //       ).then(data => {
-  //           console.log('inside use effect fetch ', data.email, data.username, data.name);
-  //           return data;
-  //       });
-  //   } catch (err) {
-  //     console.log(' use effect error');
-  //   }
-  //   setLoading(false);
-    
-  //   }, [])
-    
-
-// User Login info mongodb database
-// const database = [
-//   {
-//     username: "user1",
-//     password: "pass1"
-//   },
-//   {
-//     username: "user2",
-//     password: "pass2"
-//   }
-// ];
-
 const navigate = useNavigate()
 
 const errors = {
@@ -116,19 +83,6 @@ const handleSubmit = (event) => {
     console.log(' use effect error');
   }
   setLoading(false);
-
-  // Compare user info
-  // if (userData) {
-  //   if (userData.password !== pass.value) {
-  //     // Invalid password
-  //     setErrorMessages({ name: "pass", message: errors.pass });
-  //   } else {
-  //     setIsSubmitted(true);
-  //   }
-  // } else {
-  //   // Username not found
-  //   setErrorMessages({ name: "uname", message: errors.uname });
-  // }
 };
 
 console.log('login page check for user info ', user )
@@ -159,8 +113,6 @@ const renderForm = (
     </form>
   </div>
 );
-
-
 
     //  let navigate = useNavigate()
       return (
