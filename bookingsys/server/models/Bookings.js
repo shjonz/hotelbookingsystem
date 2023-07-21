@@ -4,8 +4,8 @@ const { Schema, model } = mongoose;
 const BookingSchema = new Schema({
     destID: {type: String, required: true},
     hotelID: {type: String, required: true},
-    price: {type: String, required: true},
-    bookingInfo: {type: Object, required: true} //json file 
+    price: {type: Number, required: true},
+    bookingInfo: {type: Object, required: true}, //json file 
 })
 
 const Booking = model("Bookings", BookingSchema);

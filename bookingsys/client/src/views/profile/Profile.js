@@ -1,7 +1,7 @@
 import Navbar from "../../components/navbar/Navbar";
 import "./Profile.css";
 import { Link } from 'react-router-dom'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Tab from 'react-bootstrap/Tab';
@@ -33,6 +33,32 @@ const Profile = () => {
     setEditMode(false);
   };
 
+  
+  const [bookings, setBookings] = useState([]);
+  
+  // useEffect(() => {
+  //   fetch(`/api/bookings/?uid=64b7c2f4e5ebb8f59401c8ff`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data); // Log the data received from the API
+  //       setBookings(data);
+  //     })
+  //     .catch((error) => console.error('Error fetching bookings:', error));
+  // }, []);
+
+  useEffect(() => {
+    fetch('/api/bookings/id?uid=64b7b57c7ce93fc68ac620c3')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Log the data received from the API
+        setBookings(data);
+      })
+      .catch((error) => console.error("Error fetching booking IDs:", error));
+  }, []);
+
+//  const [users, setUsers] = useState([]);
+
+  console.log(bookings);
   return (
     <div>
       <Navbar />
@@ -121,106 +147,41 @@ const Profile = () => {
 
 
 
-
-{/* 
-              <Form.Group controlId="fname">                
-                <Form.Label>First Name </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="First Name"
-                  value={fname}
-                  onChange={(e) => setFname(e.target.value)}
-                  disabled ={!editMode}
-                  readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                />
-                </Form.Group>
-
-                <Form.Group controlId="lname">
-                  <Form.Label>Last Name </Form.Label>
-                  <Form.Control
-                    type="lname"
-                    placeholder="Last Name"
-                    value={lname}
-                    onChange={(e) => setLname(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="email">
-                  <Form.Label>Email Address </Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="phone">
-                  <Form.Label>Phone Number </Form.Label>
-                  <Form.Control
-                    type="phone"
-                    placeholder="Phone Number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="country">
-                  <Form.Label>Country </Form.Label>
-                  <Form.Control
-                    type="country"
-                    placeholder="Country"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="pass">
-                  <Form.Label>Password </Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    value={pass}
-                    onChange={(e) => setPass(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group> */}
-
-
-
               </div>
             </div>
           </Tab>
-          <Tab eventKey="bookings" title="Bookings">
+          {/* <Tab eventKey="bookings" title="Bookings">
             <p>Tab content for Bookings hehehehehe</p>
+{bookings ? (
+    <ProfileCard
+      key={bookings._id}
+      title={bookings.destID}
+      price={bookings.price}
+      imageSrc={bookings.price}
+      description={bookings.hotelID}
+      buttonText="Details"
+      buttonLink="/"
+    />
+  ) : (
+    <p>Loading bookings...</p>
+  )}
+          
+          </Tab> */}
 
-
-            {/* <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src={mbs} />
-              <Card.Body>
-                <Card.Title>Hotel Name</Card.Title>
-                <Card.Text>
-                  Some info of the place idk
-                </Card.Text>
-                <Link to="/">
-                <Button variant="primary">Details</Button>
-                </Link>
-              </Card.Body>
-            </Card> */}
-
-            <ProfileCard
-              title= "Hotel Name"
-              imageSrc={mbs}
-              description="some description"
-              buttonText="Details"
-              buttonLink="/" />
-
-
-          </Tab>
+<Tab eventKey="bookings" title="Bookings">
+  <div className="bookingcards">
+    {bookings.length === 0 ? (
+      <p>No bookings found.</p>
+    ) : (
+      bookings.map((bookingId) => (
+        <ProfileCard
+          key={bookingId}
+          bookingId={bookingId} // Pass the booking ID as a prop to the ProfileCard component
+        />
+      ))
+    )}
+  </div>
+</Tab>
 
         </Tabs>
 
@@ -228,6 +189,7 @@ const Profile = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Profile;
