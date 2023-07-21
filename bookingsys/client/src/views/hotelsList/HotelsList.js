@@ -12,6 +12,7 @@ import FetchSearch from '../../hooks/FetchSearch';
 import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
+
 const HotelsList = () => {
   //useRef is a value that persists after each render becoz inside react every single thing we do is only stored inside that render unless its part of our state
   //if we wanna store sth btwn renders tat isnt part of our state, need to useRef, gd for storing references to elements
@@ -39,60 +40,141 @@ const HotelsList = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [dest_id, setDestID] = useState(location.state.dest_id);
-
-  //@John-David-Tan this for u to edit
   // const [min, setMin] = useState(undefined);
   // const [max, setMax] = useState(undefined);
+  console.log("location ,destination ", location, " ", destination);
+  console.log(destination, date.startDate, date.endDate, options.adult);
+  //const { data, loading, error, reFetch } = useFetch(
+   // "https://hotelapi.loyalty.dev/api/hotels?destination_id=RsBU"
+   // `/hotels?city=${destination}&min=${min || 0 }&max=${max || 999}`
+  //);
 
-  //this is just to check that my data from localhost:3000 when i press the search bar, information should carry over, if it doesnt means somethings wrong
-  console.log("location ,destination ", location, " ", destination, " ", dest_id);
-  console.log(' check dates ', destination, date[0].startDate, date[0].endDate, options.adult);
+  //const { data, loading, error, reFetch } = FetchSearch(
+    //`/{destination}`
+    //`/Singapore-Singapore/2023-10-15/2023-10-20/en_US/SGD/2/1`
+  //);
+
+  //console.log(data);
 
   //JDs filter search for facilities ==========================================
   const [wifiChecked, setWifiChecked] = useState(false);
   const [poolChecked, setPoolChecked] = useState(false);
 
-  //this happens when u click the checkbox
   const handleWifiChange = () => {
     setWifiChecked(!wifiChecked);
   };
 
-  //this happens when u click the checkbox
   const handlePoolChange = () => {
     setPoolChecked(!poolChecked);
   };
 
   
+    const postsData = async () => {
 
-  //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
-  useEffect( () => {
-    setLoading(true);
+        // Till the data is fetch using API 
+        // the Loading page will show.
+        //setLoading(true);
+
+        // Await make wait until that 
+        // promise settles and return its result
+    const location = destination;
+    const checkin = "2023-10-15";
+    const checkout = "2023-10-16";
+    const lang = "en_US";
+    const guests = "2";
+    const partner_id = "1";
+    const currency = "SGD";
     
-    try {
-        const start_date = format(date[0].startDate,"yyyy-MM-dd");
-        const end_date = format(date[0].endDate,"yyyy-MM-dd");
-        console.log(' use effet on header component ' , start_date, end_date);
-         //fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1`)
-         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${start_date}&checkout=${end_date}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
-        .then(
-            response => response.json()
-        ).then(data => {
-            console.log('inside use effect fetch ', data);
-            setData(data);
-        });
-    } catch (err) {
-      console.log(' use effect error');
+    
+    //const destin = destdata.find(dest => dest.term === location);
+    const destin = destdata.find(
+      (dest) => dest.term.toLowerCase() === location.toLowerCase()
+    );
+    //const destin = destdata.filter( (dest) => dest.term.includes(location));
+    console.log(' data inside handle click ', location, checkin, checkout, lang, guests, partner_id, currency);
+    console.log(' inside handleclick ', destin);
+    if (!destin) {
+        //res.status(404).send('No destination found for the specified location.');
+        console.log("error in destin");
+        return;
     }
-    setLoading(false);
-    
-    }, [])
-    console.log('use effect has collected data ', data);
-  
+    const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${destin.uid}`);
+    if (!response.ok) {
+      console.log("error in response ")
+      //console.error(`Error fetching hotel list: ${response2.status} ${response2.statusText}`);
+      //res.status(500).send('An error occurred while processing your request.');
+      return;
+    }
+    const hotelData = await response.json();
+  //console.log("okay");
 
-  //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
+    let country_code;
+      if (hotelData.length > 0) {
+        country_code = hotelData[0].original_metadata.country;
+      } else {
+        console.error('No hotels found for the specified destination.');
+        //res.status(404).send('No hotels found for the specified destination.');
+        return;
+      }
+  const hotels = hotelData.map(hotel => ({
+      id: hotel.id,
+      name: hotel.name,
+      address: hotel.address,
+      latitude: hotel.latitude,
+      longitude: hotel.longitude,
+      image: hotel.image_details ? hotel.image_details.prefix + hotel.image_details.suffix : null,
+      rating: hotel.rating,
+      country: hotel.original_metadata.country,
+  }));
+  //console.log(hotelData.length);
+// console.log(hotelData[0].original_metadata);
+// console.log(hotelData[0].original_metadata.country);
+// console.log(country_code);
+
+  // Fetch prices from second prices API
+  const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destin.uid}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&country_code=${country_code}&guests=${guests}&partner_id=1`);
+  if (!response2.ok) {
+      console.error(`Error fetching hotel list: ${response2.status} ${response2.statusText}`);
+      //res.status(500).send('An error occurred while processing your request.');
+      return;
+  }
+  const hotelprices = await response2.json();
+  if (hotelprices.hotels.length === 0) {
+      console.log("error no hotels found for the categrory ")
+      //res.status(404).send('No hotels found for the specified search criteria.');
+      return;
+  }
+  const extractedHotelprices = hotelprices.hotels.map(hotel => ({
+      id: hotel.id,
+      searchRank: hotel.searchRank,
+      price: hotel.price,
+      market_rates: hotel.market_rates,
+  }));
+  console.log("okay");
+
+
+  // Combine the data from the two APIs
+  const combinedData = hotels.map(hotel => {
+      const priceData = extractedHotelprices.find(price => price.id === hotel.id);
+      return {
+          ...hotel,
+          ...priceData
+      };
+  });
+  // Send data containing hotels - So far only tested for Singapore 
+  //res.send(combinedData);
+  console.log(combinedData);
+  setData(combinedData);
+
+        // After fetching data stored it in posts state.
+        //setPosts(response.data);
+
+        // Closed the loading page
+        //setLoading(false);
+    }
+
   const handleClick  = () => {
+    postsData();
     console.log("location ,destination ", location, " ", destination);
     console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
@@ -101,27 +183,20 @@ const HotelsList = () => {
   return (
     <div>
       <Navbar />
-
       <Header type="list" />
-
       <div className="listContainer">
-
         <div className="listWrapper">
-
           <div className="listSearch">
-
             <h1 className="lsTitle">Search</h1>
-
             <div className="lsItem">
               <label>Destination</label>
               <input placeholder={destination} type="text" />
             </div>
-
             <div className="lsItem">
               <label>Check-in Date</label>
               <span onClick={() => setOpenDate(!openDate)}>{`${format(
                 date[0].startDate,
-                "MM/dd/yyyy" //this is the dates that will open up when u click
+                "MM/dd/yyyy"
               )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
               {openDate && (
                 <DateRange
@@ -131,7 +206,6 @@ const HotelsList = () => {
                 />
               )}
             </div>
-
             <div className="lsItem">
               <label>Options</label>
 
@@ -182,8 +256,7 @@ const HotelsList = () => {
                 </div>
               </div>
             </div>
-            <button //this is the search enginer at the side
-            onClick={handleClick}>Search</button>
+            <button onClick={handleClick}>Search</button>
           </div>
 
 
@@ -193,7 +266,6 @@ const HotelsList = () => {
             <label>Hotel</label>
             <input placeholder="Hotel" type="text"/>
           </div>
-
 
           <div className="lsItem">
             <label>Price Range</label>
@@ -205,7 +277,6 @@ const HotelsList = () => {
               /> 
             </div>
           </div>
-
 
           <div className="lsItem">
             <div className="checkboxes">
