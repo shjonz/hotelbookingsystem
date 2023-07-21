@@ -13,6 +13,10 @@ import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
 const HotelsList = () => {
+  const batchSize = 100;
+  const [records, setRecords] = useState(employees.slice(0, batchSize));
+
+
   //again go see how to use use States and useLocation()
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -44,6 +48,26 @@ const HotelsList = () => {
   const handlePoolChange = () => {
     setPoolChecked(!poolChecked);
   };
+
+  //infinite scrolling
+  const loadMoreRecords = () => {
+    if (records.length < employees.length) {
+      setLoading(true);
+      timeout = setTimeout(() => {
+        setRecords(employees.slice(0, records.length + batchSize));
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  //reset infinite scrolling
+  const reset = () => {
+    setRecords(employees.slice(0, batchSize));
+    // Make sure to scroll to top after resetting records
+    scrollViewportRef.current?.scrollTo(0, 0);
+  };
+
+
 
   
 
@@ -226,8 +250,11 @@ const HotelsList = () => {
               </>
             )}
           </div>
+
         </div>
+
       </div>
+      
     </div>
   );
 };
