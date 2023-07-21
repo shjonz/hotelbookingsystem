@@ -25,8 +25,8 @@ import accountsRoute from "./routes/accounts.js";
 import bookingRoute from "./routes/bookings.js";
 import stripeRoute from "./routes/stripe.js";
 
-app.use("/search", searchRoute);
-app.use("/api/hotels", hotelsRoute);
+app.use("/search", searchRoute); //localhost:8800/search
+app.use("/api/hotels", hotelsRoute); //localhost:8800/api/hotels/default
 app.use("/api/auth",authRoute);
 app.use("/api/accounts",accountsRoute);
 app.use("/api/bookings",bookingRoute);
@@ -43,14 +43,12 @@ app.use((err,req,res,next)=>{
       stack:err.stack,
     })
 })
-
-
-
 // Functions Space
 
 // Don't touch anything below this
 const port = process.env.PORT;
 
+<<<<<<< HEAD
 if(process.env.NODE_ENV!=="test"){
   app.listen({port},() => {
       console.log(`Server running at http://localhost:${port}`)
@@ -61,3 +59,10 @@ export default app;
 
 
 
+=======
+app.listen({port},() => {
+  console.log(`Server running at http://localhost:${port}`)
+})
+
+export default app;
+>>>>>>> bc90fdd3a1ae6175bb16770c8437454407756729
