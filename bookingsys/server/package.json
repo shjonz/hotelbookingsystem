@@ -5,7 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -15,10 +16,27 @@
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
     "mongoose": "^7.3.1",
     "node-fetch": "^3.3.1",
     "nodemon": "^1.14.9",
     "stripe": "^12.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.9",
+    "@babel/node": "^7.22.6",
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "@types/jest": "^29.5.3",
+    "babel-jest": "^29.6.1",
+    "express": "^4.18.2",
+    "jest": "^29.6.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   }
 }

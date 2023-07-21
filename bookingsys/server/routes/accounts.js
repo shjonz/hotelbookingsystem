@@ -39,8 +39,9 @@ async function getAllAccounts(req, res, next) {
   try {
     const getAllAccounts = await Accounts.find({});
     res.getAllAccounts = getAllAccounts;
+    next()
   } catch (e) {res.send(e);}
-  next();
+ // next();
 }
 
 async function getAccount(req, res, next) {
