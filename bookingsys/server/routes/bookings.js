@@ -9,13 +9,8 @@ router.get("/", getAllBookings, (req, res) => {
     res.status(200).send(res.getAllBookings)
 })
 
-<<<<<<< Updated upstream
 // lol whoops
 router.get("/", getBooking, (req, res) => {
-=======
-// Get a single booking using the unique ID of the booking provided by Mongo.
-router.get("/one", getBooking, (req, res) => {
->>>>>>> Stashed changes
     res.status(200).send(res.getBooking)
 })
 
@@ -93,24 +88,4 @@ async function deleteBooking(req, res, next) {
     next();
 }
 
-<<<<<<< Updated upstream
-async function getBooking(req, res, next) {
-    try {
-        const getBooking = await Bookings.findById(req.query.uid)
-        res.getBooking = getBooking;
-    } catch (e) {res.send(e);}
-    next();
-}
-
-async function getBookingList(req, res, next) {
-    try {
-        const getBookingList = await Accounts.findById(req.query.uid)
-        res.getBookingList = getBookingList.bookingHistory
-    } catch (e) {res.send(e);}
-    next();
-}
-
-
-=======
->>>>>>> Stashed changes
 export default router;
