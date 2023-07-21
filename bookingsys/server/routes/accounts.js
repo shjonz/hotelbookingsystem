@@ -24,7 +24,7 @@ router.delete("/one", deleteAccount, (req, res) => {
 // password : a string password
 // bookingHistory : set this as [] for default
 router.post("/one", createAccount, (req, res) => {
-  res.status(201).send("Account succesfully created.")
+  res.status(201).send(res.newAccount)
 })
 
 // Updates an account with everything you put into the body. This works for emails passwords and name because why the heck should it not. Do note that this is specifically meant for bookingHistory, in which you put the _id (UID) of the booking made as an array. For example... 
@@ -77,6 +77,7 @@ async function createAccount(req, res, next) {
         bookingHistory: req.body.bookingHistory,
       })
       const success = await newAccount.save()
+      res.newAccount = newAccount
     } else {
       return res.status(409).send("Error 409: Email already Registered")
     }
