@@ -8,7 +8,6 @@ import Register from './views/register/Register';
 import Login from './views/login/Login';
 import Profile from './views/profile/Profile';
 
-
 import {
   BrowserRouter,
   Routes,
@@ -17,19 +16,20 @@ import {
 import Home from "./views/home/Home";
 
 
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path = "/" element={<Home/>}/>
         <Route path = "/hotels" element={<HotelsList/>}/>
-        <Route path = "/payment" element={<PaymentPage  />}/>
+        <Route path = "/payment" element={<PaymentPage />}/>
         <Route path = "/completion" element={<Completion/>}/>
         <Route path = "/hotels/:id" element={<Hotel/>}/>
         <Route path = "/profile" element={<Profile />} />
         <Route path = "/login" element = {<Login />} />
         <Route path = "/register" element = {<Register />} />
+
+
       </Routes>
     </BrowserRouter>
   );
