@@ -15,25 +15,25 @@ import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider
 const HotelsList = () => {
   //useRef is a value that persists after each render becoz inside react every single thing we do is only stored inside that render unless its part of our state
   //if we wanna store sth btwn renders tat isnt part of our state, need to useRef, gd for storing references to elements
-  const observer = useRef(); //need to get reference to last element, 
-  //useRef not part of our state, so it doesnt update every time state changes, so when our reference changes, it doesnt actly rerun our component, so we need useCallback
-  const lastElementRef = useCallback( node => {
-    if (loading) return 
-    if (observer.current) observer.current.disconnect() 
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
-        setPage
-      }
-    })
-    if (node ) observer.current.observe(node)
+  // const observer = useRef(); //need to get reference to last element, 
+  // //useRef not part of our state, so it doesnt update every time state changes, so when our reference changes, it doesnt actly rerun our component, so we need useCallback
+  // const lastElementRef = useCallback( node => {
+  //   if (loading) return 
+  //   if (observer.current) observer.current.disconnect() 
+  //   observer.current = new IntersectionObserver(entries => {
+  //     if (entries[0].isIntersecting && hasMore) {
+  //       setPage
+  //     }
+  //   })
+  //   if (node ) observer.current.observe(node)
 
-    //this is wtv current iteration of tat variable is, so if we hv an observer wat we do is disconnect the observer from the prev element, so our new last element 
-    //will be hooked up correctly coz we gonna reconnect it
-    console.log(' hotels list inside use callback ', node)
-  }, loading, hasMore );
+  //   //this is wtv current iteration of tat variable is, so if we hv an observer wat we do is disconnect the observer from the prev element, so our new last element 
+  //   //will be hooked up correctly coz we gonna reconnect it
+  //   console.log(' hotels list inside use callback ', node)
+  // }, loading, hasMore );
 
-  const batchSize = 100;
-  const [records, setRecords] = useState(employees.slice(0, batchSize));
+  // const batchSize = 100;
+  // const [records, setRecords] = useState(employees.slice(0, batchSize));
 
 
   //again go see how to use use States and useLocation()
@@ -68,23 +68,23 @@ const HotelsList = () => {
     setPoolChecked(!poolChecked);
   };
 
-  //infinite scrolling
-  const loadMoreRecords = () => {
-    if (records.length < employees.length) {
-      setLoading(true);
-      timeout = setTimeout(() => {
-        setRecords(employees.slice(0, records.length + batchSize));
-        setLoading(false);
-      }, 1000);
-    }
-  };
+  // //infinite scrolling
+  // const loadMoreRecords = () => {
+  //   if (records.length < employees.length) {
+  //     setLoading(true);
+  //     timeout = setTimeout(() => {
+  //       setRecords(employees.slice(0, records.length + batchSize));
+  //       setLoading(false);
+  //     }, 1000);
+  //   }
+  // };
 
-  //reset infinite scrolling
-  const reset = () => {
-    setRecords(employees.slice(0, batchSize));
-    // Make sure to scroll to top after resetting records
-    scrollViewportRef.current?.scrollTo(0, 0);
-  };
+  // //reset infinite scrolling
+  // const reset = () => {
+  //   setRecords(employees.slice(0, batchSize));
+  //   // Make sure to scroll to top after resetting records
+  //   scrollViewportRef.current?.scrollTo(0, 0);
+  // };
 
 
 

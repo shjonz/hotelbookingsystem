@@ -20,12 +20,14 @@ import hotelsRoute from "./routes/hotels.js";
 import authRoute from "./routes/auth.js";
 import accountsRoute from "./routes/accounts.js";
 import bookingRoute from "./routes/bookings.js";
+import stripeRoute from "./routes/stripe.js";
 
 app.use("/search", searchRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/auth",authRoute);
 app.use("/api/accounts",accountsRoute);
 app.use("/api/bookings",bookingRoute);
+app.use("/api/stripe", stripeRoute);
 
 app.use((err,req,res,next)=>{
     const errorStatus=err.status || 500
