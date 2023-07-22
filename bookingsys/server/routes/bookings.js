@@ -11,7 +11,6 @@ router.post('/create', createBooking, (req, res) => {
 
 router.get("/", getBooking, (req, res) => {
     res.status(200).send(res.getBooking)
-    console.log("get bookings");
 })
 
 // Get a user's booking data by giving their unique ID provided by Mongo.

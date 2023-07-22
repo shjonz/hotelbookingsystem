@@ -27,10 +27,43 @@ const Profile = () => {
     setChangesSaved(false); // Reset changesSaved state when entering edit mode
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     // Perform saving changes logic here
     setChangesSaved(true);
     setEditMode(false);
+
+    //prolly have to change this to useState eventually
+    const email = "cordtest@gmail.com";
+    const uid = '64ba4601fb292664fa578119'
+    const updates = {
+    //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
+    //  uid: "64ba4601fb292664fa578119",
+      name: fname,
+      email: email,
+      password: pass,
+    };
+  
+    try {
+      const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          updates
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Account successfully updated.");
+      } else {
+        console.error("Failed to update account. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error updating account:", error);
+    }
+  
+  
   };
 
   
@@ -46,6 +79,7 @@ const Profile = () => {
   //     .catch((error) => console.error('Error fetching bookings:', error));
   // }, []);
 
+  //useeffect to get account for bookings
   useEffect(() => {
     fetch('/api/bookings/id?uid=64b7b57c7ce93fc68ac620c3')
       .then((response) => response.json())
@@ -54,6 +88,27 @@ const Profile = () => {
         setBookings(data);
       })
       .catch((error) => console.error("Error fetching booking IDs:", error));
+  }, []);
+
+  const [profileData, setProfileData] = useState(null); // State to store the profile data
+
+  //useeffect to get cordtest account 
+  useEffect(() => {
+    fetch('/api/accounts/one?email=cordtest@gmail.com')
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Log the data received from the API
+
+
+        // Set the form fields using the initial data
+        setFname(data.name);
+      //  setLname(data.lname);
+        setEmail(data.email);
+      //  setPhone(data.phone);
+      //  setCountry(data.country);
+        setPass(data.password);
+      })
+      .catch((error) => console.error("Error fetching booking info:", error));
   }, []);
 
 //  const [users, setUsers] = useState([]);
