@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "../checkout/CheckoutForm";
+import CheckoutForm from "../../components/checkout/CheckoutForm";
 import { Elements } from "@stripe/react-stripe-js";
 
-function Payment() {
+
+
+function Payment(props) {
     const [stripePromise, setStripePromise] = useState(null);
     const [clientSecret, setClientSecret] = useState("");
 
     useEffect( () => {
-        fetch("/config").then(async (r) => {
+        fetch("api/stripe/config").then(async (r) => {
             const {publishableKey} = await r.json();
+            //console.log(' payment component /config ', publishableKey);
             setStripePromise(loadStripe(publishableKey));
         });
     }, [] )
 
     useEffect( () => {
-        fetch("/create-payment-intent", {
+        console.log(' inside payment component use effect ');
+        fetch("api/stripe/create-payment-intent", {
             method: "POST",
             body: JSON.stringify({}),
         }).then(async (r) => {
             const {clientSecret} = await r.json();
-            setClientSecret(clientSecret)
+            //console.log(' inside payment component ', clientSecret);
+            setClientSecret(clientSecret);
         });
-    }, [] )
+    }, [] );
 
     return (
         <>
