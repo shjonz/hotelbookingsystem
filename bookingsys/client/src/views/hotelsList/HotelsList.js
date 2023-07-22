@@ -3,13 +3,12 @@ import "./hotelsList.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import Search from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
 import FetchSearch from '../../hooks/FetchSearch';
-import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 
 const HotelsList = () => {
@@ -32,8 +31,19 @@ const HotelsList = () => {
   //   console.log(' hotels list inside use callback ', node)
   // }, loading, hasMore );
 
-  // const batchSize = 100;
-  // const [records, setRecords] = useState(employees.slice(0, batchSize));
+  //infinite scrolling
+  // const batchSize = 10;
+  // const [records, setRecords] = useState([]);
+  // const scrollViewportRef = useRef<HTMLDivElement>(null);
+  // let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  //infinite scroll
+  // Clear timeout on unmount
+  // useEffect(() => {
+  //   return () => {
+  //     if (timeout) clearTimeout(timeout);
+  //   };
+  // }, [timeout]);
 
 
   //again go see how to use use States and useLocation()
@@ -51,8 +61,8 @@ const HotelsList = () => {
   // const [max, setMax] = useState(undefined);
 
   //this is just to check that my data from localhost:3000 when i press the search bar, information should carry over, if it doesnt means somethings wrong
-  console.log("location ,destination ", location, " ", destination, " ", dest_id);
-  console.log(' check dates ', destination, date[0].startDate, date[0].endDate, options.adult);
+  //console.log("location ,destination ", location, " ", destination, " ", dest_id);
+  //console.log(' check dates ', destination, date[0].startDate, date[0].endDate, options.adult);
 
   //JDs filter search for facilities ==========================================
   const [wifiChecked, setWifiChecked] = useState(false);
@@ -68,20 +78,21 @@ const HotelsList = () => {
     setPoolChecked(!poolChecked);
   };
 
-  // //infinite scrolling
+  //infinite scrolling
   // const loadMoreRecords = () => {
-  //   if (records.length < employees.length) {
+  //   console.log(' inside load more records ', records);
+  //   if (records.length < data.length) {
   //     setLoading(true);
   //     timeout = setTimeout(() => {
-  //       setRecords(employees.slice(0, records.length + batchSize));
+  //       setRecords(data.slice(0, records.length + batchSize));
   //       setLoading(false);
   //     }, 1000);
   //   }
   // };
 
-  // //reset infinite scrolling
+  //reset infinite scrolling
   // const reset = () => {
-  //   setRecords(employees.slice(0, batchSize));
+  //   setRecords(data.slice(0, batchSize));
   //   // Make sure to scroll to top after resetting records
   //   scrollViewportRef.current?.scrollTo(0, 0);
   // };
@@ -97,14 +108,17 @@ const HotelsList = () => {
     try {
         const start_date = format(date[0].startDate,"yyyy-MM-dd");
         const end_date = format(date[0].endDate,"yyyy-MM-dd");
-        console.log(' use effet on header component ' , start_date, end_date);
+        //console.log(' use effet on header component ' , start_date, end_date);
          //fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1`)
          fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=${start_date}&checkout=${end_date}&lang=en_US&currency=SGD&guests=2&partner_id=1`)
         .then(
             response => response.json()
         ).then(data => {
-            console.log('inside use effect fetch ', data);
+            //console.log('inside use effect fetch ', data);
             setData(data);
+            //setRecords( data.slice(0, batchSize) );
+            console.log( ' inside use effect fetch data ',data );
+            //console.log(' inside use effect fetch records ' , records);
         });
     } catch (err) {
       console.log(' use effect error');
@@ -112,12 +126,12 @@ const HotelsList = () => {
     setLoading(false);
     
     }, [])
-    console.log('use effect has collected data ', data);
+    //console.log('use effect has collected data, records ', data, records);
   
 
   //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
   const handleClick  = () => {
-    console.log("location ,destination ", location, " ", destination);
+    //console.log("location ,destination ", location, " ", destination);
     console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
 
@@ -258,16 +272,30 @@ const HotelsList = () => {
           
         
 
-          <div className="listResult">
+          <div className="listResult"  >
           {loading ? (
               "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
             ) : (
               <>
                 {data.map((item) => (
-                  <Search item={item} key={item.id} />
+                  <Search  item={item} key={item.id} />
                 ))}
               </>
             )}
+            
+            {/* {loading ? (
+              "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
+            ) : (
+              <>
+              { 
+              records.map( (item) => (
+                
+                <Search item = {item} key={item.id} />
+              ) ) 
+              }
+              </>
+            )} */}
+
           </div>
 
         </div>

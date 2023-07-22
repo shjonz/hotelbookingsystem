@@ -1,4 +1,5 @@
-import "./hotelRoom.css"
+import "./hotelRoom.css";
+import {Link } from "react-router-dom";
 
 export const HotelRoom = () => {
   return (
@@ -25,7 +26,10 @@ export const HotelRoom = () => {
         <div className="hrDetailTexts">
             <span className="hrPrice">$123</span>
             <div className="hrTaxOp">Includes GST</div>
+            <Link to={`/payment`}>
             <button className="hrCheckButton">Book Now</button>
+            </Link>
+            
         </div>
     </div>
     </div>
