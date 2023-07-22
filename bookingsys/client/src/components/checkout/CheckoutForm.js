@@ -28,7 +28,6 @@ export default function CheckoutForm() {
       },
       redirect: "if_required",
     });
-    //console.log( 'after return url ', return_url); 
 
     if (error) {
         setMessage(error.message);
