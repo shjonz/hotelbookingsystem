@@ -15,7 +15,13 @@ export const HotelRoom = ({item}) => {
         <div className="hrDesc">
             <h1 className="hrTitle">{item.roomDescription}</h1>
             <div className="hrFeatures">
-              
+              <span>Amenities:
+              <ul>
+      {item.amenities.map((amenity, index) => (
+        <li key={index}>{amenity}</li>
+      ))}
+    </ul>
+              </span>
             </div>
             <div className="hrCancelOp">{item.free_cancellation ? (
             <span className="YesCancel">Free Cancellation Available</span>

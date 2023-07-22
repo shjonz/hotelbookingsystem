@@ -1,7 +1,6 @@
 .listContainer {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .listWrapper {
@@ -20,7 +19,6 @@
   background-color: lightblue;
   padding: 10px;
   border-radius: 10px;
-  top: 10px;
   height: max-content;
 }
 
@@ -149,4 +147,16 @@
 
 .checkboxes input[type="checkbox"] {
   margin-right: 5px;
+}
+
+.hotelAvail {
+  font-size: 40px;
+  color: red;
+  font-weight: bold;
+}
+
+.hotelLoading {
+  font-size: 40px;
+  color: #003580;
+  font-weight: bold;
 }

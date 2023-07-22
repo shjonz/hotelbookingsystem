@@ -73,9 +73,7 @@
     margin-top: 20px;
 }
 
-.hotelDetailsTexts{
-    flex: 3;
-}
+
 
 .hotelDesc{
     font-size: 14px;
@@ -91,4 +89,5 @@
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 20px;
+    font-weight: bold;
 }

@@ -16,6 +16,11 @@ const Hotel = () => {
     const [loading, setLoading] = useState(false);
     const [data1, setData1] = useState([]);
     const [data2, setData2] = useState([])
+
+    const openGoogleMaps = (address) => {
+        const mapUrl = `https://www.google.com/maps/place/${address}`;
+        window.open(mapUrl, '_blank');
+      };
     
 
     useEffect( () => {
@@ -49,8 +54,7 @@ const Hotel = () => {
         
         }, [])
 
-    const photos = 
-        data2.rooms[2].images;
+    // const photos = data2.rooms[2].images;
 
     const roomListRef = useRef(null);
 
@@ -74,18 +78,21 @@ const Hotel = () => {
                     {data1.name}
                 </h1>
                 <div className="hotelAddress">
-                    <span>{data1.address}</span>
+                    <span
+                    onClick={() => openGoogleMaps(data1.address)}>
+                        {data1.address}
+                        </span>
                 </div>
                 <div className="hotelImages">
-                    {photos.map(photo=>(
+                    {/* {photos.map(photo=>(
                         <div className="hotelImgWrapper">
                             <img src={photo.url} alt="" className="hotelImg" />
                         </div>
-                    ))}
+                    ))} */}
                 </div>
                 <div className="hotelDetails">
                     <div className="hotelDetailsTexts">
-                        <h1 className="hotelTitle">Hotel Description</h1>
+                        <h1 className="hotelDescTitle">Hotel Description</h1>
                         <p className="hotelDesc">
                         {renderedHTML}
                         </p>

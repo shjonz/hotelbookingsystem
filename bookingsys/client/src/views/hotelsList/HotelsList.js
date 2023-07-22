@@ -13,6 +13,7 @@ import destdata from "../../dest.json";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 import { SearchContext } from '../../context/SearchContext';
 
+
 const HotelsList = () => {
   const {uid, dest_id, date, guests, lang, currency, partner_id,} = useContext(SearchContext);
 
@@ -22,12 +23,13 @@ const HotelsList = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const setDate = useState(date)
+  const [hotelNameFilter, setHotelNameFilter] = useState("");
  
   //@John-David-Tan this for u to edit
   const [min, setMin] = useState(1);
-  const [max, setMax] = useState(10000);
+  const [max, setMax] = useState(2500);
 
   const handlePriceRangeChange = ({ min, max }) => {
     setMin(min);
@@ -91,16 +93,27 @@ const HotelsList = () => {
     }
   };
   
-  const sortedHotels = data.sort(sortBySearchRank);
   
   // Filter the hotels based on the current min and max prices
   const filteredHotels = data.filter((hotel) => {
-    if (hotel.price !== undefined) {
-      return hotel.price >= min && hotel.price <= max;
-    }
-    // If the hotel has no price, include it in the filtered results
-    return true;
+    // Check if hotel name contains the filter input (case-insensitive)
+    const isNameFiltered =
+  hotel.name &&
+  (hotelNameFilter.trim() === "" || hotel.name.toLowerCase().includes(hotelNameFilter.trim().toLowerCase()));
+
+  
+    // Check if hotel price is within the filter range
+    const isPriceFiltered =
+      hotel.price !== undefined && hotel.price >= min && hotel.price <= max;
+  
+    // Return true if both name and price filters match or if both filters are not applied
+
+    return (isNameFiltered && isPriceFiltered) ;
   });
+
+
+  const sortedHotels = filteredHotels.sort(sortBySearchRank);
+  console.log("sorted", sortedHotels)
 
   return (
     <div>
@@ -180,7 +193,11 @@ const HotelsList = () => {
             <h1 className="lsTitle">Filter</h1>
             <div className="lsItem">
             <label>Hotel</label>
-            <input placeholder="Hotel" type="text"/>
+            <input placeholder="Hotel"
+                type="text"
+                value={hotelNameFilter}
+                onChange={(e) => setHotelNameFilter(e.target.value)}
+            />
           </div>
 
 
@@ -189,51 +206,27 @@ const HotelsList = () => {
             <div className="priceRangeSlider">
               <MultiRangeSlider
                 min={0}
-                max={1000}
+                max={2500}
                 onChange={handlePriceRangeChange}
               /> 
             </div>
           </div>
-
-
-          {/* <div className="lsItem">
-            <div className="checkboxes">
-            <label>Amenities</label>
-            <label htmlFor="wifi">
-            <input
-              type="checkbox"
-              id="wifi"
-              checked={wifiChecked}
-              onChange={handleWifiChange}
-              />
-            Free Wifi
-            </label>
-            <label htmlFor="pool">
-            <input
-              type="checkbox"
-              id="pool"
-              checked={poolChecked}
-              onChange={handlePoolChange}
-            />
-            Swimming Pool
-            </label>
-            </div>
-          </div> */}
           </div>
           
           
         </div>
+
         <div className="listResult">
-          {loading ? (
-              "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-            ) : (
-              <>
-                {filteredHotels.map((item) => (
-                  <Search item={item} key={item.id} />
-                ))}
-              </>
-            )}
-          </div>
+          {loading ? 
+            (<p className='hotelLoading'>Loading</p>) // over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
+            : (sortedHotels.length > 0 ? (
+            sortedHotels.map((item) => <Search item={item} key={item.id} />)
+          ) : (
+            <p className='hotelAvail'>No available hotels</p>
+        ))}
+        </div>
+
+
       </div>
     </div>
   );

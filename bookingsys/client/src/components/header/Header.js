@@ -84,12 +84,13 @@ const Header = ({type}) => {
     //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
     const fetchData = (value) => {
         try {
-
+            console.log("string", value);
             fetch(`/search?name=${value}`)
             .then( (response) => response.json() )
             .then( (data) => {
 
                 const results = data.filter( (item) => {
+                    console.log(item.name);
                     return (
                     value && 
                     item && 
@@ -97,7 +98,7 @@ const Header = ({type}) => {
                     //item.name.toLowerCase().includes(value.toLowerCase())
                     );
                 });
-
+                
                 setDropdownList(results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
