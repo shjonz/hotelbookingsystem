@@ -58,6 +58,10 @@
   cursor: pointer;
 }
 
+.loginregister {
+  color: blue;
+}
+
 .navButton:first-child {
   margin-left: 0;
 }
