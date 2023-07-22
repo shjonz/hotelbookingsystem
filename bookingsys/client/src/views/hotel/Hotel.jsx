@@ -3,9 +3,37 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./Hotel.css"
 import { HotelRoom } from "../../components/hotelRoom/HotelRoom";
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 
 const Hotel = () => {
+    const location = useLocation();
+    console.log('location ', location);
+    const id = location.pathname.split("/"[0]);
+    console.log(' id ', id[2]);
+    const id_f = id[2];
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+
+    useEffect( () => {
+        setLoading(true);
+        try {
+          console.log(' use effet on header component for room ' );
+             fetch(`/api/hotels/default/${id_f}`)
+            .then(
+                response => response.json()
+            ).then(data => {
+                console.log('inside use effect fetch ', data);
+                setData(data);
+            })
+        } catch (err) {
+          console.log(' use effect error');
+        }
+        setLoading(false);
+        
+        }, [])
+        console.log('use effect has collected data ', data);
+
     const photos = [
         {src: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/6b/92/premier-room.jpg?w=1200&h=-1&s=1"},
         {src: "https://q-xx.bstatic.com/xdata/images/hotel/max500/296671071.jpg?k=c83823a117e31ede0486d94d1a686525bdae0c5378b1aa079752fa8da12658f2&o=" },
@@ -24,14 +52,15 @@ const Hotel = () => {
     <div>
         <Navbar/>
         <Header type="list"/>
+        { loading ? "loading" : (
         <div className="hotelContainer">
             <div className="hotelWrapper">
               <button className="bookNow" onClick={scrollToRoomList}>Book Now</button>
                 <h1 className="hotelTitle">
-                    Marina Bay Sands
+                    {data.name}
                 </h1>
                 <div className="hotelAddress">
-                    <span>Somapah Road 12345 Singapore</span>
+                    <span>{data.address}</span>
                 </div>
                 <span className="hotelDistance">
                     Excellent location - 500m from center
@@ -50,7 +79,7 @@ const Hotel = () => {
                     <div className="hotelDetailsTexts">
                         <h1 className="hotelTitle">Words Words Words Words Words Words Words</h1>
                         <p className="hotelDesc">
-                        Words Words Words Words Words Words Words Words Words Words Words Words
+                        {data.description}
                         </p>
                     </div>
                     <div className="hotelDetailsExtra"><h1>
@@ -66,7 +95,7 @@ const Hotel = () => {
                             <HotelRoom/>
                         </div>
             </div>
-        </div>
+        </div> ) }
         <Footer/>
     </div>
   )
