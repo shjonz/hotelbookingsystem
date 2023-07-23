@@ -24,7 +24,6 @@ import Row from 'react-bootstrap/Row';
 
 
 const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink }) => (
-
     <Card style={{ width: "18rem" }}>
       <Card.Img variant="top" src={imageSrc} />
       <Card.Body>
@@ -38,18 +37,30 @@ const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink }
     </Card>
   );
 
+  
+
 const ProfileCard = ({ bookingId }) => {
+  console.log("bookingId:", bookingId);
   const [bookingData, setBookingData] = useState(null);
 
   useEffect(() => {
-    fetch(`/api/bookings/?uid=${bookingId}`)
+    console.log('got it', bookingId, bookingData);
+    fetch(`/api/bookings/one?uid=${bookingId}`)
+    
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // Log the data received from the API
+        
         setBookingData(data);
+        console.log('here', bookingData); // Log the data received from the API
       })
       .catch((error) => console.error("Error fetching booking details:", error));
   }, [bookingId]);
+
+  useEffect(() => {
+    console.log('here', bookingData); // Log the updated bookingData state
+  }, [bookingData]);
+
+
 
   return (
     <div>

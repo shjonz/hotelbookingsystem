@@ -1,8 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-//import Payment from "../client/src/components/payment/Payment.js";
-dotenv.config();
+dotenv.config()
 
 const app = express();
 
@@ -15,7 +14,6 @@ db.once('open', (error) => console.log("Connected to Database"));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-
 
 import searchRoute from "./routes/search.js";
 import hotelsRoute from "./routes/hotels.js";
@@ -42,13 +40,15 @@ app.use((err,req,res,next)=>{
     })
 })
 
-
-
 // Functions Space
 
 // Don't touch anything below this
 const port = process.env.PORT;
 
-app.listen({port},() => {
-  console.log(`Server running at http://localhost:${port}`)
-})
+export default app;
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen({port},() => {
+    console.log(`Server running at http://localhost:${port}`)
+  })
+}

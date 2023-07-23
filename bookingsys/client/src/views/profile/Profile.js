@@ -81,7 +81,8 @@ const Profile = () => {
 
   //useeffect to get account for bookings
   useEffect(() => {
-    fetch('/api/bookings/id?uid=64b7b57c7ce93fc68ac620c3')
+    //fetch('/api/bookings/id?uid=64b7b57c7ce93fc68ac620c3') this is ilovecutepeople
+    fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f') //this is jon (getting his booking history)
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Log the data received from the API
@@ -94,7 +95,7 @@ const Profile = () => {
 
   //useeffect to get cordtest account 
   useEffect(() => {
-    fetch('/api/accounts/one?email=cordtest@gmail.com')
+    fetch('/api/accounts/one?email=jon@gmail.com')
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // Log the data received from the API
@@ -112,8 +113,6 @@ const Profile = () => {
   }, []);
 
 //  const [users, setUsers] = useState([]);
-
-  console.log(bookings);
   return (
     <div>
       <Navbar />

@@ -3,28 +3,49 @@ import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/Footer/Footer";
 import "./Hotel.css"
 import { HotelRoom } from "../../components/hotelRoom/HotelRoom";
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { useLocation } from "react-router-dom";
+import { format } from "date-fns";
+import { SearchContext } from "../../context/SearchContext";
 
 const Hotel = () => {
+    const {uid, dest_id, date, guests, lang, currency, partner_id} = useContext(SearchContext);
+
+
     const location = useLocation();
-    console.log('location ', location);
-    const id = location.pathname.split("/"[0]);
-    console.log(' id ', id[2]);
-    const id_f = id[2];
     const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
+    const [data2, setData2] = useState([])
+
+    const openGoogleMaps = (address) => {
+        const mapUrl = `https://www.google.com/maps/place/${address}`;
+        window.open(mapUrl, '_blank');
+      };
+    
 
     useEffect( () => {
         setLoading(true);
         try {
-          console.log(' use effet on header component for room ' );
-             fetch(`/api/hotels/default/${id_f}`)
-            .then(
-                response => response.json()
-            ).then(data => {
-                console.log('inside use effect fetch ', data);
-                setData(data);
+            // console.log("payload", uid, dest_id, date, guests, lang, currency, partner_id)
+
+            // const sDate = format(date[0].startDate, "yyyy-MM-dd");
+            // const eDate = format(date[0].endDate, "yyyy-MM-dd");
+
+            const url1 = `/api/hotels/default/${uid}`
+            const fetchFile1 = fetch(url1)
+
+            const url2 = `/api/hotels/price?uid=${uid}&destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+
+            const fetchFile2 = fetch(url2);
+            
+            Promise.all([fetchFile1, fetchFile2])
+            .then((responses) => Promise.all(responses.map((res) => res.json())))
+            .then((data) => {
+              const [file1Data, file2Data] = data;
+              setData1(file1Data);
+              setData2(file2Data);
+              console.log('Data from file 1:', file1Data);
+              console.log('Data from file 2:', file2Data);
             })
         } catch (err) {
           console.log(' use effect error');
@@ -32,22 +53,19 @@ const Hotel = () => {
         setLoading(false);
         
         }, [])
-        console.log('use effect has collected data ', data);
 
-    const photos = [
-        {src: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/cc/6b/92/premier-room.jpg?w=1200&h=-1&s=1"},
-        {src: "https://q-xx.bstatic.com/xdata/images/hotel/max500/296671071.jpg?k=c83823a117e31ede0486d94d1a686525bdae0c5378b1aa079752fa8da12658f2&o=" },
-        {src: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/296669707.jpg?k=d429f46f694f300cb1bc9b5118ece25b7604c564f46160a08d4795bee760013f&o=&hp=1"},
-        {src: "https://www.marinabaysands.com/content/dam/marinabaysands/hotel/premiere-room/masthead.png"},
-        {src: "https://i0.wp.com/www.springtomorrow.com/wp-content/uploads/2022/05/Marina-Bay-Sands-1.jpg?ssl=1"},
-        {src: "https://annaeverywhere.com/wp-content/uploads/2014/12/DSC00749.jpg"}
-    ];
+    // const photos = data2.rooms[2].images;
 
     const roomListRef = useRef(null);
 
     const scrollToRoomList = () => {
     roomListRef.current.scrollIntoView({ behavior: 'smooth' });
     };
+
+    // const desc = data.description.split(/<[^>]+>/g).filter((text) => text.trim() !== "")
+    const renderedHTML = <div dangerouslySetInnerHTML={{ __html: data1.description }} />;
+
+    
   return (
     <div>
         <Navbar/>
@@ -57,43 +75,54 @@ const Hotel = () => {
             <div className="hotelWrapper">
               <button className="bookNow" onClick={scrollToRoomList}>Book Now</button>
                 <h1 className="hotelTitle">
-                    {data.name}
+                    {data1.name}
                 </h1>
                 <div className="hotelAddress">
-                    <span>{data.address}</span>
+                    <span
+                    onClick={() => openGoogleMaps(data1.address)}>
+                        {data1.address}
+                        </span>
                 </div>
-                <span className="hotelDistance">
-                    Excellent location - 500m from center
-                </span>
-                <span className="hotelPriceHighlight">
-                    Book a stay over $114 at this property and get a free airport taxi
-                </span>
                 <div className="hotelImages">
-                    {photos.map(photo=>(
+                    {/* {photos.map(photo=>(
                         <div className="hotelImgWrapper">
-                            <img src={photo.src} alt="" className="hotelImg" />
+                            <img src={photo.url} alt="" className="hotelImg" />
                         </div>
-                    ))}
+                    ))} */}
                 </div>
                 <div className="hotelDetails">
                     <div className="hotelDetailsTexts">
-                        <h1 className="hotelTitle">Words Words Words Words Words Words Words</h1>
+                        <h1 className="hotelDescTitle">Hotel Description</h1>
                         <p className="hotelDesc">
-                        {data.description}
+                        {renderedHTML}
                         </p>
                     </div>
                     <div className="hotelDetailsExtra"><h1>
-                    Words Words Words Words Words
+                    Amenities
                         </h1>
-                        <span>
-                        Words Words Words Words Words Words Words Words Words Words Words Words
-                        </span>
+                    
+                    {Object.entries(data1).map(([key,value]) =>{
+                        if (key === "amenities") {
+                            return (
+                                <div>{Object.entries(value).map(([amen,bool]) =>{
+                                    return (
+                                        <div>{amen}</div>
+                                    );
+                                })}</div>
+                            );
+                        }
+                    })}
+
                       </div>
                 </div>
                 <div ref={roomListRef} className="roomList">
-                            <HotelRoom/>
-                            <HotelRoom/>
-                        </div>
+                {data2.rooms &&
+                data2.rooms.map((item) => (
+                    <HotelRoom key={item.key} item={item}/>
+                ))}
+                 
+            {!data2.rooms && <div className="roomAvail"> No rooms available.</div>}
+                </div>
             </div>
         </div> ) }
         <Footer/>

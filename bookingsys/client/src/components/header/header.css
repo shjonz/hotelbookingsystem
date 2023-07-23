@@ -1,10 +1,9 @@
-
 .dropdown {
-    background-color: white;
-    display: flex;
     flex-direction: column;
+    background-color: white;
     border: 1px solid gray;
     color: green;
+    position: absolute;
 }
   
 .dropdown:empty {
@@ -13,21 +12,25 @@
   
 .dropdown-row {
     cursor: pointer;
-    text-align: start;
     margin: 2px 0;
+    width: max-content;
 }
 
 .header {
-    color: white;
+    color: black;
     width: 100%;
-    height: 600px;
+    height: 800px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-bottom: 20px;
 }
 
 .headerContainer {
-    padding-left: 60%;
+    padding-left: 10%;
     padding-top: 5%;
     width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 .destinationorhotel {
@@ -38,11 +41,13 @@
     background-color: white;
     border: 3px solid #febb02;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 50vh;
-    width: 30vw;
+    position: absolute; 
+    width: 300px;
+    justify-content: space-around;
+    gap: 50px;
+    z-index: 1;
 }
 
 .headerIcon {
@@ -53,8 +58,6 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-    margin-top: 10%;
-    margin-bottom: 10%;
 }
 
 .headerSearchInput {
@@ -63,12 +66,16 @@
     border-radius: 5px;
     width: 80%;
     margin-left: 10%;
-
 }
 
 .headerSearchItem2 {
     width: 100%;
 }
+
+.date {
+    position: absolute;
+    margin-left: 50px;
+} 
 
 .headerSearchText1 {
     border: 3px solid black;
@@ -88,11 +95,48 @@
     width: 100%;
 }
 
-.date {
-    display: None;
+.options {
+    background-color: white;
+    color: gray;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0);
+    box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.4); 
+    width: max-content;
+    position: absolute;
+    margin-left: 300px;
+} 
+    
+
+.optionItem {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.optionCounter {
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: black;
+}
+
+.optionCounterButton {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #0071c2;
+    cursor: pointer;
+    color: #0071c2;
+    background-color: white;
+
+}
+
+.optionCounterButton:disabled {
+    cursor: not-allowed;
 } 
 
- .headerButton{
+
+.headerButton{
     padding: 10px;
     background-color: #0071c2;
     color: black;
@@ -102,174 +146,3 @@
     font-weight: 500;
     cursor: pointer;
   }
-
-
-/* .options {
-    background-color: white;
-    color: gray;
-    border-radius: 5px;
-    /* -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0);
-    box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.4); 
-} */
-    
-
-/* .optionItem {
-    width: 200px;
-    justify-content: space-between;
-    margin: 10px;
-}
-
-.optionCounter {
-    align-items: center;
-    gap: 10px;
-    font-size: 12;
-    color: black;
-}
-
-.optionCounterButton {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #0071c2;
-    cursor: pointer;
-    color: #0071c2;
-    background-color: white;
-
-}
-
-.optionCounterButton:disabled {
-    cursor: not-allowed;
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-.header {
-    display: flex;
-    color: white;
-    justify-content: center;
-    width: 100%;
-    height: 600px;
-    position: relative;
-}
-
-.headerContainer {
-    width: 100%;
-    
-}
-
-.headerContainer.listMode {
-    
-}
-
-.headerSearch {
-    background-color: white;
-    border: 3px solid #febb02;
-    position: absolute;
-    top: 10%;
-    right: 10%;
-    left: 60%;
-    bottom: 60%;
-    height: 80%;
-    width: 20%;
-}
-
-.headerIcon {
-    color: lightgray;
-}
-
-.headerSearch {
-    
-
-}
-
-.headerSearchItem1 {
-
-}
-
-.headerSearchInput {
-    border: 3px solid;
-    color: black;
-}
-
-.headerSearchItem2 {
-    
-    position: relative;
-    
-}
-
-.headerSearchText {
-    border: 3px solid black;
-    color: black;
-    
-}
-
-.date {
-    position: absolute;
-    display: None;
-    right: 20%;
-    top: 20%;
-    z-index: 2;
-}
-
-.headerSearchItem3 {
-    
-}
-
-.options {
-    background-color: white;
-    color: gray;
-    border-radius: 5px;
-    /* -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0);
-    box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.4); */
-    /* z-index: 2;
-    position: absolute;
-    right: 22%;
-    top: 62%;
-}
-
-.optionItem {
-    width: 200px;
-    /*display: flex;*/
-    /* justify-content: space-between;
-    margin: 10px;
-}
-
-.optionCounter {
-    /*display: flex;*/
-    /* align-items: center;
-    gap: 10px;
-    font-size: 12;
-    color: black;
-}
-
-.optionCounterButton {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #0071c2;
-    cursor: pointer;
-    color: #0071c2;
-    background-color: white;
-
-}
-
-.optionCounterButton:disabled {
-    cursor: not-allowed;
-}
-
-.headerSearchItem4 {
-    
-}
-
-.headerButton {
-    border: 3px solid black;
-} */
-

@@ -10,7 +10,6 @@ router.get("/", getAllAccounts, (req, res) => {
 
 // Gets one account using the email of the user. Does not return multiple and only returns the most popular, so if there is somehow duplicate (which there shouldn't be cos I changed the create below, then it'll only return the "most popular" one.)
 router.get("/one", getAccount, (req, res) => {
-//  console.log('get account')
   res.status(200).send(res.getAccount)
 })
 
@@ -31,7 +30,6 @@ router.post("/one", createAccount, (req, res) => {
 // Updates an account with everything you put into the body. This works for emails passwords and name because why the heck should it not. Do note that this is specifically meant for bookingHistory, in which you put the _id (UID) of the booking made as an array. For example... 
 // bookingHistory : ["64b7b57c7ce93fc68ac620c3"] ** Note that this doesn't check for valid bookings, not that it should be used without confirming a booking's UID.
 router.patch("/one", updateAccount, (req, res) => {
-  console.log('help lah')
   res.status(200).send("Account successfully updated.")
 })
 
@@ -90,7 +88,6 @@ async function createAccount(req, res, next) {
 async function updateAccount(req, res, next) {
   try {
     const accountValidity = await Accounts.findOneAndUpdate({_id: req.body.uid}, req.body)
-    console.log('trying to update', req.body)
     if (accountValidity == null) {
       return res.status(409).send("Error 404: Account not found")
     }

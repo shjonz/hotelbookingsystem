@@ -27,14 +27,17 @@
 }
 
 .hotelTitle{
-    font-size: 24px;
+    font-size: 48px;
+    font-weight: bold;
 }
 
 .hotelAddress{
-    font-size: 12px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
+    color: #0071c2;
 }
 
 .hotelDistance{
@@ -70,9 +73,6 @@
     margin-top: 20px;
 }
 
-.hotelDetailsTexts{
-    flex: 3;
-}
 
 .hotelDesc{
     font-size: 14px;
@@ -81,4 +81,12 @@
 
 .hotelDetailsExtra{
     flex: 1;
+}
+
+.roomAvail {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }

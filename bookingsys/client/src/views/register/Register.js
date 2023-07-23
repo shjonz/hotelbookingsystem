@@ -1,55 +1,78 @@
 import Navbar from "../../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "../login/Login.css";
 import { Link } from 'react-router-dom';
 
 
 const Register = () => {
-
 // React States
 const [errorMessages, setErrorMessages] = useState({});
 const [isSubmitted, setIsSubmitted] = useState(false);
+const [accounts, setAccounts] = useState([]);
 
 // User Login info
-const database = [
-  {
-    username: "user1",
-    password: "pass1"
-  },
-  {
-    username: "user2",
-    password: "pass2"
-  }
-];
+useEffect(() => {
+  const fetchAccounts = async() => {
+    try {
+      const response = await fetch('/api/accounts');
+      if (response.ok){
+        const data = await response.json();
+        setAccounts(data);
+        console.log("data", data)
+      }
+      else {
+        throw new Error('Failed to fetch accounts');
+      }
+    }
+    catch (err) {
+      console.error(err)
+    }
+  };
+  fetchAccounts();
+}, []);
 
 const errors = {
   uname: "invalid username",
-  pass: "invalid password"
+  pass: "invalid password",
+  email: "invalid email",
+  exist: "account already exists"
 };
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   //Prevent page reload
   event.preventDefault();
 
-  var { uname, pass } = document.forms[0];
+  var form = document.forms[0];
+  const uname = form.uname.value;
+  const pass = form.pass.value;
+  const email = form.email.value;
+  
 
-  // Find user login info
-  const userData = database.find((user) => user.username === uname.value);
-
-  // Compare user info
-  if (userData) {
-    if (userData.password !== pass.value) {
-      // Invalid password
-      setErrorMessages({ name: "pass", message: errors.pass });
-    } else {
+  try {
+    const response = await fetch('/api/accounts/one', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: uname,
+        email: email,
+        password: pass,
+        bookingHistory: []
+      }),
+    });
+    if (response.ok){
       setIsSubmitted(true);
     }
-  } else {
-    // Username not found
-    setErrorMessages({ name: "uname", message: errors.uname });
+    else{
+      setErrorMessages({name: "email", message: errors.exist})
+      throw new Error("Failed to register")
+    } 
+  } catch (err) {
+    console.error(err)
   }
-};
+  }
 
 // Generate JSX code for error message
 const renderErrorMessage = (name) =>
@@ -77,7 +100,7 @@ const renderForm = (
       <div className="input-container">
         <label>Email </label>
         <input type="text" name="email" required />
-        {renderErrorMessage("pass")}
+        {renderErrorMessage("email")}
       </div>
 
       <div className="button-container">
