@@ -57,7 +57,7 @@ const ProfileCard = ({ bookingId }) => {
   }, [bookingId]);
 
   useEffect(() => {
-    console.log('here', bookingData); // Log the updated bookingData state
+  //  console.log('here', bookingData); // Log the updated bookingData state
   }, [bookingData]);
 
 

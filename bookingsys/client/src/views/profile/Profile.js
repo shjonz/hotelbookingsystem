@@ -11,6 +11,7 @@ import mbs from '../../components/images/mbs.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileCard from '../../components/profilePage/ProfileCard.js'
 import FormField from '../../components/profilePage/ProfileForm.js'
+import uname from '../login/Login.js'
 
 const Profile = () => {
   const [fname, setFname] = useState("");
@@ -33,24 +34,28 @@ const Profile = () => {
     setEditMode(false);
 
     //prolly have to change this to useState eventually
-    const email = "cordtest@gmail.com";
-    const uid = '64ba4601fb292664fa578119'
-    const updates = {
-    //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
-    //  uid: "64ba4601fb292664fa578119",
-      name: fname,
-      email: email,
-      password: pass,
-    };
+    // const email = "cordtest@gmail.com";
+    // const uid = '64ba4601fb292664fa578119'
+    // const updates = {
+    // //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
+    //   uid: "64ba4601fb292664fa578119",
+    //   name: fname,
+    //   email: email,
+    //   password: pass,
+    // };
   
+    //try to update profile
     try {
-      const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', {
+      const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', { //currently hardcoded, have to change to fit the logged in user 
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          updates
+          uid: "64ba4601fb292664fa578119",
+          name: fname,
+          email: email,
+          password: pass
         }),
       });
   
@@ -81,8 +86,8 @@ const Profile = () => {
 
   //useeffect to get account for bookings
   useEffect(() => {
-    //fetch('/api/bookings/id?uid=64b7b57c7ce93fc68ac620c3') this is ilovecutepeople
     fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f') //this is jon (getting his booking history)
+
       .then((response) => response.json())
       .then((data) => {
         console.log(data); // Log the data received from the API
@@ -93,9 +98,11 @@ const Profile = () => {
 
   const [profileData, setProfileData] = useState(null); // State to store the profile data
 
-  //useeffect to get cordtest account 
+  //useeffect to get account for profile info
   useEffect(() => {
-    fetch('/api/accounts/one?email=jon@gmail.com')
+  //  fetch('/api/accounts/one?email=jon@gmail.com') 
+    fetch('/api/accounts/one?email=cordtest@mymail.com') 
+  //  fetch(`/api/accounts/one?email=${uname.value}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // Log the data received from the API
