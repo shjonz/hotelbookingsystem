@@ -1,15 +1,17 @@
 import Navbar from "../../components/navbar/Navbar";
 import "./Profile.css";
 import { Link } from 'react-router-dom'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import Card from 'react-bootstrap/Card';
+// import Card from 'react-bootstrap/Card';
 import mbs from '../../components/images/mbs.jpg'
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import ProfileCard from '../../components/profilePage/ProfileCard.js'
+import FormField from '../../components/profilePage/ProfileForm.js'
+import uname from '../login/Login.js'
 
 const Profile = () => {
   const [fname, setFname] = useState("");
@@ -26,12 +28,98 @@ const Profile = () => {
     setChangesSaved(false); // Reset changesSaved state when entering edit mode
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     // Perform saving changes logic here
     setChangesSaved(true);
     setEditMode(false);
+
+    //prolly have to change this to useState eventually
+    // const email = "cordtest@gmail.com";
+    // const uid = '64ba4601fb292664fa578119'
+    // const updates = {
+    // //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
+    //   uid: "64ba4601fb292664fa578119",
+    //   name: fname,
+    //   email: email,
+    //   password: pass,
+    // };
+  
+    //try to update profile
+    try {
+      const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', { //currently hardcoded, have to change to fit the logged in user 
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid: "64ba4601fb292664fa578119",
+          name: fname,
+          email: email,
+          password: pass
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Account successfully updated.");
+      } else {
+        console.error("Failed to update account. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error updating account:", error);
+    }
+  
+  
   };
 
+  
+  const [bookings, setBookings] = useState([]);
+  
+  // useEffect(() => {
+  //   fetch(`/api/bookings/?uid=64b7c2f4e5ebb8f59401c8ff`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(data); // Log the data received from the API
+  //       setBookings(data);
+  //     })
+  //     .catch((error) => console.error('Error fetching bookings:', error));
+  // }, []);
+
+  //useeffect to get account for bookings
+  useEffect(() => {
+    fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f') //this is jon (getting his booking history)
+
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // Log the data received from the API
+        setBookings(data);
+      })
+      .catch((error) => console.error("Error fetching booking IDs:", error));
+  }, []);
+
+  const [profileData, setProfileData] = useState(null); // State to store the profile data
+
+  //useeffect to get account for profile info
+  useEffect(() => {
+  //  fetch('/api/accounts/one?email=jon@gmail.com') 
+    fetch('/api/accounts/one?email=cordtest@mymail.com') 
+  //  fetch(`/api/accounts/one?email=${uname.value}`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data); // Log the data received from the API
+
+
+        // Set the form fields using the initial data
+        setFname(data.name);
+      //  setLname(data.lname);
+        setEmail(data.email);
+      //  setPhone(data.phone);
+      //  setCountry(data.country);
+        setPass(data.password);
+      })
+      .catch((error) => console.error("Error fetching booking info:", error));
+  }, []);
+
+//  const [users, setUsers] = useState([]);
   return (
     <div>
       <Navbar />
@@ -63,99 +151,106 @@ const Profile = () => {
               </div>
               <div className="user-info">
 
-              <Form.Group controlId="fname">                
-                <Form.Label>First Name </Form.Label>
-                <Form.Control
+              <FormField
+                  controlId="fname"
+                  label="First Name"
                   type="text"
                   placeholder="First Name"
                   value={fname}
                   onChange={(e) => setFname(e.target.value)}
-                  disabled ={!editMode}
-                  readOnly={!editMode} // Set the readOnly attribute based on edit mode
+                  readOnly={!editMode}
                 />
-                </Form.Group>
+                <FormField
+                  controlId="lname"
+                  label="Last Name"
+                  type="text"
+                  placeholder="Last Name"
+                  value={lname}
+                  onChange={(e) => setLname(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="email"
+                  label="Email Address"
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="phone"
+                  label="Phone Number"
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="country"
+                  label="Country"
+                  type="text"
+                  placeholder="Country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  readOnly={!editMode}
+                />
+                <FormField
+                  controlId="pass"
+                  label="Password"
+                  type="password"
+                  placeholder="Password"
+                  value={pass}
+                  onChange={(e) => setPass(e.target.value)}
+                  readOnly={!editMode}
+                />
 
-                <Form.Group controlId="lname">
-                  <Form.Label>Last Name </Form.Label>
-                  <Form.Control
-                    type="lname"
-                    placeholder="Last Name"
-                    value={lname}
-                    onChange={(e) => setLname(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
 
-                <Form.Group controlId="email">
-                  <Form.Label>Email Address </Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
 
-                <Form.Group controlId="phone">
-                  <Form.Label>Phone Number </Form.Label>
-                  <Form.Control
-                    type="phone"
-                    placeholder="Phone Number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="country">
-                  <Form.Label>Country </Form.Label>
-                  <Form.Control
-                    type="country"
-                    placeholder="Country"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="pass">
-                  <Form.Label>Password </Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Password"
-                    value={pass}
-                    onChange={(e) => setPass(e.target.value)}
-                    readOnly={!editMode} // Set the readOnly attribute based on edit mode
-                  />
-                </Form.Group>
               </div>
             </div>
           </Tab>
-          <Tab eventKey="bookings" title="Bookings">
+          {/* <Tab eventKey="bookings" title="Bookings">
             <p>Tab content for Bookings hehehehehe</p>
-            <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src={mbs} />
-              <Card.Body>
-                <Card.Title>Hotel Name</Card.Title>
-                <Card.Text>
-                  Some info of the place idk
-                </Card.Text>
-                <Link to="/">
-                <Button variant="primary">Details</Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </Tab>
-          <Tab eventKey="disabled" title="Disabled" disabled>
-            Tab content for Disabled
-          </Tab>
+{bookings ? (
+    <ProfileCard
+      key={bookings._id}
+      title={bookings.destID}
+      price={bookings.price}
+      imageSrc={bookings.price}
+      description={bookings.hotelID}
+      buttonText="Details"
+      buttonLink="/"
+    />
+  ) : (
+    <p>Loading bookings...</p>
+  )}
+          
+          </Tab> */}
+
+<Tab eventKey="bookings" title="Bookings">
+  <div className="bookingcards">
+    {bookings.length === 0 ? (
+      <p>No bookings found.</p>
+    ) : (
+      bookings.map((bookingId) => (
+        <ProfileCard
+          key={bookingId}
+          bookingId={bookingId} // Pass the booking ID as a prop to the ProfileCard component
+        />
+      ))
+    )}
+  </div>
+</Tab>
+
         </Tabs>
 
 
       </div>
     </div>
   );
+  
 };
 
 export default Profile;
