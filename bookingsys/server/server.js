@@ -20,14 +20,14 @@ app.use(express.urlencoded({extended: true}));
 
 import searchRoute from "./routes/search.js";
 import hotelsRoute from "./routes/hotels.js";
-import authRoute from "./routes/auth.js";
+//import authRoute from "./routes/auth.js";
 import accountsRoute from "./routes/accounts.js";
 import bookingRoute from "./routes/bookings.js";
 import stripeRoute from "./routes/stripe.js";
 
 app.use("/search", searchRoute); //localhost:8800/search
 app.use("/api/hotels", hotelsRoute); //localhost:8800/api/hotels/default
-app.use("/api/auth",authRoute);
+//app.use("/api/auth",authRoute);
 app.use("/api/accounts",accountsRoute);
 app.use("/api/bookings",bookingRoute);
 app.use("/api/stripe", stripeRoute);
@@ -48,8 +48,10 @@ app.use((err,req,res,next)=>{
 // Don't touch anything below this
 const port = process.env.PORT;
 
+if (process.env.NODE_ENV !== 'test'){
 app.listen({port},() => {
   console.log(`Server running at http://localhost:${port}`)
 })
+}
 
 export default app;
