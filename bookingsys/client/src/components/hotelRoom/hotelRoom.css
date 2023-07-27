@@ -30,10 +30,9 @@
     font-size: 12px;
 }
 
-.hrTaxiOp{
+.hrFeatures{
     font-size: 12px;
-    background-color: #008009;
-    color: white;
+    color: black;
     width: max-content;
     padding: 3px;
     border-radius: 5px;
@@ -48,16 +47,19 @@
     font-size: 12px;
 }
 
-.hrCancelOp{
+.YesCancel{
     font-size: 12px;
     color: #008009;
     font-weight: bold;
 }
 
-.hrCancelSubtitle{
+.NoCancel{
     font-size: 12px;
-    color: #008009;
+    color: red;
+    font-weight: bold;
 }
+
+
 
 .hrDetails{
     flex: 1;

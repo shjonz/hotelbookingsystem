@@ -1,23 +1,29 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import "./header.css";
 import background from '../images/sample.jpeg';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format} from 'date-fns';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { SearchContext } from "../../context/SearchContext";
 
 const Header = ({type}) => {
+    const {dispatch} = useContext(SearchContext);
+
+
     //use state this one go search yourself its v useful
-    
     const [destination, setDestination] = useState("");
     const [dest_id, setDestID] = useState("");
+    const [lang, setLang] = useState("en_US");
+    const [currency, setCurrency] = useState("SGD");
+    const [partner_id, setPartnerID] = useState("1");
+    const [guests, setGuests] = useState("2");
+
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
     const [dropDownList, setDropdownList] = useState([]);
-    
-   
 
 
     //this is to select the dates
@@ -58,7 +64,9 @@ const Header = ({type}) => {
 
     //this is to navigate to website the diff /hotels page when i click the search button
     const navigate = useNavigate();
+
     const handleSearch = () => {
+        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
         navigate("/hotels", { state: { destination, date, options, dest_id } });
     };
 
@@ -76,12 +84,13 @@ const Header = ({type}) => {
     //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
     const fetchData = (value) => {
         try {
-            console.log(' inside search bar itself ' );
+            console.log("string", value);
             fetch(`/search?name=${value}`)
             .then( (response) => response.json() )
             .then( (data) => {
-                console.log('inside fetchdata try ', value, data);
+
                 const results = data.filter( (item) => {
+                    console.log(item.name);
                     return (
                     value && 
                     item && 
@@ -89,7 +98,7 @@ const Header = ({type}) => {
                     //item.name.toLowerCase().includes(value.toLowerCase())
                     );
                 });
-                console.log('results ', results);
+                
                 setDropdownList(results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
@@ -103,7 +112,6 @@ const Header = ({type}) => {
 
     //this causes the changes in the input when u type stuff in the search input box
     const handleChange = (value) => {
-        console.log("handlechange value ", value, value.name, value.id);
         setDestination(value);
         fetchData(value);  
     }
@@ -144,8 +152,8 @@ const Header = ({type}) => {
 
                     
             <div className="headerSearchItem2">
-                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "MM/dd/yyyy")} to 
-                ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
+                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
+                ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
                     //this is ur calendar that opens when u click the dates 
                     editableDateInputs = {true}
@@ -153,6 +161,7 @@ const Header = ({type}) => {
                     moveRangeOnFirstSelection={false}
                     ranges={date}
                     className="date"
+                    minDate={new Date()}
                 /> }
             </div>
 
