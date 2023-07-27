@@ -48,6 +48,7 @@ async function getBooking(req, res, next) {
     try {
         const getBooking = await Bookings.findById(req.query.uid);
         res.getBooking = getBooking;
+        //res.json(getBooking)
     } catch (e) {res.send(e);}
     next();
 }
@@ -56,6 +57,7 @@ async function getBookingList(req, res, next) {
     try {
         const getBookingList = await Accounts.findById(req.query.uid)
         res.getBookingList = getBookingList.bookingHistory
+        //res.json(getBookingList.bookingHistory)
     } catch (e) {res.send(e);}
     next();
 }
