@@ -3,8 +3,8 @@ import server from '../../server';
 
 describe('Test getBooking ', () => { // Get booking info based on booking uid
     test('It should response the GET method', async () => {
-        const response = await request(server).get('/api/bookings/?uid=64b8fe58286659289d61f904');
-        //console.log(response.body) // get booking   64b8fe58286659289d61f904
+        const response = await request(server).get('/api/bookings/one?uid=64b8fe58286659289d61f904');
+        console.log(response.body) // get booking   64b8fe58286659289d61f904
         expect(response.statusCode).toBe(200);
     });
 });
@@ -12,7 +12,7 @@ describe('Test getBooking ', () => { // Get booking info based on booking uid
 
 describe('Test failure of getBooking ', () => {
     test('It should response the GET method', async () => {
-        const response = await request(server).get('/api/bookings/?uid=hihi');
+        const response = await request(server).get('/api/bookings/one?uid=hihi');
         //console.log(response.body)
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(undefined);

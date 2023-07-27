@@ -79,7 +79,7 @@ async function hotelListPrices(req, res, next) {
         return
     }
 
-    // Idk why I have to do this but fuck you Ascenda
+    // Idk why I have to do thi
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
     prices = await price_response.json()
 

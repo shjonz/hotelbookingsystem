@@ -13,6 +13,10 @@ router.get("/", getAllBookings, (req, res) => {
 router.get("/one", getBooking, (req, res) => {
     res.status(200).send(res.getBooking)
 })
+// Update single booking using unique ID of booking 
+router.put("/one", updateBooking, (req, res) => {
+    res.status(200).send("Booking successfully updated.")
+})
 
 // Get a user's booking data by giving their unique ID provided by Mongo.
 router.get("/id", getBookingList, (req, res) => {
@@ -51,6 +55,14 @@ async function getBooking(req, res, next) {
         //res.json(getBooking)
     } catch (e) {res.send(e);}
     next();
+}
+
+async function updateBooking(req, res, next) {
+    try {
+        const updatedBooking = await Bookings.findByIdAndUpdate(req.query.uid,{ $set: req.body});
+        res.updatedBooking = updatedBooking;
+      } catch (e) {res.send(e);}
+      next();
 }
 
 async function getBookingList(req, res, next) {
