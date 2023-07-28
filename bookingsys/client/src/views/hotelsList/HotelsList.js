@@ -53,7 +53,7 @@ import { SearchContext } from '../../context/SearchContext';
 
 const HotelsList = () => {
   const {uid, dest_id, date, guests, lang, currency, partner_id,} = useContext(SearchContext);
-
+  
   //again go see how to use use States and useLocation()
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -67,26 +67,23 @@ const HotelsList = () => {
   //@John-David-Tan this for u to edit
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(2500);
+  const [minRating, setMinRating] = useState(1);
+  const [maxRating, setMaxRating] = useState(5);
 
   const handlePriceRangeChange = ({ min, max }) => {
     setMin(min);
     setMax(max);
   };
 
-  
-  //JDs filter search for facilities ==========================================
-  const [wifiChecked, setWifiChecked] = useState(false);
-  const [poolChecked, setPoolChecked] = useState(false);
-
-  //this happens when u click the checkbox
-  const handleWifiChange = () => {
-    setWifiChecked(!wifiChecked);
+  const handleRatingRangeChange= ({min, max}) => {
+    setMinRating(min);
+    setMaxRating(max);
   };
 
-  //this happens when u click the checkbox
-  const handlePoolChange = () => {
-    setPoolChecked(!poolChecked);
-  };
+
+
+
+
 
   //infinite scrolling
   // const loadMoreRecords = () => {
@@ -114,7 +111,6 @@ const HotelsList = () => {
   
   //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect( () => {
-    setLoading(true);
     try {
         // const sDate = format(date[0].startDate,"yyyy-MM-dd");
         // const eDate = format(date[0].endDate,"yyyy-MM-dd");
@@ -123,13 +119,11 @@ const HotelsList = () => {
             response => response.json()
         ).then(data => {
             setData(data);
-            console.log("data", data)
 
         });
     } catch (err) {
       console.log(' use effect error');
     }
-    setLoading(false);
     
     }, [])
     //console.log('use effect has collected data, records ', data, records);
@@ -170,11 +164,18 @@ const HotelsList = () => {
   
     // Return true if both name and price filters match or if both filters are not applied
 
-    return (isNameFiltered && isPriceFiltered) ;
+    const isRatingFiltered = 
+      hotel.rating >= minRating && hotel.rating <= maxRating;
+
+    return (isNameFiltered && isPriceFiltered && isRatingFiltered) ;
   });
+        
 
 
   const sortedHotels = filteredHotels.sort(sortBySearchRank);
+
+
+
   console.log("sorted", sortedHotels)
 
   return (
@@ -273,6 +274,17 @@ const HotelsList = () => {
             /> 
           </div>
         </div>
+
+        <div className="lsItem">
+            <label>Rating Range</label>
+            <div className="ratingRangeSlider">
+              <MultiRangeSlider
+              min={0}
+              max={5}
+              onChange={handleRatingRangeChange}
+            /> 
+          </div>
+        
         </div>
 
 
@@ -310,19 +322,29 @@ const HotelsList = () => {
 
         
 
-
+</div>
       </div>
       <div className="listResult">
-          {loading ? 
-            (<p className='hotelLoading'>Loading</p>) // over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-            : (sortedHotels.length > 0 ? (
-            sortedHotels.map((item) => <Search item={item} key={item.id} />)
-          ) : (
-            <p className='hotelAvail'>No available hotels</p>
-        ))}
+      {(() => {
+    switch (true) {
+      case sortedHotels.length > 0:
+        return sortedHotels.map((item) => <Search item={item} key={item.id} />);
+
+      case sortedHotels.length === 0 && loading === true:
+        return <p className="hotelAvail">Loading</p>;
+
+      case sortedHotels.length === 0 && loading === false:
+        return <p className="hotelAvail">No available hotels.</p>;
+        
+      default:
+        return <p>null</p>;
+    }
+  })()}
         </div>
     </div>
     </div>
+    
+
   );
 };
 
