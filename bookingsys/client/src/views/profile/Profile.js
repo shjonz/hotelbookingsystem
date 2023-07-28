@@ -12,16 +12,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ProfileCard from '../../components/profilePage/ProfileCard.js'
 import FormField from '../../components/profilePage/ProfileForm.js'
 import uname from '../login/Login.js'
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 const Profile = () => {
+  const { user, dispatch } = useContext(AuthContext);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");  
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [userid, setUid] = useState("");
+  const [uidfetched, setUidfetched] = useState(false);
   const [country, setCountry] = useState("");
   const [pass, setPass] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [changesSaved, setChangesSaved] = useState(true); 
+  const [bookings, setBookings] = useState([]);
+
+  console.log(
+   'check uid state everytime page refreshes ', userid );
 
   const handleEditProfile = () => {
     setEditMode(true); // Enable edit mode when the button is clicked
@@ -46,13 +55,15 @@ const Profile = () => {
   
     //try to update profile
     try {
-      const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', { //currently hardcoded, have to change to fit the logged in user 
+      //const response = await fetch('/api/accounts/one?uid=64ba4601fb292664fa578119', { //currently hardcoded, have to change to fit the logged in user 
+      const response = await fetch(`/api/accounts/one?email=${user}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          uid: "64ba4601fb292664fa578119",
+          //uid: "64ba4601fb292664fa578119",
+          email: user,
           name: fname,
           email: email,
           password: pass
@@ -72,7 +83,7 @@ const Profile = () => {
   };
 
   
-  const [bookings, setBookings] = useState([]);
+  
   
   // useEffect(() => {
   //   fetch(`/api/bookings/?uid=64b7c2f4e5ebb8f59401c8ff`)
@@ -85,23 +96,92 @@ const Profile = () => {
   // }, []);
 
   //useeffect to get account for bookings
-  useEffect(() => {
-    fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f') //this is jon (getting his booking history)
+  useEffect( () => {
+    //setLoading(true);
+        // try {
+        //     // console.log("payload", uid, dest_id, date, guests, lang, currency, partner_id)
 
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // Log the data received from the API
-        setBookings(data);
+        //     // const sDate = format(date[0].startDate, "yyyy-MM-dd");
+        //     // const eDate = format(date[0].endDate, "yyyy-MM-dd");
+
+        //     const url1 = `/api/accounts/one?email=${user}`
+        //     const fetchFile1 = fetch(url1)
+            
+        //     Promise.all([fetchFile1])
+        //     .then((responses) => Promise.all(responses.map((res) => res.json())))
+        //     .then((data) => {
+        //       const [file1Data, file2Data] = data;
+        //       setUid(file1Data);
+        //       console.log('Data from file 1:', file1Data);
+        //       console.log('Data from file 2:', file2Data);
+        //     })
+        // } catch (err) {
+        //   console.log(' use effect error');
+        // }
+        //setLoading(false);
+    let user_IDDDDDDDDD;
+    fetch(`/api/accounts/one?email=${user}`) 
+      .then((response) => response.json() )
+      .then( (data) => {
+        console.log(' use effect fetch account uid ', data._id.toString() ); // Log the data received from the API
+        setUid( data._id.toString() );
+        user_IDDDDDDDDD = data._id.toString(); 
+        //fetched(true);
+        console.log(' use effect see account uid lemme see the state ', userid)
+        
       })
-      .catch((error) => console.error("Error fetching booking IDs:", error));
+      .catch((error) => console.error("Error fetching Account info:", error));
+    
+      console.log('outside of use effect need to check USERIDDDDDDDDDDDDDD ', user_IDDDDDDDDD);
+
+    if (userid !== null) {
+        console.log(" account found, now looking for bookings info check if got uid ============= ", userid);
+        console.log(' accounts uid ', `/api/bookings/id?uid=${userid}`);
+        fetch(`/api/bookings/id?uid=${userid}`) //this is jon (getting his booking history)
+        //fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f')
+      //fetch(`/api/bookings/id?email=${user}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(' account found and bookings api backend data found here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ', data, ' type '); // Log the data received from the API
+          setBookings(data);
+        })
+        .catch((error) => console.error("Error fetching booking IDs:", error));
+      } else {
+        console.log("cant get the uid of the account accoutn dont exist ");
+      }
+    
+    console.log(' accounts uid ', userid);
+    
   }, []);
+
+
+  // useEffect( () => {
+  //   if (userid !== null) {
+  //     console.log(" account found, now looking for bookings info check if got uid ============= ", userid);
+  //     console.log(' accounts uid ', `/api/bookings/id?uid=${userid}`);
+  //     fetch(`/api/bookings/id?uid=${userid}`) //this is jon (getting his booking history)
+  //     //fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f')
+  //   //fetch(`/api/bookings/id?email=${user}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log(' account found and bookings api backend data found here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ', data, ' type '); // Log the data received from the API
+  //       setBookings(data);
+  //     })
+  //     .catch((error) => console.error("Error fetching booking IDs:", error));
+  //   } else {
+  //     console.log("cant get the uid of the account accoutn dont exist ");
+  //   }
+
+  //   console.log('lemme see bookings object ', bookings); 
+  // }, []);
 
   const [profileData, setProfileData] = useState(null); // State to store the profile data
 
   //useeffect to get account for profile info
-  useEffect(() => {
+  useEffect( () => {
+    
   //  fetch('/api/accounts/one?email=jon@gmail.com') 
-    fetch('/api/accounts/one?email=cordtest@mymail.com') 
+    fetch(`/api/accounts/one?email=${user}`) 
   //  fetch(`/api/accounts/one?email=${uname.value}`)
     .then((response) => response.json())
     .then((data) => {
@@ -231,10 +311,10 @@ const Profile = () => {
 
 <Tab eventKey="bookings" title="Bookings">
   <div className="bookingcards">
-    {bookings.length === 0 ? (
+    {bookings === null ? (
       <p>No bookings found.</p>
     ) : (
-      bookings.map((bookingId) => (
+      bookings.map( (bookingId) => (
         <ProfileCard
           key={bookingId}
           bookingId={bookingId} // Pass the booking ID as a prop to the ProfileCard component
