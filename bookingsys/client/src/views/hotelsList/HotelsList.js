@@ -11,6 +11,7 @@ import useFetch from "../../hooks/useFetch";
 import FetchSearch from '../../hooks/FetchSearch';
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 import { SearchContext } from '../../context/SearchContext';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 // const HotelsList = () => {
   //useRef is a value that persists after each render becoz inside react every single thing we do is only stored inside that render unless its part of our state
@@ -53,6 +54,7 @@ import { SearchContext } from '../../context/SearchContext';
 
 const HotelsList = () => {
   const {uid, dest_id, date, guests, lang, currency, partner_id,} = useContext(SearchContext);
+  console.log('does date contain anything ', date );
   
   //again go see how to use use States and useLocation()
   const location = useLocation();
@@ -109,42 +111,60 @@ const HotelsList = () => {
   //   scrollViewportRef.current?.scrollTo(0, 0);
   // };
 
-  const [error, setError ] = useState(null);
-  const [items, setItems] = useState([]);
-  const [page, setPage] = useState(1);
+  // const [error, setError ] = useState(null);
+  // const [items, setItems] = useState([]);
+  // const [page, setPage] = useState(1);
 
-  const fetchData = async () => {
-    setLoading(true);
-    setError(null);
+  // const fetchData = async () => {
+  //   setLoading(true);
+  //   setError(null);
   
-    try {
-      //const response = await fetch(`https://api.example.com/items?page=${page}`);
-      //const data = await response.json();
-      if (data) {
-        setItems(prevItems => [...prevItems, ...data]);
-        setPage(prevPage => prevPage + 1);
-      } else {
-        console.log('no data loaded yet ');
-      }
+  //   try {
+  //     //const response = await fetch(`https://api.example.com/items?page=${page}`);
+  //     //const data = await response.json();
+  //     if (data) {
+  //       setItems(prevItems => [...prevItems, ...sortedHotels]);
+  //       setPage(prevPage => prevPage + 1);
+  //     } else {
+  //       console.log('no data loaded yet ');
+  //     }
       
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   } catch (error) {
+  //     setError(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const handleScroll = () => {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) {
-      return;
-    }
-    fetchData();
-  };
+  // const handleScroll = () => {
+  //   if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) {
+  //     return;
+  //   }
+  //   fetchData();
+  // };
   
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [loading]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, [loading]);
+
+  const [records, setRecords] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const batchSize = 10;
+  let timeout;
+
+  const fetchMoreData = () => {
+    if (records.length < data.length) {
+      setLoading(true);
+      timeout = setTimeout(() => {
+        setRecords( data.slice(0, records.length + batchSize) );
+        setLoading(false);
+      }, 1000);
+    }
+    
+  }
+
+  
   
 
 
@@ -158,12 +178,13 @@ const HotelsList = () => {
     try {
         // const sDate = format(date[0].startDate,"yyyy-MM-dd");
         // const eDate = format(date[0].endDate,"yyyy-MM-dd");
-        
+        console.log(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-07&checkout=2023-10-08&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`);
         fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-07&checkout=2023-10-08&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`)
         .then(
             response => response.json()
         ).then(data => {
             setData(data);
+            setRecords(data.slice(0,20));
             console.log("data", data);
         });
     } catch (err) {
@@ -176,8 +197,8 @@ const HotelsList = () => {
 
   //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
   const handleClick  = () => {
-    //console.log("location ,destination ", location, " ", destination);
-    console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
+    console.log("location ,destination ", location, " ", destination);
+    //console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
   };
 
 
@@ -218,6 +239,7 @@ const HotelsList = () => {
 
 
   const sortedHotels = filteredHotels.sort(sortBySearchRank);
+  
 
 
 
@@ -337,8 +359,8 @@ const HotelsList = () => {
           
         
 
-        <div className="listResult"  >
-             {/* {loading ? (
+        {/* <div className="listResult"  >
+             { {loading ? (
           //     "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
           //   ) : (
           //     <>
@@ -346,7 +368,7 @@ const HotelsList = () => {
           //         <Search  item={item} key={item.id} />
           //       ))}
           //     </>
-           //  )} */}
+           //  )} }
             
             {loading ? (
                 "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
@@ -361,7 +383,7 @@ const HotelsList = () => {
                 </>
             )} 
 
-        </div> 
+        </div>  */}
 
 
 
@@ -369,7 +391,26 @@ const HotelsList = () => {
 
 </div>
       </div>
-      <div className="listResult">
+
+      <InfiniteScroll dataLength={records.length} next={fetchMoreData} hasMore={hasMore} loader={<p>Loading...</p>}>
+        {(() => {
+      switch (true) {
+        case records.length > 0:
+          return records.map((item) => <Search item={item} key={item.id} />);
+
+        case records.length === 0 && loading === true:
+          return <p className="hotelAvail">Loading</p>;
+
+        case records.length === 0 && loading === false:
+          return <p className="hotelAvail">No available hotels.</p>;
+        
+      default:
+        return <p>null</p>;
+      }
+    })()}
+      </InfiniteScroll>
+
+      {/* <div className="listResult">
       {(() => {
     switch (true) {
       case sortedHotels.length > 0:
@@ -385,7 +426,8 @@ const HotelsList = () => {
         return <p>null</p>;
     }
   })()}
-        </div>
+        </div> */}
+
     </div>
     </div>
     
