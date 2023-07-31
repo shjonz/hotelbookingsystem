@@ -48,8 +48,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 // }, [timeout]);
 
 const HotelsList = () => {
-  const {uid, dest_id, date, guests, lang, currency, partner_id,} = useContext(SearchContext);
-  
+  const { uid, dest_id, date, guests, lang, currency, partner_id } =
+    useContext(SearchContext);
+
   //again go see how to use use States and useLocation()
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
@@ -101,21 +102,18 @@ const HotelsList = () => {
   // };
 
 
-
-  
-
-  
   //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect(() => {
     try {
-        // const sDate = format(date[0].startDate,"yyyy-MM-dd");
-        // const eDate = format(date[0].endDate,"yyyy-MM-dd");
-        fetch(`/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-07&checkout=2023-10-08&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`)
-        .then(
-            response => response.json()
-        ).then(data => {
-            setData(data);
-
+      const sDate = format(date[0].startDate,"yyyy-MM-dd");
+      const eDate = format(date[0].endDate,"yyyy-MM-dd");
+      fetch(
+        // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+        `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setData(data);
         });
     } catch (err) {
       console.log(" use effect error");
@@ -125,9 +123,15 @@ const HotelsList = () => {
   //console.log('use effect has collected data, records ', data, records);
 
   //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
-  const handleClick  = () => {
+  const handleClick = () => {
     //console.log("location ,destination ", location, " ", destination);
-    console.log(destination, date[0].startDate, date[0].endDate, openDate[0], options);
+    console.log(
+      destination,
+      date[0].startDate,
+      date[0].endDate,
+      openDate[0],
+      options
+    );
   };
 
   const sortBySearchRank = (hotelA, hotelB) => {
@@ -173,10 +177,7 @@ const HotelsList = () => {
 
   console.log("filtered", filteredHotels);
   const sortedHotels = filteredHotels.sort(sortBySearchRank);
-
-
-
-  console.log("sorted", sortedHotels)
+  console.log("sorted", sortedHotels);
 
   return (
     <div>
@@ -285,12 +286,7 @@ const HotelsList = () => {
               </div>
             </div>
 
-
-       
-          
-        
-
-          {/*  <div className="listResult"  >
+            {/*  <div className="listResult"  >
              {loading ? (
           //     "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
           //   ) : (
@@ -315,33 +311,29 @@ const HotelsList = () => {
             )} 
 
            </div> */}
-
-
-
-        
-
-</div>
-      </div>
-      <div className="listResult">
-      {(() => {
-    switch (true) {
-      case sortedHotels.length > 0:
-        return sortedHotels.map((item) => <Search item={item} key={item.id} />);
-
-      case sortedHotels.length === 0 && loading === true:
-        return <p className="hotelAvail">Loading</p>;
-
-      case sortedHotels.length === 0 && loading === false:
-        return <p className="hotelAvail">No available hotels.</p>;
-        
-      default:
-        return <p>null</p>;
-    }
-  })()}
+          </div>
         </div>
+        
+        <div className="listResult">
+          {(() => {
+            if (loading || data.length === 0) {
+              // Display "Loading" while data is being fetched
+              return <p className="hotelAvail">Loading</p>;
+            } else if (sortedHotels.length > 0) {
+              // Display the list of hotels if there are hotels available
+              return sortedHotels.map((item) => (
+                <Search item={item} key={item.id} />
+              ));
+            } else if (!sortedHotels.length) {
+              // Display "No available hotels" if there are no hotels available
+              return <p className="hotelAvail">No available hotels.</p>;
+            }
+          })()}
+        </div>
+      </div>
     </div>
-    </div>
-  );
+    
+  )   
 };
 
 export default HotelsList;
