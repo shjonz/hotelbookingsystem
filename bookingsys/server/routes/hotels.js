@@ -67,7 +67,7 @@ async function hotelListPrices(req, res, next) {
     const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${req.query.destination_id}`)
     list = await response.json()
 
-    const cc = list[0].original_metadata.country;
+    const cc = list[0].original_metadata.country; //reverted
 
     // Idk why I have to do this but fuck you Ascenda
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
@@ -77,6 +77,7 @@ async function hotelListPrices(req, res, next) {
         price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
         prices = await price_response.json()
     }
+    
 
     // Merging both
     const hotels_list = list.map(hotel => ({
