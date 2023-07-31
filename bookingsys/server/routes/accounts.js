@@ -87,12 +87,13 @@ async function createAccount(req, res, next) {
 
 async function updateAccount(req, res, next) {
   try {
-    const accountValidity = await Accounts.findOneAndUpdate({_id: req.body.uid}, req.body)
+    //const accountValidity = await Accounts.findOneAndUpdate({_id: req.body.uid}, req.body);
+    const accountValidity = await Accounts.findOneAndUpdate({email: req.body.email}, req.body);
     if (accountValidity == null) {
       return res.status(409).send("Error 404: Account not found")
     }
   } catch (e) {res.send(e);}
   next();
-}
+} 
 
 export default router;

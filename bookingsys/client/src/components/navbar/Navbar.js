@@ -13,6 +13,10 @@ const Navbar = () => {
         console.log( 'press logout handleclick check user info ', user );
         navigate("/");
     }
+    // const viewProfile = () => {
+    //     navigate("profile");
+    // }
+    
     if (user) {
         return (
             <div className="navbar">
@@ -23,8 +27,8 @@ const Navbar = () => {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/profile">Contact</a></li>
-                        <button className="showusername">{user}</button>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/profile">{user}</a></li>
+                        {/* <button onClick={viewProfile} className="showusername">{user}</button> */}
                         <button onClick={handleClick} className="navButton"><Link>Logout</Link></button>       
                     </div> 
                 </div>
@@ -41,7 +45,7 @@ const Navbar = () => {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/profile">Contact</a></li>
+                        {/* <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/login">Profile</a></li> */}
                         {/* <button className="navButton"><Link to={"/register"}>Register</Link></button> */}
                         <button className="navButton"><Link to={"/login"}>Login/Sign Up</Link></button>
                     

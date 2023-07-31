@@ -52,13 +52,21 @@ async function getBooking(req, res, next) {
     next();
 }
 
+// async function getBookingList(req, res, next) {
+//     try {
+//         const getBookingList = await Accounts.findById(req.query.uid)
+//         res.getBookingList = getBookingList.bookingHistory
+//     } catch (e) {res.send(e);}
+//     next();
+// }
+
 async function getBookingList(req, res, next) {
-    try {
-        const getBookingList = await Accounts.findById(req.query.uid)
-        res.getBookingList = getBookingList.bookingHistory
-    } catch (e) {res.send(e);}
-    next();
-}
+        try {
+            const getBookingList = await Accounts.findOne({email: req.query.email})
+            res.getBookingList = getBookingList.bookingHistory
+        } catch (e) {res.send(e);}
+        next();
+    }
 
 async function deleteBooking(req, res, next) {
     try {
