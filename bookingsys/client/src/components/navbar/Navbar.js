@@ -48,7 +48,8 @@ const Navbar = () => {
                         {/* <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/login">Profile</a></li> */}
                         {/* <button className="navButton"><Link to={"/register"}>Register</Link></button> */}
                         <button className="navButton"><Link to={"/login"}>Login/Sign Up</Link></button>
-                    
+                        <button className="navButton"><Link to={"/register"}>Register</Link></button>
+                        <button className="navButton"><Link to={"/login"}>Login</Link></button>       
                 </div>
             ) }
             </div>
