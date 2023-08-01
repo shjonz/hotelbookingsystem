@@ -21,7 +21,9 @@ const Profile = () => {
   const [lname, setLname] = useState("");  
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [userid, setUid] = useState("");
+
+  const [uid, setUid] = useState("");
+
   const [uidfetched, setUidfetched] = useState(false);
   const [country, setCountry] = useState("");
   const [pass, setPass] = useState("");
@@ -30,7 +32,9 @@ const Profile = () => {
   const [bookings, setBookings] = useState([]);
 
   console.log(
-   'check uid state everytime page refreshes ', userid );
+
+   'check uid state everytime page refreshes ', uid );
+
 
   const handleEditProfile = () => {
     setEditMode(true); // Enable edit mode when the button is clicked
@@ -42,16 +46,6 @@ const Profile = () => {
     setChangesSaved(true);
     setEditMode(false);
 
-    //prolly have to change this to useState eventually
-    // const email = "cordtest@gmail.com";
-    // const uid = '64ba4601fb292664fa578119'
-    // const updates = {
-    // //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
-    //   uid: "64ba4601fb292664fa578119",
-    //   name: fname,
-    //   email: email,
-    //   password: pass,
-    // };
   
     //try to update profile
     try {
@@ -82,77 +76,47 @@ const Profile = () => {
   
   };
 
-  
-  
-  
-  // useEffect(() => {
-  //   fetch(`/api/bookings/?uid=64b7c2f4e5ebb8f59401c8ff`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data); // Log the data received from the API
-  //       setBookings(data);
-  //     })
-  //     .catch((error) => console.error('Error fetching bookings:', error));
-  // }, []);
 
-  //useeffect to get account for bookings
-  useEffect( () => {
-    //setLoading(true);
-        // try {
-        //     // console.log("payload", uid, dest_id, date, guests, lang, currency, partner_id)
-
-        //     // const sDate = format(date[0].startDate, "yyyy-MM-dd");
-        //     // const eDate = format(date[0].endDate, "yyyy-MM-dd");
-
-        //     const url1 = `/api/accounts/one?email=${user}`
-        //     const fetchFile1 = fetch(url1)
-            
-        //     Promise.all([fetchFile1])
-        //     .then((responses) => Promise.all(responses.map((res) => res.json())))
-        //     .then((data) => {
-        //       const [file1Data, file2Data] = data;
-        //       setUid(file1Data);
-        //       console.log('Data from file 1:', file1Data);
-        //       console.log('Data from file 2:', file2Data);
-        //     })
-        // } catch (err) {
-        //   console.log(' use effect error');
-        // }
-        //setLoading(false);
-    let user_IDDDDDDDDD;
+  //useeffect to get account for bookings--------------------------
+  useEffect(  () => {
+    
     fetch(`/api/accounts/one?email=${user}`) 
+    //fetch(`/api/accounts/one?email=jon@gmail.com`) 
       .then((response) => response.json() )
       .then( (data) => {
-        console.log(' use effect fetch account uid ', data._id.toString() ); // Log the data received from the API
-        setUid( data._id.toString() );
-        user_IDDDDDDDDD = data._id.toString(); 
-        //fetched(true);
-        console.log(' use effect see account uid lemme see the state ', userid)
-        
+        console.log(' use effect fetch account uid ', data._id); // Log the data received from the API
+        setUid(data._id);
+        console.log ('uid is here', uid)
+        setUidfetched(true);
       })
       .catch((error) => console.error("Error fetching Account info:", error));
     
-      console.log('outside of use effect need to check USERIDDDDDDDDDDDDDD ', user_IDDDDDDDDD);
+    console.log(' accounts uid ', uid);
 
-    if (userid !== null) {
-        console.log(" account found, now looking for bookings info check if got uid ============= ", userid);
-        console.log(' accounts uid ', `/api/bookings/id?uid=${userid}`);
-        fetch(`/api/bookings/id?uid=${userid}`) //this is jon (getting his booking history)
-        //fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f')
-      //fetch(`/api/bookings/id?email=${user}`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(' account found and bookings api backend data found here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ', data, ' type '); // Log the data received from the API
-          setBookings(data);
-        })
-        .catch((error) => console.error("Error fetching booking IDs:", error));
-      } else {
-        console.log("cant get the uid of the account accoutn dont exist ");
-      }
-    
-    console.log(' accounts uid ', userid);
     
   }, []);
+
+
+
+  useEffect( () => {
+    if (uidfetched !== null) {
+      console.log(" account found, now looking for bookings info check if got uid ============= ", uid);
+      //fetch(`/api/bookings/id?uid=${uid}`) //this is jon (getting his booking history)
+      //fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f')
+    fetch(`/api/bookings/id?email=${user}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(' account found and bookings api backend data found here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ', data, ' type '); // Log the data received from the API
+        setBookings(data);
+      })
+      .catch((error) => console.error("Error fetching booking IDs:", error));
+    } else {
+      console.log("cant get the uid of the account accoutn dont exist ");
+    }
+
+    console.log('lemme see bookings object ', bookings); 
+  }, [uid]);
+
 
 
   // useEffect( () => {
@@ -180,8 +144,10 @@ const Profile = () => {
   //useeffect to get account for profile info
   useEffect( () => {
     
-  //  fetch('/api/accounts/one?email=jon@gmail.com') 
-    fetch(`/api/accounts/one?email=${user}`) 
+
+    //fetch('/api/accounts/one?email=Gary2@gmail.com') 
+    fetch(`/api/accounts/one?email=${user}`) // this works
+
   //  fetch(`/api/accounts/one?email=${uname.value}`)
     .then((response) => response.json())
     .then((data) => {
@@ -291,23 +257,6 @@ const Profile = () => {
               </div>
             </div>
           </Tab>
-          {/* <Tab eventKey="bookings" title="Bookings">
-            <p>Tab content for Bookings hehehehehe</p>
-{bookings ? (
-    <ProfileCard
-      key={bookings._id}
-      title={bookings.destID}
-      price={bookings.price}
-      imageSrc={bookings.price}
-      description={bookings.hotelID}
-      buttonText="Details"
-      buttonLink="/"
-    />
-  ) : (
-    <p>Loading bookings...</p>
-  )}
-          
-          </Tab> */}
 
 <Tab eventKey="bookings" title="Bookings">
   <div className="bookingcards">

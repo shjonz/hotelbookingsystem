@@ -99,7 +99,7 @@ async function updateAccount(req, res, next) {
     }
   } catch (e) {res.send(e);}
   next();
-}
+} 
 
 async function updateBookingList(req, res, next) {
   try {
