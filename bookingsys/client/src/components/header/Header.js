@@ -5,14 +5,14 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format, addDays} from 'date-fns';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 
 const Header = ({type}) => {
     const {dispatch} = useContext(SearchContext);
-
-
+    const location = useLocation();
+    const [showDropdown, setShowDropdown] = useState(false);
     //use state this one go search yourself its v useful
     const [destination, setDestination] = useState("");
     const [dest_id, setDestID] = useState("");
@@ -66,9 +66,14 @@ const Header = ({type}) => {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
+        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id, destination}});
         navigate("/hotels", { state: { destination, date, options, dest_id } });
     };
+
+    const handleRefresh = () => {
+        dispatch({type: "RESET_SEARCH"});
+        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id, destination}})
+    }
 
     //this is used to change the dropdown list when i click on the dropdown list suggestions
     const onSearch = (searchTerm) => {
@@ -116,41 +121,46 @@ const Header = ({type}) => {
         fetchData(value);  
     }
 
-
     return (
-        <div className="header" style={{
+        
+        <div className={type === "list" ? "listMode" : "nonListMode"}>
+        { type !== "list" && 
+        <div className="headerImg" style={{
             backgroundImage : `url(${background})`
         }} >
-        <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
-        { type !== "list" && 
+
             <div className="headerSearch">
 
                 <div className="headerSearchItem1">
-                    <div className="destinationorhotel">Destination or Hotel</div>
+                    <label>Destination</label>
                     <input className="headerSearchInput" 
                     type="text" 
                     //this is the input 
                     placeholder="Search your destination..."
                     value = {destination}
-                    onChange={ (e) => handleChange(e.target.value) } />  
+                    onChange={ (e) => handleChange(e.target.value) } 
+                    onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
+                    />  
             </div> 
 
-
-            <div className="dropdown">
+            <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
                 {dropDownList
                     .map( (item) => (
                         //this is responsible for drop down that appears
                     <div
                     className="dropdown-row"
                     key={item.uid}
-                    onClick={() => onSearch(item.name)}
+                    onClick={() => {
+                        onSearch(item.name);
+                        setShowDropdown(false); // Hide the dropdown when an item is clicked
+                    }}
                     >
                     {item.name}
                     </div>
                 ))}
             </div> 
 
-                    
+
             <div className="headerSearchItem2">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
                 ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
@@ -218,9 +228,99 @@ const Header = ({type}) => {
 
                 </div>
 
-            </div> }
-        </div>    
+            </div> 
+            </div>}
+
+
+            { type === "list" && 
+        <div className="listSearch">
+        <h1 className="lsTitle">Search</h1>
+
+        <div className="lsItem">
+          <label>Destination</label>
+          <input placeholder={location.state.destination} 
+          type="text" 
+          value = {destination}
+          onChange={ (e) => handleChange(e.target.value) } 
+          onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
+          />  
+          <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
+      {dropDownList
+          .map( (item) => (
+              //this is responsible for drop down that appears
+          <div
+          className="dropdown-row"
+          key={item.uid}
+          onClick={() => {
+              onSearch(item.name);
+              setShowDropdown(false); // Hide the dropdown when an item is clicked
+          }}
+          >
+          {item.name}
+          </div>
+      ))}
+  </div> 
         </div>
+
+        <div className="lsItem">
+          <label>Check-in Date</label>
+          <span onClick={() => setOpenDate(!openDate)}>{`${format(
+            date[0].startDate,
+            "yyyy-MM-dd" //this is the dates that will open up when u click
+          )} to ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
+          {openDate && (
+            <DateRange
+              onChange={(item) => setDate([item.selection])}
+              minDate={new Date()}
+              ranges={date}
+            />
+          )}
+        </div>
+
+        <div className="lsItem">
+          <label>Options</label>
+
+          <div className="lsOptions">
+            <div className="lsOptionItem">
+              <span className="lsOptionText">Adult</span>
+              <input
+                type="number"
+                min={1}
+                className="lsOptionInput"
+                placeholder={options.adult}
+              />
+            </div>
+
+            <div className="lsOptionItem">
+              <span className="lsOptionText">Children</span>
+              <input
+                type="number"
+                min={0}
+                className="lsOptionInput"
+                placeholder={options.children}
+              />
+            </div>
+
+            <div className="lsOptionItem">
+              <span className="lsOptionText">Room</span>
+              <input
+                type="number"
+                min={1}
+                className="lsOptionInput"
+                placeholder={options.room}
+              />
+            </div>
+          </div>
+        </div>
+        <button //this is the search enginer at the side
+          onClick={handleRefresh}>
+          Search
+        </button>
+      </div>}
+
+
+        </div>    
+        
     );
 };
 

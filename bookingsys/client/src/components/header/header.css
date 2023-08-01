@@ -1,3 +1,42 @@
+.nonListMode{
+    width: 100%;
+}
+
+.headerImg {
+    color: black;
+    width: 100%;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    margin-bottom: 20px;
+    
+}
+
+.headerSearch {
+    background-color: white;
+    border: 3px solid #febb02;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 400px;
+    gap: 50px;
+    z-index: 1;
+    left: 5%;
+    top: 5%;
+    height: 300px;
+    overflow-y: auto;
+    position: relative;
+}
+
+
+
+
+.headerSearchItem1 {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
 .dropdown {
     flex-direction: column;
     background-color: white;
@@ -14,50 +53,6 @@
     cursor: pointer;
     margin: 2px 0;
     width: max-content;
-}
-
-.header {
-    color: black;
-    width: 100%;
-    height: 800px;
-    background-repeat: no-repeat;
-    background-size: 100%;
-    margin-bottom: 20px;
-}
-
-.headerContainer {
-    padding-left: 10%;
-    padding-top: 5%;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-.destinationorhotel {
-    color: black;
-}
-
-.headerSearch {
-    background-color: white;
-    border: 3px solid #febb02;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: absolute; 
-    width: 300px;
-    justify-content: space-around;
-    gap: 50px;
-    z-index: 1;
-}
-
-.headerIcon {
-    color: lightgray;
-}
-
-.headerSearchItem1 {
-    width: 100%;
-    align-items: center;
-    justify-content: center;
 }
 
 .headerSearchInput {
@@ -143,6 +138,74 @@
     border: none;
     width: 100%;
     border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+
+
+
+  .listSearch {
+    flex: 1;
+    background-color: lightblue; 
+    padding: 10px;
+    border-radius: 10px;
+    height: max-content;
+  }
+  
+  .lsTitle{
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .lsItem{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .lsItem>label{
+    font-size: 12px;
+  }
+  
+  .lsItem>input{
+    height: 30px;
+    border: none;
+    padding: 5px;
+  }
+  .lsItem>span{
+    height: 30px;
+    padding: 5px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .lsOptions{
+    padding: 10px;
+  }
+  
+  .lsOptionItem{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 12px;
+  }
+  
+  .lsOptionInput{
+    width: 50px;
+  }
+  
+  .listSearch>button{
+    padding: 10px;
+    background-color: #0071c2;
+    color: white;
+    border: none;
+    width: 100%;
     font-weight: 500;
     cursor: pointer;
   }
