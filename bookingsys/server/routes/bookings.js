@@ -13,6 +13,7 @@ router.get("/", getAllBookings, (req, res) => {
 router.get("/one", getBooking, (req, res) => {
     res.status(200).send(res.getBooking)
 })
+
 // Update single booking using unique ID of booking 
 router.put("/one", updateBooking, (req, res) => {
     res.status(200).send("Booking successfully updated.")

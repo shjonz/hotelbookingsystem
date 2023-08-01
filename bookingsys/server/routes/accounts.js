@@ -33,6 +33,11 @@ router.patch("/one", updateAccount, (req, res) => {
   res.status(200).send("Account successfully updated.")
 })
 
+router.patch("/", updateBookingList, (req, res) => {
+  res.status(200).send("Account's bookings successfully updated.")
+})
+
+
 // Function Space
 
 async function getAllAccounts(req, res, next) {
@@ -91,6 +96,19 @@ async function updateAccount(req, res, next) {
     const accountValidity = await Accounts.findOneAndUpdate({email: req.body.email}, req.body);
     if (accountValidity == null) {
       return res.status(409).send("Error 404: Account not found")
+    }
+  } catch (e) {res.send(e);}
+  next();
+}
+
+async function updateBookingList(req, res, next) {
+  try {
+    const accountValidity = await Accounts.findOneAndUpdate(      
+      { email: req.body.email }, 
+      { $push: { bookingHistory: req.body.bookingHistory } },
+      { new: true});
+    if (accountValidity == null) {
+      return res.status(404).send("Error 404: Account's booking list not found")
     }
   } catch (e) {res.send(e);}
   next();
