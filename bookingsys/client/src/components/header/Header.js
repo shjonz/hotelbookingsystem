@@ -4,7 +4,7 @@ import background from '../images/sample.jpeg';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import {format} from 'date-fns';
+import {format, addDays} from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
@@ -30,7 +30,7 @@ const Header = ({type}) => {
     const [date, setDate] = useState([
         {
           startDate: new Date(),
-          endDate: new Date(),
+          endDate: addDays(new Date(), 1),
           key: 'selection'
         }
       ]);

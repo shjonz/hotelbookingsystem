@@ -28,13 +28,14 @@ const Hotel = () => {
         try {
             // console.log("payload", uid, dest_id, date, guests, lang, currency, partner_id)
 
-            // const sDate = format(date[0].startDate, "yyyy-MM-dd");
-            // const eDate = format(date[0].endDate, "yyyy-MM-dd");
+            const sDate = format(date[0].startDate, "yyyy-MM-dd");
+            const eDate = format(date[0].endDate, "yyyy-MM-dd");
 
             const url1 = `/api/hotels/default/${uid}`
             const fetchFile1 = fetch(url1)
 
-            const url2 = `/api/hotels/price?uid=${uid}&destination_id=${dest_id}&checkin=2023-10-01&checkout=2023-10-07&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+            // const url2 = `/api/hotels/price?uid=${uid}&destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+            const url2 = `/api/hotels/price?uid=${uid}&destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
 
             const fetchFile2 = fetch(url2);
             
@@ -116,12 +117,20 @@ const Hotel = () => {
                       </div>
                 </div>
                 <div ref={roomListRef} className="roomList">
-                {data2.rooms &&
-                data2.rooms.map((item) => (
-                    <HotelRoom key={item.key} item={item}/>
-                ))}
-                 
-            {!data2.rooms && <div className="roomAvail"> No rooms available.</div>}
+                {(() => {
+            if (loading || data2.length === 0) {
+              // Display "Loading" while data is being fetched
+              return <p className="hotelAvail">Loading</p>;
+            } else if (!loading && data2.rooms) {
+              // Display the list of hotels if there are hotels available
+              return data2.rooms.map((item) => (
+                <HotelRoom key={item.key} item={item}/>
+              ));
+            } else if (!loading && !data2.rooms) {
+              // Display "No available hotels" if there are no hotels available
+              return <p className="hotelAvail">No available hotels.</p>;
+            }
+          })()}
                 </div>
             </div>
         </div> ) }
@@ -131,3 +140,10 @@ const Hotel = () => {
 }
 
 export default Hotel
+
+{/* {data2.rooms &&
+                data2.rooms.map((item) => (
+                    <HotelRoom key={item.key} item={item}/>
+                ))}
+                 
+            {!data2.rooms && <div className="roomAvail"> No rooms available.</div>} */}
