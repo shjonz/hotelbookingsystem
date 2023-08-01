@@ -103,4 +103,18 @@ async function deleteBooking(req, res, next) {
     next();
 }
 
+async function updateBooking(req, res, next) {
+
+    try {
+
+        const updatedBooking = await Bookings.findByIdAndUpdate(req.query.uid,{ $set: req.body});
+
+        res.updatedBooking = updatedBooking;
+
+      } catch (e) {res.send(e);}
+
+      next();
+
+}
+
 export default router;
