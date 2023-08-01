@@ -46,6 +46,24 @@ import InfiniteScroll from "react-infinite-scroll-component";
 //     if (timeout) clearTimeout(timeout);
 //   };
 // }, [timeout]);
+export const sortBySearchRank = (hotelA, hotelB) => {
+  // Check if both hotels have searchRank
+  if (hotelA.searchRank !== undefined && hotelB.searchRank !== undefined) {
+    return hotelB.searchRank - hotelA.searchRank; // Sort in descending order
+  } else if (
+    hotelA.searchRank === undefined &&
+    hotelB.searchRank !== undefined
+  ) {
+    return 1; // hotelA has no searchRank, so move it to the end
+  } else if (
+    hotelA.searchRank !== undefined &&
+    hotelB.searchRank === undefined
+  ) {
+    return -1; // hotelB has no searchRank, so move it to the end
+  } else {
+    return 0; // Both hotels have no searchRank, keep their order unchanged
+  }
+};
 
 const HotelsList = () => {
   const { uid, dest_id, date, guests, lang, currency, partner_id } =
