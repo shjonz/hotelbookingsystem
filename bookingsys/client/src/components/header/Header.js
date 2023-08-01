@@ -79,7 +79,6 @@ const Header = ({type}) => {
     const onSearch = (searchTerm) => {
         
         const item_json = dropDownList.find( ({ name }) => name === searchTerm );
-        console.log("onSearch value ", searchTerm, item_json, item_json.uid );
         setDestination(searchTerm);
         setDestID(item_json.uid);
         //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
@@ -89,13 +88,11 @@ const Header = ({type}) => {
     //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
     const fetchData = (value) => {
         try {
-            console.log("string", value);
             fetch(`/search?name=${value}`)
             .then( (response) => response.json() )
             .then( (data) => {
 
                 const results = data.filter( (item) => {
-                    console.log(item.name);
                     return (
                     value && 
                     item && 
@@ -240,7 +237,7 @@ const Header = ({type}) => {
           <label>Destination</label>
           <input placeholder={location.state.destination} 
           type="text" 
-          value = {destination}
+          value = {location.state.destination}
           onChange={ (e) => handleChange(e.target.value) } 
           onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
           />  

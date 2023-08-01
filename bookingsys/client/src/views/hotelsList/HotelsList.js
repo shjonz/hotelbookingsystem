@@ -2,50 +2,14 @@ import React, { useContext } from "react";
 import "./hotelsList.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { format } from "date-fns";
-import { DateRange } from "react-date-range";
 import Search from "../../components/search/Search";
-import useFetch from "../../hooks/useFetch";
-import FetchSearch from "../../hooks/FetchSearch";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
 import { SearchContext } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-// const HotelsList = () => {
-//useRef is a value that persists after each render becoz inside react every single thing we do is only stored inside that render unless its part of our state
-//if we wanna store sth btwn renders tat isnt part of our state, need to useRef, gd for storing references to elements
-// const observer = useRef(); //need to get reference to last element,
-// //useRef not part of our state, so it doesnt update every time state changes, so when our reference changes, it doesnt actly rerun our component, so we need useCallback
-// const lastElementRef = useCallback( node => {
-//   if (loading) return
-//   if (observer.current) observer.current.disconnect()
-//   observer.current = new IntersectionObserver(entries => {
-//     if (entries[0].isIntersecting && hasMore) {
-//       setPage
-//     }
-//   })
-//   if (node ) observer.current.observe(node)
 
-//   //this is wtv current iteration of tat variable is, so if we hv an observer wat we do is disconnect the observer from the prev element, so our new last element
-//   //will be hooked up correctly coz we gonna reconnect it
-//   console.log(' hotels list inside use callback ', node)
-// }, loading, hasMore );
-
-//infinite scrolling
-// const batchSize = 10;
-// const [records, setRecords] = useState([]);
-// const scrollViewportRef = useRef<HTMLDivElement>(null);
-// let timeout: ReturnType<typeof setTimeout> | undefined;
-
-//infinite scroll
-// Clear timeout on unmount
-// useEffect(() => {
-//   return () => {
-//     if (timeout) clearTimeout(timeout);
-//   };
-// }, [timeout]);
 export const sortBySearchRank = (hotelA, hotelB) => {
   // Check if both hotels have searchRank
   if (hotelA.searchRank !== undefined && hotelB.searchRank !== undefined) {
@@ -104,12 +68,7 @@ const HotelsList = () => {
     setMaxRating(max);
   };
 
-  // const batchSize = 10;
-  // const [records, setRecords] = useState(data.slice(0,10));
-  // const scrollViewportRef = useRef
 
-  //let timeout: returnType<typeof setTimeout> | undefined;
-  //infinite scrolling
   const loadMoreRecords = () => {
     const remainingHotels = sortedHotels.length - dataSource.length;
     if (remainingHotels > 0) {
@@ -143,12 +102,13 @@ const HotelsList = () => {
         .then((data) => {
           setData(data);
         });
-        setDataSource([]);
-        setHasMore(true);
+        
     } catch (err) {
       console.log(" use effect error");
     }
     setLoading(false);
+    setDataSource([]);
+    setHasMore(true);
   }, [useContext(SearchContext)]);
   //console.log('use effect has collected data, records ', data, records);
 
@@ -171,37 +131,46 @@ const HotelsList = () => {
     }
   };
 
-  // Filter the hotels based on the current min and max prices
-  const filteredHotels = data.filter((hotel) => {
-    // Check if hotel name contains the filter input (case-insensitive)
+ 
+  const memoizedFilteredHotels = useMemo(() => {
+    return data.filter((hotel) => {
+         // Check if hotel name contains the filter input (case-insensitive)
     const isNameFiltered =
-      hotel.name &&
-      (hotelNameFilter.trim() === "" ||
-        hotel.name
-          .toLowerCase()
-          .includes(hotelNameFilter.trim().toLowerCase()));
+    hotel.name &&
+    (hotelNameFilter.trim() === "" ||
+      hotel.name
+        .toLowerCase()
+        .includes(hotelNameFilter.trim().toLowerCase()));
 
-    // Check if hotel price is within the filter range
-    const isPriceFiltered =
-      hotel.price !== undefined && hotel.price >= min && hotel.price <= max;
+  // Check if hotel price is within the filter range
+  const isPriceFiltered =
+    hotel.price !== undefined && hotel.price >= min && hotel.price <= max;
 
-    // Return true if both name and price filters match or if both filters are not applied
+  // Check if hotel rating is within the filter range
+  const isRatingFiltered =
+  hotel.rating >= minRating && hotel.rating <= maxRating;  
 
-    const isRatingFiltered =
-      hotel.rating >= minRating && hotel.rating <= maxRating;
+  // Return true if all filters match or if filters are not applied
+  return isNameFiltered && isPriceFiltered && isRatingFiltered;
+    });
+  }, [data, min, max, hotelNameFilter, minRating, maxRating]);
 
-    return isNameFiltered && isPriceFiltered && isRatingFiltered;
-  });
+  const sortedHotels = memoizedFilteredHotels.sort(sortBySearchRank);
 
-  // console.log("filtered", filteredHotels);
-  const sortedHotels = filteredHotels.sort(sortBySearchRank);
-  console.log("sorted", sortedHotels);
-
-
-  let timeout;
   //this shit causes error
   //setDataSource(sortedHotels.slice(0, batchSize));
   console.log("dataSource", dataSource);
+
+  useEffect(() => {
+    
+    try {
+      setDataSource([])
+      setHasMore(true)
+    } catch (err) {
+      console.log(" inf scrolling use effect error");
+    }
+   
+  }, [memoizedFilteredHotels]);
 
   return (
     <div className="hotelList">
@@ -245,32 +214,6 @@ const HotelsList = () => {
           </div>
         </div>
 
-        {/* <div className="listResult"  >
-             { {loading ? (
-          //     "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-          //   ) : (
-          //     <>
-          //       {data.map((item) => (
-          //         <Search  item={item} key={item.id} />
-          //       ))}
-          //     </>
-           //  )} } }
-            { <InfiniteScroll dataLength={dataSource.length} next={loadMoreRecords} hasMore={hasMore} loader={<p>Loading..</p>} endMessage={<p>You are at the end!</p>} >
-              {loading ? (
-                "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-                ) : (
-                  <>
-                    { 
-                    dataSource.map( (item) => (
-                
-                    <Search item = {item} key={item.id} />
-                    ) ) 
-                  }
-                  </>
-                )} 
-            </InfiniteScroll>}
-           </div> */}
-
         <div className="listResult">
           {(() => {
             if (loading || data.length === 0) {
@@ -283,7 +226,7 @@ const HotelsList = () => {
                   dataLength={dataSource.length}
                   next={loadMoreRecords}
                   hasMore={hasMore}
-                  loader={<p>Loading..</p>}
+                  loader={<p>Scroll to load more hotels.</p>}
                   endMessage={<p>No more available hotels.</p>}
                 >
                       {dataSource.map((item) => (
