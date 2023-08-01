@@ -47,12 +47,11 @@ import { SearchContext } from "../../context/SearchContext";
 // }, [timeout]);
 
 const HotelsList = () => {
-  const { uid, dest_id, date, guests, lang, currency, partner_id } =
-    useContext(SearchContext);
-
+  const { uid, dest_id, date, guests, lang, currency, partner_id, destination } =
+  useContext(SearchContext);
   //again go see how to use use States and useLocation()
   const location = useLocation();
-  const [destination, setDestination] = useState(location.state.destination);
+  const setDestination = useState(destination);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [data, setData] = useState([]);
@@ -98,6 +97,7 @@ const HotelsList = () => {
 
   //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect(() => {
+    setLoading(true)
     try {
       const sDate = format(date[0].startDate,"yyyy-MM-dd");
       const eDate = format(date[0].endDate,"yyyy-MM-dd");
@@ -112,21 +112,10 @@ const HotelsList = () => {
     } catch (err) {
       console.log(" use effect error");
     }
+    console.log("data", data)
     setLoading(false);
-  }, []);
+  }, [useContext(SearchContext)]);
   //console.log('use effect has collected data, records ', data, records);
-
-  //this is for the search bar on the hotels results page @John-David-Tan this for u to edit
-  const handleClick = () => {
-    //console.log("location ,destination ", location, " ", destination);
-    console.log(
-      destination,
-      date[0].startDate,
-      date[0].endDate,
-      openDate[0],
-      options
-    );
-  };
 
   const sortBySearchRank = (hotelA, hotelB) => {
     // Check if both hotels have searchRank
@@ -170,81 +159,21 @@ const HotelsList = () => {
   });
 
   console.log("filtered", filteredHotels);
-  const sortedHotels = filteredHotels.sort(sortBySearchRank);
+  const sortedHotels  = filteredHotels.sort(sortBySearchRank);
   console.log("sorted", sortedHotels);
+  
+  
 
   return (
-    <div>
+    <div className="hotelList">
       <Navbar />
 
-      <Header type="list" />
+      
 
       <div className="listContainer">
         <div className="listWrapper">
-          <div className="listSearch">
-            <h1 className="lsTitle">Search</h1>
 
-            <div className="lsItem">
-              <label>Destination</label>
-              <input placeholder={destination} type="text" />
-            </div>
-
-            <div className="lsItem">
-              <label>Check-in Date</label>
-              <span onClick={() => setOpenDate(!openDate)}>{`${format(
-                date[0].startDate,
-                "yyyy-MM-dd" //this is the dates that will open up when u click
-              )} to ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
-              {openDate && (
-                <DateRange
-                  onChange={(item) => setDate([item.selection])}
-                  minDate={new Date()}
-                  ranges={date}
-                />
-              )}
-            </div>
-
-            <div className="lsItem">
-              <label>Options</label>
-
-              <div className="lsOptions">
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">Adult</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className="lsOptionInput"
-                    placeholder={options.adult}
-                  />
-                </div>
-
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">Children</span>
-                  <input
-                    type="number"
-                    min={0}
-                    className="lsOptionInput"
-                    placeholder={options.children}
-                  />
-                </div>
-
-                <div className="lsOptionItem">
-                  <span className="lsOptionText">Room</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className="lsOptionInput"
-                    placeholder={options.room}
-                  />
-                </div>
-              </div>
-            </div>
-            <button //this is the search enginer at the side
-              onClick={handleClick}
-            >
-              Search
-            </button>
-          </div>
+          <Header type="list" />
 
           <div className="listFilter">
             <h1 className="lsTitle">Filter</h1>
@@ -268,7 +197,6 @@ const HotelsList = () => {
                 />
               </div>
             </div>
-
             <div className="lsItem">
               <label>Rating Range</label>
               <div className="ratingRangeSlider">
@@ -279,32 +207,6 @@ const HotelsList = () => {
                 />
               </div>
             </div>
-
-            {/*  <div className="listResult"  >
-             {loading ? (
-          //     "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-          //   ) : (
-          //     <>
-          //       {data.map((item) => (
-          //         <Search  item={item} key={item.id} />
-          //       ))}
-          //     </>
-             )}
-            
-            /* {loading ? (
-              "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-            ) : (
-              <>
-              { 
-              records.map( (item) => (
-                
-                <Search item = {item} key={item.id} />
-              ) ) 
-              }
-              </>
-            )} 
-
-           </div> */}
           </div>
         </div>
         <div className="listResult">
