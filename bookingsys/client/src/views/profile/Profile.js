@@ -42,16 +42,6 @@ const Profile = () => {
     setChangesSaved(true);
     setEditMode(false);
 
-    //prolly have to change this to useState eventually
-    // const email = "cordtest@gmail.com";
-    // const uid = '64ba4601fb292664fa578119'
-    // const updates = {
-    // //  bookingHistory: ["64b7b57c7ce93fc68ac620c3", "another_booking_id"],
-    //   uid: "64ba4601fb292664fa578119",
-    //   name: fname,
-    //   email: email,
-    //   password: pass,
-    // };
   
     //try to update profile
     try {
@@ -82,18 +72,6 @@ const Profile = () => {
   
   };
 
-  
-  
-  
-  // useEffect(() => {
-  //   fetch(`/api/bookings/?uid=64b7c2f4e5ebb8f59401c8ff`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(data); // Log the data received from the API
-  //       setBookings(data);
-  //     })
-  //     .catch((error) => console.error('Error fetching bookings:', error));
-  // }, []);
 
   //useeffect to get account for bookings--------------------------
   useEffect(  () => {
@@ -251,23 +229,6 @@ const Profile = () => {
               </div>
             </div>
           </Tab>
-          {/* <Tab eventKey="bookings" title="Bookings">
-            <p>Tab content for Bookings hehehehehe</p>
-{bookings ? (
-    <ProfileCard
-      key={bookings._id}
-      title={bookings.destID}
-      price={bookings.price}
-      imageSrc={bookings.price}
-      description={bookings.hotelID}
-      buttonText="Details"
-      buttonLink="/"
-    />
-  ) : (
-    <p>Loading bookings...</p>
-  )}
-          
-          </Tab> */}
 
 <Tab eventKey="bookings" title="Bookings">
   <div className="bookingcards">

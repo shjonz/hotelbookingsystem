@@ -45,11 +45,7 @@ const Navbar = () => {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
-                        {/* <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/login">Profile</a></li> */}
-                        {/* <button className="navButton"><Link to={"/register"}>Register</Link></button> */}
-                        <button className="navButton"><Link to={"/login"}>Login/Sign Up</Link></button>
-                        <button className="navButton"><Link to={"/register"}>Register</Link></button>
-                        <button className="navButton"><Link to={"/login"}>Login</Link></button>       
+                        <button className="navButton"><Link to={"/login"}>Login/Sign Up</Link></button>  
                 </div>
             ) }
             </div>
