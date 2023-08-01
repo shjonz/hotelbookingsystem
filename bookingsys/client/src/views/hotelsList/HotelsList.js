@@ -10,7 +10,7 @@ import Search from "../../components/search/Search";
 import useFetch from "../../hooks/useFetch";
 import FetchSearch from "../../hooks/FetchSearch";
 import MultiRangeSlider from "../../components/multiRangeSlider/MultiRangeSlider";
-import { SearchContext } from '../../context/SearchContext';
+import { SearchContext } from "../../context/SearchContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 // const HotelsList = () => {
@@ -48,24 +48,34 @@ import InfiniteScroll from "react-infinite-scroll-component";
 // }, [timeout]);
 
 const HotelsList = () => {
-  const { uid, dest_id, date, guests, lang, currency, partner_id, destination } =
-  useContext(SearchContext);
-  //again go see how to use use States and useLocation()
-  const location = useLocation();
-  const setDestination = useState(destination);
-  const [openDate, setOpenDate] = useState(false);
-  const [options, setOptions] = useState(location.state.options);
+  const {dispatch} = useContext(SearchContext);
+  //searchContext
+  const {
+    uid,
+    dest_id,
+    date,
+    guests,
+    lang,
+    currency,
+    partner_id,
+    destination,
+  } = useContext(SearchContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const setDate = useState(date);
-  const [hotelNameFilter, setHotelNameFilter] = useState("");
 
-  //@John-David-Tan this for u to edit
+  //infinite scrolling params
+  const batchSize = 10;
+  const [dataSource, setDataSource] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  //filter params
+  const [hotelNameFilter, setHotelNameFilter] = useState("");
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(2500);
   const [minRating, setMinRating] = useState(1);
   const [maxRating, setMaxRating] = useState(5);
 
+  //filter handlers
   const handlePriceRangeChange = ({ min, max }) => {
     setMin(min);
     setMax(max);
@@ -83,17 +93,16 @@ const HotelsList = () => {
   //let timeout: returnType<typeof setTimeout> | undefined;
   //infinite scrolling
   const loadMoreRecords = () => {
-    //console.log(' inside load more records ', records);
-    if (dataSource.length < data.length) {
-      
-      timeout = setTimeout(() => {
-        setDataSource(data.slice(0, dataSource.length + batchSize));
-        
-      }, 1000);
-    } else {
+    const remainingHotels = sortedHotels.length - dataSource.length;
+    if (remainingHotels > 0) {
+      const nextBatchSize = Math.min(batchSize, remainingHotels);
+      setDataSource(sortedHotels.slice(0, dataSource.length + nextBatchSize));
+    }
+    else {
       setHasMore(false);
     }
   };
+  
 
   //reset infinite scrolling
   // const reset = () => {
@@ -101,15 +110,13 @@ const HotelsList = () => {
   //   // Make sure to scroll to top after resetting records
   //   scrollViewportRef.current?.scrollTo(0, 0);
   // };
-  
-  
 
   //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const sDate = format(date[0].startDate,"yyyy-MM-dd");
-      const eDate = format(date[0].endDate,"yyyy-MM-dd");
+      const sDate = format(date[0].startDate, "yyyy-MM-dd");
+      const eDate = format(date[0].endDate, "yyyy-MM-dd");
       fetch(
         // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
         `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
@@ -117,14 +124,12 @@ const HotelsList = () => {
         .then((response) => response.json())
         .then((data) => {
           setData(data);
-          //setDataSource(data.slice(0, batchSize));
-          //console.log(' ============== data source ', dataSource );
-          console.log(' ================ data ', data)
         });
+        setDataSource([]);
+        setHasMore(true);
     } catch (err) {
       console.log(" use effect error");
     }
-    console.log("data", data)
     setLoading(false);
   }, [useContext(SearchContext)]);
   //console.log('use effect has collected data, records ', data, records);
@@ -170,33 +175,23 @@ const HotelsList = () => {
     return isNameFiltered && isPriceFiltered && isRatingFiltered;
   });
 
-  console.log("filtered", filteredHotels);
-  const sortedHotels  = filteredHotels.sort(sortBySearchRank);
+  // console.log("filtered", filteredHotels);
+  const sortedHotels = filteredHotels.sort(sortBySearchRank);
   console.log("sorted", sortedHotels);
-  
-  
 
-  const batchSize = 10;
-  const [dataSource, setDataSource] = useState([]);
-  const [hasMore, setHasMore] = useState(true)
+
   let timeout;
-  //this shit causes error 
+  //this shit causes error
   //setDataSource(sortedHotels.slice(0, batchSize));
-
-  
-
+  console.log("dataSource", dataSource);
 
   return (
     <div className="hotelList">
       <Navbar />
 
-      
-
       <div className="listContainer">
         <div className="listWrapper">
-
-          <Header type="list" />
-
+          <Header type="list"/>
           <div className="listFilter">
             <h1 className="lsTitle">Filter</h1>
             <div className="lsItem">
@@ -229,14 +224,8 @@ const HotelsList = () => {
                 />
               </div>
             </div>
-
-             
-
-
-
           </div>
         </div>
-
 
         {/* <div className="listResult"  >
              { {loading ? (
@@ -263,7 +252,7 @@ const HotelsList = () => {
                 )} 
             </InfiniteScroll>}
            </div> */}
-        
+
         <div className="listResult">
           {(() => {
             if (loading || data.length === 0) {
@@ -272,34 +261,27 @@ const HotelsList = () => {
             } else if (sortedHotels.length > 0) {
               // Display the list of hotels if there are hotels available
               return (
-              <InfiniteScroll dataLength={sortedHotels.length} next={loadMoreRecords} hasMore={hasMore} loader={<p>Loading..</p>} endMessage={<p>You are at the end!</p>} >
-              {loading ? (
-                "loading" //over here is how u get a dynamic list of items, i will need to change to a load more button for now it loads 531 results which is p damn long
-                ) : (
-                  <>
-                    { 
-                    sortedHotels.map( (item) => (
-                
-                    <Search item = {item} key={item.id} />
-                    ) ) 
-                  }
-                  </>
-                )} 
-                
-            </InfiniteScroll> )
-
-            } else if (!sortedHotels.length) {
+                <InfiniteScroll
+                  dataLength={dataSource.length}
+                  next={loadMoreRecords}
+                  hasMore={hasMore}
+                  loader={<p>Loading..</p>}
+                  endMessage={<p>No more available hotels.</p>}
+                >
+                      {dataSource.map((item) => (
+                        <Search item={item} key={item.id} />
+                      ))}
+                    </InfiniteScroll>
+                  )
+                } else if (!sortedHotels.length) {
               // Display "No available hotels" if there are no hotels available
               return <p className="hotelAvail">No available hotels.</p>;
             }
           })()}
         </div>
-
-
       </div>
     </div>
-    
-  )   
+  );
 };
 
 export default HotelsList;
