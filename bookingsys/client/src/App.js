@@ -7,6 +7,7 @@ import Hotel from "../src/views/hotel/Hotel";
 import Register from './views/register/Register';
 import Login from './views/login/Login';
 import Profile from './views/profile/Profile';
+import GuestInfo from './components/guestInfo/guestInfo';
 
 
 import {
@@ -30,6 +31,7 @@ function App() {
         <Route path = "/profile" element={<Profile />} />
         <Route path = "/login" element = {<Login />} />
         <Route path = "/register" element = {<Register />} />
+        <Route path="/guestInfo" component={GuestInfo} />
       </Routes>
     </BrowserRouter>
   );
