@@ -147,25 +147,17 @@ const HotelsList = () => {
 
   const sortedHotels = memoizedFilteredHotels.sort(sortBySearchRank);
 
-  //this shit causes error
-  //setDataSource(sortedHotels.slice(0, batchSize));
-  console.log("dataSource", dataSource);
-
   useEffect(() => {
-    
     try {
-      
-        setDataSource([])
-        setHasMore(true)
-      
+        setDataSource([]);
+        setHasMore(true);
     } catch (err) {
       console.log(" inf scrolling use effect error");
     }
-   
   }, [memoizedFilteredHotels]);
 
   useEffect(() => {
-    
+  
     try {
       
       const remainingHotels = sortedHotels.length - dataSource.length;
