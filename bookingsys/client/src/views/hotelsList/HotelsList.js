@@ -187,7 +187,7 @@ const HotelsList = () => {
 
   const batchSize = 10;
   const [dataSource, setDataSource] = useState([]);
-  const [hasMore, setHasMore] = useState(true)
+  const [hasMore, setHasMore] = useState(true);
   let timeout;
   //this shit causes error 
   //setDataSource(sortedHotels.slice(0, batchSize));

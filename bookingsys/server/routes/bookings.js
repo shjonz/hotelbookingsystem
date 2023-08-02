@@ -34,6 +34,10 @@ router.post('/create', createBooking, (req, res) => {
     res.status(200).send(res.createBooking)
 })
 
+router.patch("/one", updateBookingList, (req, res) => {
+    res.status(200).send("Account's booking successfully updated.")
+  })
+
 // Function Space
 
 async function getAllBookings(req, res, next) {
@@ -89,5 +93,17 @@ async function deleteBooking(req, res, next) {
     }
     next();
 }
+
+async function updateBookingList(req, res, next) {
+    try {
+      //const accountValidity = await Accounts.findOneAndUpdate({_id: req.body.uid}, req.body);
+      const accountValidity = await Accounts.findOneAndUpdate({email: req.body.email});
+      res.getBookingList = accountValidity.bookingHistory.push(req.body.booking);
+      if (accountValidity == null) {
+        return res.status(409).send("Error 404: Account's booking list not found")
+      }
+    } catch (e) {res.send(e);}
+    next();
+  }
 
 export default router;

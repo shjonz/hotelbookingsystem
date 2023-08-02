@@ -24,6 +24,7 @@ const Header = ({type}) => {
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
     const [dropDownList, setDropdownList] = useState([]);
+    const [isClicked, setIsClicked] = useState(false);
 
 
     //this is to select the dates
@@ -66,8 +67,13 @@ const Header = ({type}) => {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
-        navigate("/hotels", { state: { destination, date, options, dest_id } });
+        if (isClicked) {
+            dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
+            navigate("/hotels", { state: { destination, date, options, dest_id } });
+        } else {
+            alert('pls click on one of the dropdown list ');
+        }
+        
     };
 
     //this is used to change the dropdown list when i click on the dropdown list suggestions
@@ -77,6 +83,7 @@ const Header = ({type}) => {
         console.log("onSearch value ", searchTerm, item_json, item_json.uid );
         setDestination(searchTerm);
         setDestID(item_json.uid);
+        setIsClicked(true);
         //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
     };
 
@@ -100,6 +107,7 @@ const Header = ({type}) => {
                 });
                 
                 setDropdownList(results);
+                console.log('lemme see results: ', results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
                 console.error('Truncated data: Not all of the JSON data was received');
@@ -112,8 +120,9 @@ const Header = ({type}) => {
 
     //this causes the changes in the input when u type stuff in the search input box
     const handleChange = (value) => {
+        fetchData(value);
+        //console.log('dropDownList[0]: ', dropDownList[0])
         setDestination(value);
-        fetchData(value);  
     }
 
 
