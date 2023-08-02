@@ -70,7 +70,6 @@ const Hotel = () => {
   return (
     <div>
         <Navbar/>
-        <Header type="list"/>
         { loading ? "loading" : (
         <div className="hotelContainer">
             <div className="hotelWrapper">

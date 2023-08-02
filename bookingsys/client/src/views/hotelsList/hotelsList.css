@@ -1,25 +1,20 @@
 .listContainer {
+  margin-top: 20px;
+  width: max-content;
+  height: max-content;
+  position: absolute;
   display: flex;
   justify-content: center;
 }
 
 .listWrapper {
-  margin-left: 10%;
-  width: 33%;
+  margin-left: 200px;
   height: max-content;
-  max-width: max-content;
+  width: max-content;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: relative;
-}
-
-.listSearch {
-  flex: 1;
-  background-color: lightblue;
-  padding: 10px;
-  border-radius: 10px;
-  height: max-content;
+  position: static;
 }
 
 .lsTitle{
@@ -43,46 +38,6 @@
   height: 30px;
   border: none;
   padding: 5px;
-}
-.lsItem>span{
-  height: 30px;
-  padding: 5px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.lsOptions{
-  padding: 10px;
-}
-
-.lsOptionItem{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  color: #555;
-  font-size: 12px;
-}
-
-.lsOptionInput{
-  width: 50px;
-}
-
-.listSearch>button{
-  padding: 10px;
-  background-color: #0071c2;
-  color: white;
-  border: none;
-  width: 100%;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.listResult {
-  flex: 3;
-  position: relative;
-  margin-left: 20px;
 }
 
 .listFilter{
@@ -94,59 +49,15 @@
   height: max-content;
 }
 
+.listResult{
+position: relative;
+height: max-content;
+width: max-content;
+}
+
 .priceRangeSlider,
 .ratingRangeSlider{
   max-height: 30px;
-}
-
-
-.lsTitle{
-  font-size: 20px;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-.lsItem{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-bottom: 10px;
-}
-
-.lsItem>label{
-  font-size: 12px;
-}
-
-.lsItem>input{
-  height: 30px;
-  border: none;
-  padding: 5px;
-}
-
-.lsItem>span{
-  height: 30px;
-  padding: 5px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-
-}
-
-
-.checkboxes {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-  z-index: 1;
-}
-
-.checkboxes label {
-  margin-bottom: 5px;
-}
-
-.checkboxes input[type="checkbox"] {
-  margin-right: 5px;
 }
 
 .hotelAvail {
@@ -155,8 +66,3 @@
   font-weight: bold;
 }
 
-.hotelLoading {
-  font-size: 40px;
-  color: #003580;
-  font-weight: bold;
-}

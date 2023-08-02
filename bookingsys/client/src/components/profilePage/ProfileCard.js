@@ -6,85 +6,103 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-// const ProfileCard = ({ title, imageSrc, description, price, buttonText, buttonLink }) => (
-//     <Card style={{ width: "18rem" }}>
-//       <Card.Img variant="top" src={imageSrc} />
-//       <Card.Body>
-//         <Card.Title>{title}</Card.Title>
-//         <Card.Text>{description}</Card.Text>
-//         <Card.Text>{price}</Card.Text>
-//         <Link to={buttonLink}>
-//           <Button variant="primary">{buttonText}</Button>
-//         </Link>
-//       </Card.Body>
-//     </Card>
-//   );
-
-// export default ProfileCard
-
-
-const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink }) => (
-    <Card style={{ width: "18rem" }}>
-      <Card.Img variant="top" src={imageSrc} />
-      <Card.Body>
-        <Card.Title>{Dest}</Card.Title>
-        <Card.Text>smth here: {Hotel}</Card.Text>
-        <Card.Text>Price: {Price}</Card.Text>
-        <Link to={buttonLink}>
-          <Button variant="primary">{buttonText}</Button>
-        </Link>
-      </Card.Body>
-    </Card>
-  );
-
-  
 
 const ProfileCard = ({ bookingId }) => {
-  console.log("bookingId:", bookingId);
-  const [bookingData, setBookingData] = useState(null);
+console.log("bookingId:", bookingId);
+const [bookingData, setBookingData] = useState(null);
+const [bookingExists, setBookingExists] = useState(true);
 
-  useEffect(() => {
-    console.log('got it', bookingId, bookingData);
-    fetch(`/api/bookings/one?uid=${bookingId}`)
-    
-      .then((response) => response.json())
-      .then((data) => {
-        
-        setBookingData(data);
-        console.log('here', bookingData); // Log the data received from the API
-      })
-      .catch((error) => console.error("Error fetching booking details:", error));
-  }, [bookingId]);
+const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink, cancelButton }) => (
+  <Card style={{ width: "18rem" }}>
+    <Card.Img variant="top" src={imageSrc} />
+    <Card.Body>
+      <Card.Title>{Dest}</Card.Title>
+      <Card.Text>smth here: {Hotel}</Card.Text>
+      <Card.Text>Price: {Price}</Card.Text>
+      <Link to={buttonLink}>
+        <Button variant="primary">{buttonText}</Button>
+      </Link>
+      <Button variant="danger" size='sm' onClick={onCancelClick}>{cancelButton}</Button>
+    </Card.Body>
+  </Card>
+);
 
-  useEffect(() => {
-  //  console.log('here', bookingData); // Log the updated bookingData state
-  }, [bookingData]);
+const onCancelClick = async () => {
+  console.log('wassup');
+  try {
+    const response = await fetch(`/api/bookings/one?uid=${bookingId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-
-
-  return (
-    <div>
-      {bookingData ? (
-        <div>
-          {/* <h3>{bookingData.destID}</h3>
-          <p>Price: {bookingData.price}</p>
-          Add other booking details you want to display */}
-          <ProfileCardMid 
-          Dest = {bookingData.destID}
-          Hotel = {bookingData.hotelID}
-          Price = {bookingData.price}
-          imageSrc = {bookingData.price}
-          buttonText ="details"
-          buttonLink = "/"
-
-          />
-
-        </div>
-      ) : (
-        <p>Loading booking details...</p>
-      )}
-    </div>
-  );
+    if (response.ok) {
+      console.log("Booking successfully canceled.");
+      // Perform actions to reflect the cancellation, like updating the state or showing a success message.
+    } else {
+      console.error("Failed to cancel booking. Status:", response.status);
+      // Show an error message to the user or take other appropriate actions based on the status code.
+    }
+  } catch (error) {
+    console.error("Error canceling booking:", error);
+    // Handle any other errors that might occur during the fetch operation.
+  }
 };
+
+useEffect(() => {
+  console.log('got it', bookingId, bookingData);
+  fetch(`/api/bookings/one?uid=${bookingId}`)
+  
+    //.then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        setBookingExists(false); // Set bookingExists to false if the booking doesn't exist
+        throw new Error("Booking not found");
+      }
+    })
+
+    .then((data) => {
+      
+      setBookingData(data);
+      console.log('here', bookingData); // Log the data received from the API
+    })
+    .catch((error) => console.error("Error fetching booking details:", error));
+}, [bookingId]);
+
+useEffect(() => {
+}, [bookingData]);
+
+
+
+return (
+  <div>
+    {bookingData ? (
+      <div>
+        <ProfileCardMid 
+        Dest = {bookingData.destID}
+        Hotel = {bookingData.hotelID}
+        Price = {bookingData.price}
+        imageSrc = {bookingData.price}
+        buttonText ="details"
+        buttonLink = "/"
+        cancelButton ="cancel"
+
+
+        />
+
+      </div>
+    ) : ( null
+       //<p>Loading booking details...</p>
+    )}
+  </div>
+);
+};
+
+
+
+
 
 export default ProfileCard;

@@ -1,7 +1,7 @@
 import { createContext, useReducer } from "react";
 
 const INITIAL_STATE = {
-
+    destination : undefined,
     uid: undefined,
     dest_id: undefined,
     date: [],
@@ -33,6 +33,8 @@ const SearchReducer = (state, action) => {
         return { ...state, currency: action.payload };
       case "UPDATE_PARTNER_ID":
         return { ...state, partner_id: action.payload };
+      case "UPDATE_DESTINATION":
+        return {...state, destination: action.payload};
       default:
         return state;
     }
@@ -51,6 +53,7 @@ export const SearchContextProvider = ({ children }) => {
         lang : state.lang,
         currency : state.currency,
         partner_id : state.partner_id,
+        destination: state.destination,
         dispatch
       }}
     >

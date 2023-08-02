@@ -14,6 +14,11 @@ router.get("/one", getBooking, (req, res) => {
     res.status(200).send(res.getBooking)
 })
 
+// Update single booking using unique ID of booking 
+router.put("/one", updateBooking, (req, res) => {
+    res.status(200).send("Booking successfully updated.")
+})
+
 // Get a user's booking data by giving their unique ID provided by Mongo.
 router.get("/id", getBookingList, (req, res) => {
     res.status(200).send(res.getBookingList)
@@ -34,10 +39,6 @@ router.post('/create', createBooking, (req, res) => {
     res.status(200).send(res.createBooking)
 })
 
-router.patch("/one", updateBookingList, (req, res) => {
-    res.status(200).send("Account's booking successfully updated.")
-  })
-
 // Function Space
 
 async function getAllBookings(req, res, next) {
@@ -57,14 +58,22 @@ async function getBooking(req, res, next) {
     next();
 }
 
+// async function getBookingList(req, res, next) {
+//     try {
+//         const getBookingList = await Accounts.findById(req.query.uid)
+//         res.getBookingList = getBookingList.bookingHistory
+//     } catch (e) {res.send(e);}
+//     next();
+// }
+
 async function getBookingList(req, res, next) {
-    try {
-        const getBookingList = await Accounts.findById(req.query.uid)
-        res.getBookingList = getBookingList.bookingHistory
-        //res.json(getBookingList.bookingHistory)
-    } catch (e) {res.send(e);}
-    next();
-}
+        try {
+            const getBookingList = await Accounts.findOne({email: req.query.email})
+            res.getBookingList = getBookingList.bookingHistory
+        } catch (e) {res.send(e);}
+        next();
+    }
+
 
 async function deleteBooking(req, res, next) {
     try {
@@ -94,16 +103,18 @@ async function deleteBooking(req, res, next) {
     next();
 }
 
-async function updateBookingList(req, res, next) {
+async function updateBooking(req, res, next) {
+
     try {
-      //const accountValidity = await Accounts.findOneAndUpdate({_id: req.body.uid}, req.body);
-      const accountValidity = await Accounts.findOneAndUpdate({email: req.body.email});
-      res.getBookingList = accountValidity.bookingHistory.push(req.body.booking);
-      if (accountValidity == null) {
-        return res.status(409).send("Error 404: Account's booking list not found")
-      }
-    } catch (e) {res.send(e);}
-    next();
-  }
+
+        const updatedBooking = await Bookings.findByIdAndUpdate(req.query.uid,{ $set: req.body});
+
+        res.updatedBooking = updatedBooking;
+
+      } catch (e) {res.send(e);}
+
+      next();
+
+}
 
 export default router;

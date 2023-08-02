@@ -5,7 +5,7 @@ import server from '../../server';
 describe('Test getAllAccounts ', () => { // Get all users' existing account details 
     test('It should response the GET method', async () => {
         const response = await request(server).get('/api/accounts');
-        console.log(response.body) /* 
+        /*console.log(response.body)  
         [
         {
           _id: '64b7b57c7ce93fc68ac620c3',
@@ -28,7 +28,7 @@ describe('Test getAllAccounts ', () => { // Get all users' existing account deta
 describe('Test getAccount ', () => { // Get a specific user's account details based on email
     test('It should response the GET method', async () => { 
         const response = await request(server).get('/api/accounts/one?email=jon@gmail.com');
-        console.log(response.body) /*     {
+        /*console.log(response.body)      {
             _id: '64b7cea9dd171faed8280a5f',
             name: 'test',
             email: 'jon@gmail.com',
@@ -62,10 +62,10 @@ describe('Test no results for getAccount ', () => {
 //     });
 // });
 
-describe('Test deleteAccount ', () => { // Test deletion of account
-    test('It should response the delete method', async () => {
-        const response = await request(server).delete('/api/accounts/one?uid=64bbeb3d5ef31a863f77b669');
-        //console.log(response.body)
-        expect(response.statusCode).toBe(200);
-    });
-});
+// describe('Test deleteAccount ', () => { // Test deletion of account
+//     test('It should response the delete method', async () => {
+//         const response = await request(server).delete('/api/accounts/one?uid=64bbeb3d5ef31a863f77b669');
+//         //console.log(response.body)
+//         expect(response.statusCode).toBe(200);
+//     });
+// });

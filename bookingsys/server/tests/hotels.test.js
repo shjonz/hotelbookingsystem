@@ -5,7 +5,7 @@ import server from '../../server';
 describe('Test hotelList ', () => { // Searches for a list of hotels based on the UID of the destination.
     test('It should response the GET method', async () => {
         const response = await request(server).get('/api/hotels/default?destination_id=WD0M');
-        console.log(response.body)
+        //console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
 });
@@ -51,7 +51,7 @@ describe('Test no results for hotelSearch i.e. invalid id ', () => {
 describe('Test hotelListPrices ', () => { // Searches for a list of hotels' prices and info based on UID of destination
     test('It should response the GET method', async () => {
         const response = await request(server).get('/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
-        console.log(response.body)
+        //console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
 });
