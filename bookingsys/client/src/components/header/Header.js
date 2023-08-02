@@ -128,7 +128,7 @@ const Header = ({type}) => {
 
             <div className="headerSearch">
 
-                <div className="headerSearchItem">
+                <div className="headerSearchDest">
                     <label>Destination</label>
                     <input className="headerSearchInput" 
                     type="text" 
@@ -138,10 +138,7 @@ const Header = ({type}) => {
                     onChange={ (e) => handleChange(e.target.value) } 
                     onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
                     /> 
-                    
-            </div> 
-
-            <div className="dropdown" style={{ display: showDropdown ? 'flex' : 'none' }}>
+                   <div className="dropdown" style={{ display: showDropdown ? 'flex' : 'none' }}>
                 {dropDownList
                     .map( (item) => (
                         //this is responsible for drop down that appears
@@ -156,10 +153,9 @@ const Header = ({type}) => {
                     {item.name}
                     </div>
                 ))}
+            </div>  
             </div> 
 
-
-            <div className="headerSearchItem">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
                 ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
@@ -171,10 +167,8 @@ const Header = ({type}) => {
                     className="date"
                     minDate={new Date()}
                 /> }
-            </div>
 
 
-            <div className="headerSearchItem">
                 <span onClick={ () => setOpenOptions( !openOptions ) }
                 className="headerSearchText">{`${options.adult} adult ${options.children} children 
                 ${options.room} room`}</span>
@@ -216,14 +210,14 @@ const Header = ({type}) => {
                     </div>
 
                     </div> )}
-                </div>
+            
                 
 
                     <button className="headerButton" 
                     //search button click here brings u to next page /hotels list page
                     onClick={handleSearch}>Search</button>
-
-            </div> 
+    </div>
+         
             </div>}
 
 
