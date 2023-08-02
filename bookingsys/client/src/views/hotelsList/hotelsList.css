@@ -8,13 +8,13 @@
 }
 
 .listWrapper {
-  left: 15%;
+  margin-left: 200px;
   height: max-content;
   width: max-content;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: relative;
+  position: static;
 }
 
 .lsTitle{
@@ -50,7 +50,6 @@
 }
 
 .listResult{
-left: 20%;
 position: relative;
 height: max-content;
 width: max-content;
