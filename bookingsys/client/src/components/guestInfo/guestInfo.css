@@ -1,0 +1,67 @@
+/* guestInfo.css */
+
+/* Container for the entire GuestInfo component */
+.GuestInfo {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+.GuestInfo h1 {
+  margin-bottom: 20px;
+}
+
+/* Form input group */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Text input */
+.input-group input[type="text"],
+.input-group input[type="email"],
+.input-group input[type="tel"],
+.input-group textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Textarea */
+.input-group textarea {
+  resize: vertical; /* Allow vertical resizing for the textarea */
+}
+
+/* Submit button */
+.input-group input[type="submit"] {
+  background-color: #4caf50;
+  color: rgb(255, 255, 255);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Styling for the "Form data exists" or "Please fill out the form" message */
+.GuestInfo p {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #888;
+}
+.GuestInfo button:hover {
+  background-color: #0056b3;
+/* Additional styling as needed */
+}
