@@ -30,7 +30,6 @@ export const sortBySearchRank = (hotelA, hotelB) => {
 };
 
 const HotelsList = () => {
-  const {dispatch} = useContext(SearchContext);
   //searchContext
   const {
     uid,
@@ -81,14 +80,6 @@ const HotelsList = () => {
   };
   
 
-  //reset infinite scrolling
-  // const reset = () => {
-  //   setRecords(data.slice(0, batchSize));
-  //   // Make sure to scroll to top after resetting records
-  //   scrollViewportRef.current?.scrollTo(0, 0);
-  // };
-
-  //this is to call the backend which calls an external api. refer to server/routes/hotels.js and also server/server.js
   useEffect(() => {
     setLoading(true);
     try {
@@ -102,13 +93,12 @@ const HotelsList = () => {
         .then((data) => {
           setData(data);
         });
-        
+        setDataSource([]);
+        setHasMore(true);
     } catch (err) {
       console.log(" use effect error");
     }
     setLoading(false);
-    setDataSource([]);
-    setHasMore(true);
   }, [useContext(SearchContext)]);
   //console.log('use effect has collected data, records ', data, records);
 
@@ -164,13 +154,31 @@ const HotelsList = () => {
   useEffect(() => {
     
     try {
-      setDataSource([])
-      setHasMore(true)
+      
+        setDataSource([])
+        setHasMore(true)
+      
     } catch (err) {
       console.log(" inf scrolling use effect error");
     }
    
   }, [memoizedFilteredHotels]);
+
+  useEffect(() => {
+    
+    try {
+      
+      const remainingHotels = sortedHotels.length - dataSource.length;
+      if (dataSource.length === 0) {
+        const nextBatchSize = Math.min(batchSize, remainingHotels);
+        setDataSource(sortedHotels.slice(0, nextBatchSize));
+      }
+      
+    } catch (err) {
+      console.log(" inf scrolling use effect error");
+    }
+   
+  }, [dataSource]);
 
   return (
     <div className="hotelList">
@@ -226,8 +234,6 @@ const HotelsList = () => {
                   dataLength={dataSource.length}
                   next={loadMoreRecords}
                   hasMore={hasMore}
-                  loader={<p>Scroll to load more hotels.</p>}
-                  endMessage={<p>No more available hotels.</p>}
                 >
                       {dataSource.map((item) => (
                         <Search item={item} key={item.id} />
