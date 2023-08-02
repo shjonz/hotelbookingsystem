@@ -2,6 +2,7 @@ import { useContext } from "react";
 import "./navbar.css"
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import Dropdown from 'react-dropdown';
 import data from './countrycodeflagname.json';
 
 const Navbar = () => {
@@ -25,7 +26,7 @@ const Navbar = () => {
                     <span className="logo">bookingwebsite</span>
                     <div className="navItems">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Cities</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
+                        {/* <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li> */}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/profile">{user}</a></li>
@@ -61,13 +62,7 @@ const Navbar = () => {
         <div className="navbar">
             <div className="navbarContainer">
                 <span className="logo">bookingwebsite</span>
-                {user ? user : (
-                <div className="navItems">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Cities</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
-                        <Dropdown
+                <div><Dropdown
         placeholder="Select an option"
         className="dropdown"
         options={data.map((item) => ({ value: item.code, label: item.name, flag: item.flag }))}
@@ -87,7 +82,14 @@ const Navbar = () => {
         // onChange={(value) => console.log('change!', value)}
         onSelect={(value) => console.log('selected!', value)} // always fires once a selection happens even if there is no change
         onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
-        onOpen={() => console.log('open!')}></Dropdown> 
+        onOpen={() => console.log('open!')}></Dropdown></div> 
+                {user ? user : (
+                <div className="navItems">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Cities</a></li>
+                        {/* <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Countries</a></li> */}
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/">Featured</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#team">Currency</a></li>
+                
                         <button className="navButton"><Link to={"/login"}>Login/Sign Up</Link></button>  
 
                 </div>
