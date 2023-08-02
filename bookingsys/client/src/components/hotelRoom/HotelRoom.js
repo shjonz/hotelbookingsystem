@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import "./hotelRoom.css"
 
 export const HotelRoom = ({item}) => {
@@ -36,7 +37,7 @@ export const HotelRoom = ({item}) => {
         <div className="hrDetailTexts">
             <span className="hrPrice">{`$${item.price} per night`}</span>
             <div className="hrTaxOp">Includes GST</div>
-            <button className="hrCheckButton">Book Now</button>
+            <button className="hrCheckButton"><Link to={"/payment"}>Book Now</Link></button>
         </div>
     </div>
     </div>

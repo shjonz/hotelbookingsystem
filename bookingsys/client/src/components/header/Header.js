@@ -24,6 +24,7 @@ const Header = ({type}) => {
     //this is to open the calendar
     const [openDate, setOpenDate] = useState(false);
     const [dropDownList, setDropdownList] = useState([]);
+    const [isClicked, setIsClicked] = useState(false);
 
 
     //this is to select the dates
@@ -66,8 +67,13 @@ const Header = ({type}) => {
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id, destination}});
-        navigate("/hotels", { state: { destination, date, options, dest_id } });
+        if (isClicked) {
+            dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
+            navigate("/hotels", { state: { destination, date, options, dest_id } });
+        } else {
+            alert('pls click on one of the dropdown list ');
+        }
+        
     };
 
     const handleRefresh = () => {
@@ -81,6 +87,7 @@ const Header = ({type}) => {
         const item_json = dropDownList.find( ({ name }) => name === searchTerm );
         setDestination(searchTerm);
         setDestID(item_json.uid);
+        setIsClicked(true);
         //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
     };
 
@@ -102,6 +109,7 @@ const Header = ({type}) => {
                 });
                 
                 setDropdownList(results);
+                console.log('lemme see results: ', results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
                 console.error('Truncated data: Not all of the JSON data was received');
@@ -114,8 +122,9 @@ const Header = ({type}) => {
 
     //this causes the changes in the input when u type stuff in the search input box
     const handleChange = (value) => {
+        fetchData(value);
+        //console.log('dropDownList[0]: ', dropDownList[0])
         setDestination(value);
-        fetchData(value);  
     }
 
     return (
@@ -128,7 +137,7 @@ const Header = ({type}) => {
 
             <div className="headerSearch">
 
-                <div className="headerSearchItem1">
+                <div className="headerSearchItem">
                     <label>Destination</label>
                     <input className="headerSearchInput" 
                     type="text" 
@@ -137,10 +146,11 @@ const Header = ({type}) => {
                     value = {destination}
                     onChange={ (e) => handleChange(e.target.value) } 
                     onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
-                    />  
+                    /> 
+                    
             </div> 
 
-            <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
+            <div className="dropdown" style={{ display: showDropdown ? 'flex' : 'none' }}>
                 {dropDownList
                     .map( (item) => (
                         //this is responsible for drop down that appears
@@ -158,8 +168,8 @@ const Header = ({type}) => {
             </div> 
 
 
-            <div className="headerSearchItem2">
-                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText1">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
+            <div className="headerSearchItem">
+                <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
                 ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
                     //this is ur calendar that opens when u click the dates 
@@ -173,9 +183,9 @@ const Header = ({type}) => {
             </div>
 
 
-            <div className="headerSearchItem3">
+            <div className="headerSearchItem">
                 <span onClick={ () => setOpenOptions( !openOptions ) }
-                className="headerSearchText2">{`${options.adult} adult ${options.children} children 
+                className="headerSearchText">{`${options.adult} adult ${options.children} children 
                 ${options.room} room`}</span>
 
                 {openOptions && ( //this opens up the 3 options - adult, children and room when u click on it. 
@@ -218,12 +228,9 @@ const Header = ({type}) => {
                 </div>
                 
 
-                <div className="headerSearchItem4">
                     <button className="headerButton" 
                     //search button click here brings u to next page /hotels list page
                     onClick={handleSearch}>Search</button>
-
-                </div>
 
             </div> 
             </div>}
@@ -237,10 +244,12 @@ const Header = ({type}) => {
           <label>Destination</label>
           <input placeholder={location.state.destination} 
           type="text" 
-          value = {location.state.destination}
+          value = {destination}
           onChange={ (e) => handleChange(e.target.value) } 
           onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
           />  
+          </div>
+          
           <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
       {dropDownList
           .map( (item) => (
@@ -257,7 +266,6 @@ const Header = ({type}) => {
           </div>
       ))}
   </div> 
-        </div>
 
         <div className="lsItem">
           <label>Check-in Date</label>
