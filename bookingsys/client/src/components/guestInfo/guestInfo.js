@@ -59,7 +59,7 @@ function GuestInfo(){
     try {
       // Convert the guestInfo object to a JSON-formatted string
       //const bookingInfoString = JSON.stringify(guestInfo);
-      const bookingInfoString = JSON.stringify(guestInfo);
+      const bookingInfoString = guestInfo;
       // Create the booking object to be stored in the database
       const bookingData = {
         "destID":dest_id,
@@ -72,6 +72,11 @@ function GuestInfo(){
       const response = await axios.post("/api/bookings/create", bookingData).then((response)=> {
         console.log(response.data);//Holds the booking id
         alert("Form submitted successfully");
+        globalbookingID= response.data._id;
+        axios.patch("/api/accounts", {
+          "email": user,
+          "bookingHistory":globalbookingID// Use the booking ID obtained from the response
+        });
       });
 
 
