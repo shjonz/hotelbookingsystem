@@ -37,8 +37,17 @@ router.patch("/", updateBookingList, (req, res) => {
   res.status(200).send("Account's bookings successfully updated.")
 })
 
+router.patch("/", updateBookingList, (req, res) => {
+  res.status(200).send("Account's bookings successfully updated.")
+})
 
+// New route to delete a booking entry from user's bookingHistory
+router.patch("/del", deleteBookingEntry, (req, res) => {
+  res.status(200).send("Booking entry successfully deleted from user's bookingHistory.");
+});
 // Function Space
+
+
 
 async function getAllAccounts(req, res, next) {
   try {
@@ -111,6 +120,25 @@ async function updateBookingList(req, res, next) {
       return res.status(404).send("Error 404: Account's booking list not found")
     }
   } catch (e) {res.send(e);}
+  next();
+}
+
+async function deleteBookingEntry(req, res, next) {
+  try {
+    //const { email, bookingId } = req.body;
+
+    const accountValidity = await Accounts.findOneAndUpdate(
+      { email: req.body.email },
+      { $pull: { bookingHistory: req.body.bookingHistory } },
+      { new: true }
+    );
+
+    if (accountValidity == null) {
+      return res.status(404).send("Error 404: Account's booking list not found");
+    }
+  } catch (e) {
+    res.send(e);
+  }
   next();
 }
 

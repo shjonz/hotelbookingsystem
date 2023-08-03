@@ -267,6 +267,7 @@ const Profile = () => {
         <ProfileCard
           key={bookingId}
           bookingId={bookingId} // Pass the booking ID as a prop to the ProfileCard component
+          email={email}
         />
       ))
     )}
