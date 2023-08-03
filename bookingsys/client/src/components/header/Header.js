@@ -91,11 +91,18 @@ const Header = ({type}) => {
         //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
     };
 
+    // useEffect(() => {
+    //     async function handleChangeinsearch(value) {
+            
+    //         }
+    //     // Trigger the fetch
+    //     handleChangeinsearch();
+    //   }, [value]);
     
     //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
-    const fetchData = (value) => {
+    const fetchData = async (value) => {
         try {
-            fetch(`/search?name=${value}`)
+            await fetch(`/search?name=${value}`)
             .then( (response) => response.json() )
             .then( (data) => {
 
@@ -103,13 +110,14 @@ const Header = ({type}) => {
                     return (
                     value && 
                     item && 
-                    item.name 
+                    item.name
                     //item.name.toLowerCase().includes(value.toLowerCase())
                     );
                 });
                 
                 setDropdownList(results);
-                console.log('lemme see results: ', results);
+                
+                //console.log('lemme see results: ', results);
         }).catch( error => {
             if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
                 console.error('Truncated data: Not all of the JSON data was received');
