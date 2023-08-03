@@ -1,66 +1,100 @@
 
   /* Navbar Styles */
-.navbar {
-  background-color: #fff;
-  height: 60px;
-  padding: 0 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.navbarContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.logo {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 20px;
-}
-
-.navItems {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item {
-  margin-right: 10px;
-  padding-top: 7px;
-}
-
-.nav-item:last-child {
-  margin-right: 0;
-}
-
-.nav-link {
-  color: #333;
-  text-decoration: none;
-  padding: 8px 10px;
-  border-radius: 10px;
+  .navbar {
+    background-color: #fff;
+    height: 60px;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:1
+  }
   
-}
-
-.navButton {
-  margin-left: 10px;
-  padding: 8px 20px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.loginregister {
-  color: blue;
-}
-
-.navButton:first-child {
-  margin-left: 0;
-}
+  .navbarContainer {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .logo {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 20px;
+  }
+  
+  .navItems {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-right:20px
+  }
+  
+  .nav-item {
+    margin-right: 10px;
+    padding-top: 7px;
+  }
+  
+  .nav-item:last-child {
+    margin-right: 0;
+  }
+  
+  .nav-link {
+    color: #333;
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 10px;
+    
+  }
+  
+  .navButton {
+    margin-left: 10px;
+    padding: 8px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width:80px;
+    min-height: 40px;
+    max-height: 40px;
+  }
+  
+  .loginregister {
+    color: blue;
+  }
+  
+  .navButton:first-child {
+    margin-left: 0;
+  }
+  .dropdown{
+    z-index: 2;
+    position:absolute;
+    max-height: 200px;
+    overflow:visible;
+    min-width: max-content;
+    max-width: 100px; 
+    overflow-y: auto; 
+    font-weight: bold;
+    font-size: small;
+    /* font-style:italic; */
+    margin-left: 300px;
+    padding: 8px 20px;
+    border:none;
+    border-radius: 4px;
+    background-color: #333;
+    color: #fff;
+    display:flex;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+  
+    
+    /* color:#333 */
+    
+    /* position: fixed; */
+    
+    /* justify-content: space-between; */
+  }
