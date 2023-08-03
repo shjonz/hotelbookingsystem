@@ -11,21 +11,27 @@ const ProfileCard = ({ bookingId, email }) => {
 console.log("bookingId:", bookingId);
 const [bookingData, setBookingData] = useState(null);
 const [bookingExists, setBookingExists] = useState(true);
+const [showDetails, setShowDetails] = useState(false);
 
-const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink, cancelButton }) => (
+const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, bookingInfo, buttonText, buttonLink, cancelButton }) => (
   <Card style={{ width: "18rem" }}>
     <Card.Img variant="top" src={imageSrc} />
     <Card.Body>
       <Card.Title>{Dest}</Card.Title>
       <Card.Text>smth here: {Hotel}</Card.Text>
       <Card.Text>Price: {Price}</Card.Text>
-      <Link to={buttonLink}>
-        <Button variant="primary">{buttonText}</Button>
-      </Link>
+      {/* <Card.Text>Booking Info: {bookingInfo}</Card.Text> */}
+      {/* <Link to={buttonLink}> */}
+        <Button variant="primary" onClick={onDetailsClick}>{buttonText}</Button>
+      {/* </Link> */}
       <Button variant="danger" size='sm' onClick={onCancelClick}>{cancelButton}</Button>
     </Card.Body>
   </Card>
 );
+
+const onDetailsClick = () => {
+  setShowDetails(!showDetails);
+}
 
 const onCancelClick = async () => {
   console.log('wassup');
@@ -110,13 +116,20 @@ return (
         Hotel = {bookingData.hotelID}
         Price = {bookingData.price}
         imageSrc = {bookingData.price}
+        // bookingInfo ={bookingData.bookingInfo}
         buttonText ="details"
         buttonLink = "/"
         cancelButton ="cancel"
+        onDetailsClick={onDetailsClick}
 
 
         />
-
+          {showDetails && (
+          <div className="mini-screen">
+            {/* Render the mini screen content here */}
+            <p>Booking Info: {JSON.stringify(bookingData.bookingInfo)}</p>
+          </div>
+        )}
       </div>
     ) : ( 
        <p>Loading booking details...</p>

@@ -58,6 +58,7 @@ function GuestInfo(){
     
     try {
       // Convert the guestInfo object to a JSON-formatted string
+      //const bookingInfoString = JSON.stringify(guestInfo);
       const bookingInfoString = JSON.stringify(guestInfo);
       // Create the booking object to be stored in the database
       const bookingData = {
