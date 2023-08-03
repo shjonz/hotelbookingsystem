@@ -24,7 +24,6 @@ function GuestInfo(){
 
   // Define state variables for each input field
   const [bookingInfo, setBookingInfo] = useState("[]");
-  const [bookingId, setBookingId] = useState("");
   const [firstName, setFirstName] = useState("");
   const [secondName, setSecondName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,7 +31,6 @@ function GuestInfo(){
   const [billingAddress, setBillingAddress] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [destID, setDestID] = useState("");
   const [hotelID, setHotelID] = useState("");
 
   // Handle form submission
@@ -59,6 +57,9 @@ function GuestInfo(){
     try {
       // Convert the guestInfo object to a JSON-formatted string
       const bookingInfoString = JSON.stringify(guestInfo);
+
+      //Record booking id
+      let globalbookingID=null;
       // Create the booking object to be stored in the database
       const bookingData = {
         "destID":dest_id,
@@ -67,35 +68,35 @@ function GuestInfo(){
         "bookingInfo": { "2": bookingInfoString } // Set the bookingInfo object with the guest information
       };
 
+    
+
       //Send a POST request to the backend API endpoint to store the booking data
       const response = await axios.post("/api/bookings/create", bookingData).then((response)=> {
         console.log(response.data);//Holds the booking id
         alert("Form submitted successfully");
+        globalbookingID= response.data._id;
+        //const accountResponse =  fetch(/api/accounts/one?email=${user});
+        //const accountData = accountResponse.json();
+        axios.patch("/api/accounts", {
+          "email": user,
+          "bookingHistory":globalbookingID// Use the booking ID obtained from the response
+        });
+    
       });
+      console.log("Global booking id:"+globalbookingID);
 
-
+      console.log("emailid"+user);
       // Handle the response if needed (e.g., show success message)
       console.log("Booking information stored successfully:",bookingData);
     } catch (error) {
-
       // Handle any errors that occurred during the request
       console.error("Error storing booking information:", error);
     }
-  };
+    };
  
   return (
     <div className="GuestInfo">
       <h1>Guest Information</h1>
-        {/* <div className="input-group">
-          <label htmlFor="destID">Destination ID</label>
-          <input
-            type="text"
-            id="destID"
-            value={destID}
-            onChange={(e) => setDestID(e.target.value)}
-            placeholder="Enter Destination ID"
-          />
-        </div> */}
         <div className="input-group">
           <label htmlFor="hotelID">Hotel ID</label>
           <input
