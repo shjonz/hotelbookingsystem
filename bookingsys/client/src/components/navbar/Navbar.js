@@ -12,7 +12,7 @@ const Navbar = () => {
     const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext); // Use the context here
     console.log(' navbar lemme see user info ', user);
     const handleClick = () => {
-        window.localStorage.clear()
+        window.localStorage.clear();
         dispatch({ type: "LOGOUT" });
         console.log( 'press logout handleclick check user info ', user );
         navigate("/");
@@ -36,7 +36,7 @@ const Navbar = () => {
                         {/* <button onClick={viewProfile} className="showusername">{user}</button> */}
                         <Dropdown
                             //placeholder="Singapore"
-                            className="dropdown"
+                            className="dropdowncountry"
                             options={data.map((item) => ({ value: item.code, label: item.name, flag: item.flag }))}
         // options={countries.map((item) => ({ value: item.code, label: item.name, flag: item.flag }))}
         // optionRenderer={(option) => <CustomOption option={option} />} // Use the custom component
@@ -73,7 +73,7 @@ const Navbar = () => {
                 <span className="logo">bookingwebsite</span>
                 <div><Dropdown
                     //placeholder="Singapore"
-                    className="dropdown"
+                    className="dropdowncountry"
                     options={data.map((item) => ({ value: item.code, label: item.name, flag: item.flag }))}
         // options={countries.map((item) => ({ value: item.code, label: item.name, flag: item.flag }))}
         // optionRenderer={(option) => <CustomOption option={option} />} // Use the custom component

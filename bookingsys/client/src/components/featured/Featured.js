@@ -11,17 +11,6 @@ const Featured = () => {
     const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext);
     console.log(' inside featured, ', selectedOption);
 
-    // useEffect( () => {
-        
-    //       //const { data } = await axios.get("http://localhost:3000/api/hotels/default?destination_id=WD0M");
-    //       //const asyncFn = async () => { .... };
-    //         //asyncFn();
-    //     //const { data } = await axios.get(`http://localhost:3000/search/?name=${selectedOption}`);
-    //       //const { data } = await axios.get(`http://localhost:3000/search/?name=Singapore`);
-
-    //     setCountry(data.slice(0, 3));
-    //   }, [selectedOption]);
-
     useEffect(() => {
         async function defaultCountry() {
             console.log('inside useeffect selectedoption ', selectedOption.label);
@@ -32,7 +21,6 @@ const Featured = () => {
         // Trigger the fetch
         defaultCountry();
       }, [selectedOption]);
-    
 
     return (
         <div className='featured'>
@@ -48,30 +36,6 @@ const Featured = () => {
 
             </div>
             ))}
-
-
-
-            {/* <div className='featuredItem'>
-                <img className='featuredImg' src={nyimg}></img>
-
-                <div className='featuredTitles'>
-                    <h1>Austin</h1>
-                    <h2>532 properties</h2>
-                </div>
-
-            </div>
-
-
-
-            <div className='featuredItem'>
-                <img className='featuredImg' src={nyimg}></img>
-
-                <div className='featuredTitles'>
-                    <h1>Reno</h1>
-                    <h2>533 properties</h2>
-                </div>
-
-            </div> */}
 
         </div>
     )
