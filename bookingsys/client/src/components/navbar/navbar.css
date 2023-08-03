@@ -8,11 +8,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .navbarContainer {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   width: 100%;
 }
@@ -28,6 +29,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  margin-right: 20px;
 }
 
 .nav-item {
@@ -55,6 +57,9 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  min-width: 80px;
+  min-height: 40px;
+  max-height: 40px;
 }
 
 .loginregister {
@@ -63,4 +68,35 @@
 
 .navButton:first-child {
   margin-left: 0;
+}
+
+
+.dropdown{
+  z-index: 2;
+  position:absolute;
+  max-height: 200px;
+  overflow:visible;
+  min-width: max-content;
+  max-width: 100px; 
+  overflow-y: auto; 
+  font-weight: bold;
+  font-size: small;
+  /* font-style:italic; */
+  margin-left: 300px;
+  padding: 8px 20px;
+  border:none;
+  border-radius: 4px;
+  background-color: #333;
+  color: #fff;
+  display:flex;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+
+  
+  /* color:#333 */
+  
+  /* position: fixed; */
+  
+  /* justify-content: space-between; */
 }
