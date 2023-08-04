@@ -6,11 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { ChakraProvider } from '@chakra-ui/react'
 import { AuthContextProvider } from './context/AuthContext';
 import { SearchContextProvider } from './context/SearchContext';
+import { SelectedOptionProvider } from './context/SelectedOptionContext';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <SelectedOptionProvider>
     <SearchContextProvider>
     <AuthContextProvider>
       <ChakraProvider>
@@ -18,6 +20,7 @@ root.render(
       </ChakraProvider>
     </AuthContextProvider>
     </SearchContextProvider>
+    </SelectedOptionProvider>
   </React.StrictMode>
 );
 
