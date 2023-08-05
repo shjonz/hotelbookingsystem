@@ -3,27 +3,9 @@ import "./search.css";
 import { useContext } from "react";
 import { SearchContext } from "../../context/SearchContext";
 
-const src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
-// const getFirstImageFromGoogleSearch = async (searchQuery) => {
-//   try {
-//     const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
-//       searchQuery
-//     )}&tbm=isch`;
-//     const response = await axios.get(searchUrl);
-//     const $ = cheerio.load(response.data);
-//     const firstImageSrc = $("img").first().attr("src");
-//     return firstImageSrc;
-//   } catch (error) {
-//     console.error("Error fetching Google search results:", error.message);
-//     return null;
-//   }
-// };
-
-
-
-
 const Search = ({item}) => {
   const {dispatch} = useContext(SearchContext);
+  const url = item.image.replace(".jpg", "0.jpg")
 
   const navigate = useNavigate();
 
@@ -38,18 +20,18 @@ const Search = ({item}) => {
   };
 
   const getRatingText = (rating) => {
-    if (rating >= 1 && rating < 2) return "Poor";
-    if (rating >= 2 && rating < 3) return "Fair";
+    if (rating >= 1 && rating < 2) return "";
+    if (rating >= 2 && rating < 3) return "";
     if (rating >= 3 && rating < 4) return "Good";
     if (rating >= 4 && rating < 5) return "Very Good";
     if (rating === 5) return "Excellent";
-    return "Unknown";
+    return "";
   };
 
   return (
     <div className="searchItem">
       <img
-        src = {src}
+        src = {url}
         alt=""
         className="siImg"
       />

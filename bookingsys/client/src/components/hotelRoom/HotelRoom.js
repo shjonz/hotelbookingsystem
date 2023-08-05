@@ -27,7 +27,7 @@ export const HotelRoom = ({item}) => {
             <div className="hrCancelOp">{item.free_cancellation ? (
             <span className="YesCancel">Free Cancellation Available</span>
           ) : (
-            <span className="NoCancel">No Free Cancellation</span>
+            <span className="NoCancel">Free Cancellation Unavailable</span>
           )}</div>
             </div>
         <div className= "hrDetails">
@@ -36,7 +36,7 @@ export const HotelRoom = ({item}) => {
         </div>
         <div className="hrDetailTexts">
             <span className="hrPrice">{`$${item.price} per night`}</span>
-            <div className="hrTaxOp">Includes GST</div>
+            <div className="hrTaxOp">Includes taxes & fees</div>
             <button className="hrCheckButton"><Link to={"/payment"}>Book Now</Link></button>
         </div>
     </div>

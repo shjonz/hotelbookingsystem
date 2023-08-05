@@ -21,13 +21,16 @@
     "dotenv": "^16.3.1",
     "framer-motion": "^10.12.16",
     "fs": "^0.0.1-security",
+    "lightbox2": "^2.11.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-date-range": "^1.4.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.7.1",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.13.0",
     "react-scripts": "^5.0.1",
     "sort-by": "^1.2.0",
@@ -71,8 +74,9 @@
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css|less)$": "<rootDir>/__mocks__/fileMock.js",
       "\\.(css|less)$": "<rootDir>/bookingsys/client/__mocks__/styleMock.js"
     },
-    "setupFilesAfterEnv": ["<rootDir>/src/setupTests.js"],
-
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
     "transformIgnorePatterns": [
       "/node_modules/(?!axios)"
     ]

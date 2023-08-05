@@ -11,12 +11,13 @@
   background-color: white;
   border: 3px solid #febb02;
   border-radius: 5px;
-  width: 80%;
   margin: auto;
-  top: 50%;
-  display: flex;
-  justify-content: space-evenly;
   position: relative;
+  display: flex;
+  max-width: max-content;
+  justify-content: space-evenly;
+  gap: 50px;
+  top: 50%;
 }
 
 .headerSearchItem {
@@ -108,7 +109,7 @@
 
 .headerButton {
   padding: 10px;
-  background-color: #0071c2;
+  background-color: #0d6efd;
   color: black;
   border: none;
   border-radius: 5px;
@@ -118,12 +119,17 @@
   height: max-content;
 }
 
+.listMode{
+  position: relative;
+}
+
 .listSearch {
   flex: 1;
-  background-color: lightblue;
+  background-color: #9fffb9;
   padding: 10px;
   border-radius: 10px;
   height: max-content;
+  position: relative;
 }
 
 .lsTitle {
@@ -132,11 +138,43 @@
   margin-bottom: 10px;
 }
 
+.lsDest{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdownList {
+  background-color: white;
+  border: 1px solid gray;
+  color: green;
+  z-index: 1;
+  flex-direction: column;
+  top: 100%;
+  position: absolute;
+}
+
+.dropdownList:empty {
+  border: none;
+}
+
+.dropdownList-row {
+  cursor: pointer;
+  margin: 2px 0;
+}
+
 .lsItem {
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin-bottom: 10px;
+  position: relative;
+}
+
+.lsDate {
+  position: absolute;
+  z-index: 1;
+  top: 100%;
 }
 
 .lsItem > label {
@@ -176,7 +214,7 @@
 
 .listSearch > button {
   padding: 10px;
-  background-color: #0071c2;
+  background-color: #0d6efd;
   color: white;
   border: none;
   width: 100%;

@@ -97,16 +97,6 @@ function GuestInfo(){
           />
         </div> */}
         <div className="input-group">
-          <label htmlFor="hotelID">Hotel ID</label>
-          <input
-            type="text"
-            id="hotelID"
-            value={hotelID}
-            onChange={(e) => setHotelID(e.target.value)}
-            placeholder="Enter Hotel ID"
-          />
-        </div>
-        <div className="input-group">
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"

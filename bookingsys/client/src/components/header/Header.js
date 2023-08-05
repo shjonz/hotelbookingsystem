@@ -234,7 +234,7 @@ const Header = ({type}) => {
         <div className="listSearch">
         <h1 className="lsTitle">Search</h1>
 
-        <div className="lsItem">
+        <div className="lsDest">
           <label>Destination</label>
           <input placeholder={location.state.destination} 
           type="text" 
@@ -242,14 +242,12 @@ const Header = ({type}) => {
           onChange={ (e) => handleChange(e.target.value) } 
           onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
           />  
-          </div>
-          
-          <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
+          <div className="dropdownList" style={{ display: showDropdown ? 'block' : 'none' }}>
       {dropDownList
           .map( (item) => (
               //this is responsible for drop down that appears
           <div
-          className="dropdown-row"
+          className="dropdownList-row"
           key={item.uid}
           onClick={() => {
               onSearch(item.name);
@@ -260,6 +258,9 @@ const Header = ({type}) => {
           </div>
       ))}
   </div> 
+          </div>
+          
+          
 
         <div className="lsItem">
           <label>Check-in Date</label>
@@ -272,6 +273,7 @@ const Header = ({type}) => {
               onChange={(item) => setDate([item.selection])}
               minDate={new Date()}
               ranges={date}
+              className="lsDate"
             />
           )}
         </div>
