@@ -146,7 +146,6 @@ const Header = ({type}) => {
             <div className="headerSearch">
 
                 <div className="headerSearchItem">
-                    <label>Destination</label>
                     <input className="headerSearchInput" 
                     type="text" 
                     //this is the input 
@@ -155,10 +154,7 @@ const Header = ({type}) => {
                     onChange={ (e) => handleChange(e.target.value) } 
                     onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
                     /> 
-                    
-            </div> 
-
-            <div className="dropdown" style={{ display: showDropdown ? 'flex' : 'none' }}>
+                   <div className="dropdown" style={{display: showDropdown ? 'block' : 'none'}}>
                 {dropDownList
                     .map( (item) => (
                         //this is responsible for drop down that appears
@@ -173,10 +169,9 @@ const Header = ({type}) => {
                     {item.name}
                     </div>
                 ))}
+            </div>  
             </div> 
-
-
-            <div className="headerSearchItem">
+                <div className="headerSearchItem">
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
                 ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
@@ -188,10 +183,8 @@ const Header = ({type}) => {
                     className="date"
                     minDate={new Date()}
                 /> }
-            </div>
-
-
-            <div className="headerSearchItem">
+                </div>
+                <div className="headerSearchItem">
                 <span onClick={ () => setOpenOptions( !openOptions ) }
                 className="headerSearchText">{`${options.adult} adult ${options.children} children 
                 ${options.room} room`}</span>
@@ -233,14 +226,15 @@ const Header = ({type}) => {
                     </div>
 
                     </div> )}
-                </div>
+            </div>
                 
-
+                  <div className="headerSearchItem">
                     <button className="headerButton" 
                     //search button click here brings u to next page /hotels list page
                     onClick={handleSearch}>Search</button>
-
-            </div> 
+                    </div>
+                  </div>
+         
             </div>}
 
 
@@ -248,7 +242,7 @@ const Header = ({type}) => {
         <div className="listSearch">
         <h1 className="lsTitle">Search</h1>
 
-        <div className="lsItem">
+        <div className="lsDest">
           <label>Destination</label>
           <input placeholder={location.state.destination} 
           type="text" 
@@ -256,14 +250,12 @@ const Header = ({type}) => {
           onChange={ (e) => handleChange(e.target.value) } 
           onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
           />  
-          </div>
-          
-          <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
+          <div className="dropdownList" style={{ display: showDropdown ? 'block' : 'none' }}>
       {dropDownList
           .map( (item) => (
               //this is responsible for drop down that appears
           <div
-          className="dropdown-row"
+          className="dropdownList-row"
           key={item.uid}
           onClick={() => {
               onSearch(item.name);
@@ -274,6 +266,9 @@ const Header = ({type}) => {
           </div>
       ))}
   </div> 
+          </div>
+          
+          
 
         <div className="lsItem">
           <label>Check-in Date</label>
@@ -286,6 +281,7 @@ const Header = ({type}) => {
               onChange={(item) => setDate([item.selection])}
               minDate={new Date()}
               ranges={date}
+              className="lsDate"
             />
           )}
         </div>

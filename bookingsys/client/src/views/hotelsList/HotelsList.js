@@ -92,6 +92,7 @@ const HotelsList = () => {
         .then((response) => response.json())
         .then((data) => {
           setData(data);
+          console.log("data", data)
         });
         setDataSource([]);
         setHasMore(true);
@@ -169,8 +170,9 @@ const HotelsList = () => {
     } catch (err) {
       console.log(" inf scrolling use effect error");
     }
-   
   }, [dataSource]);
+
+  console.log("dataSource", dataSource)
 
   return (
     <div className="hotelList">
