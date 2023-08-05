@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 
-const ProfileCard = ({ bookingId }) => {
+const ProfileCard = ({ bookingId, email }) => {
 console.log("bookingId:", bookingId);
 const [bookingData, setBookingData] = useState(null);
 const [bookingExists, setBookingExists] = useState(true);
@@ -38,7 +38,31 @@ const onCancelClick = async () => {
     });
 
     if (response.ok) {
-      console.log("Booking successfully canceled.");
+       console.log("Booking successfully canceled.");
+
+            // Update user's bookingHistory array
+            const userResponse = await fetch(`/api/accounts/del?email=${email}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: email, // Replace with the user's email
+                bookingHistory: bookingId,
+                action: "remove",
+              }),
+            });
+      
+            if (userResponse.ok) {
+              console.log("User's bookingHistory successfully updated.");
+              // Perform actions to reflect the cancellation, like updating the state or showing a success message.
+              window.location.reload();  /////////////////to decide whether to delete this or not 
+            } else {
+              console.error("Failed to update user's bookingHistory. Status:", userResponse.status);
+              // Show an error message or take other appropriate actions based on the status code.
+            }
+            
+
       // Perform actions to reflect the cancellation, like updating the state or showing a success message.
     } else {
       console.error("Failed to cancel booking. Status:", response.status);
@@ -94,8 +118,8 @@ return (
         />
 
       </div>
-    ) : ( null
-       //<p>Loading booking details...</p>
+    ) : ( 
+       <p>Loading booking details...</p>
     )}
   </div>
 );
