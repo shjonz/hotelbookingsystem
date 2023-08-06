@@ -72,7 +72,7 @@ function GuestInfo(){
       const response = await axios.post("/api/bookings/create", bookingData).then((response)=> {
         console.log(response.data);//Holds the booking id
         alert("Form submitted successfully");
-        globalbookingID= response.data._id;
+        const globalbookingID = response.data._id;
         axios.patch("/api/accounts", {
           "email": user,
           "bookingHistory":globalbookingID// Use the booking ID obtained from the response
@@ -102,16 +102,6 @@ function GuestInfo(){
             placeholder="Enter Destination ID"
           />
         </div> */}
-        <div className="input-group">
-          <label htmlFor="hotelID">Hotel ID</label>
-          <input
-            type="text"
-            id="hotelID"
-            value={hotelID}
-            onChange={(e) => setHotelID(e.target.value)}
-            placeholder="Enter Hotel ID"
-          />
-        </div>
         <div className="input-group">
           <label htmlFor="firstName">First Name</label>
           <input

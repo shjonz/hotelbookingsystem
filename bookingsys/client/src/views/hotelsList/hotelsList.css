@@ -1,20 +1,22 @@
 .listContainer {
-  margin-top: 20px;
-  width: max-content;
+  top: 20px;
+  width: 1024px;
+  max-width: 1024px;
   height: max-content;
-  position: absolute;
   display: flex;
   justify-content: center;
+  margin: auto;
+  position: relative;
 }
 
 .listWrapper {
-  margin-left: 200px;
   height: max-content;
   width: max-content;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: static;
+  position: absolute;
+  left: 5%;
 }
 
 .lsTitle{
@@ -42,7 +44,7 @@
 
 .listFilter{
   flex: 1;
-  background-color: #febb02;
+  background-color: #9fa6ff;
   padding: 10px;
   border-radius: 10px;
   top: 10px;
@@ -50,9 +52,10 @@
 }
 
 .listResult{
-position: relative;
+position: absolute;
 height: max-content;
 width: max-content;
+left: 30%;
 }
 
 .priceRangeSlider,

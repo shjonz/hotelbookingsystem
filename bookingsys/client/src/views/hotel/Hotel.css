@@ -52,8 +52,9 @@
 
 .hotelImages{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .hotelImgWrapper{
@@ -77,11 +78,26 @@
 .hotelDesc{
     font-size: 14px;
     margin-top: 20px;
+    border: 1px solid lightgray;
 }
 
 .hotelDetailsExtra{
     flex: 1;
 }
+
+.hotelAmenities{
+    border: 1px solid lightgray;
+    margin-top: 20px;
+}
+
+.hotelAmenity{
+    font-weight: bold;
+}
+
+.ratingBar {
+    height: 20px;
+    border-radius: 5px;
+  }
 
 .roomAvail {
     color: red;
