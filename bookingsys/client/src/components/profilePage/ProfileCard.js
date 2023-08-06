@@ -5,27 +5,75 @@ import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Modal from 'react-bootstrap/Modal';
 
 
 const ProfileCard = ({ bookingId, email }) => {
 console.log("bookingId:", bookingId);
 const [bookingData, setBookingData] = useState(null);
 const [bookingExists, setBookingExists] = useState(true);
+const [showDetails, setShowDetails] = useState(false);
+const [modalShow, setModalShow] = useState(false);
 
-const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, buttonText, buttonLink, cancelButton }) => (
+const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, bookingInfo, buttonText, buttonLink, cancelButton }) => (
   <Card style={{ width: "18rem" }}>
     <Card.Img variant="top" src={imageSrc} />
     <Card.Body>
       <Card.Title>{Dest}</Card.Title>
-      <Card.Text>smth here: {Hotel}</Card.Text>
-      <Card.Text>Price: {Price}</Card.Text>
-      <Link to={buttonLink}>
-        <Button variant="primary">{buttonText}</Button>
-      </Link>
+      <Card.Text>Location: {Hotel}</Card.Text>
+      <Card.Text>Price: ${Price}</Card.Text>
+      {/* <Card.Text>Booking Info: {bookingInfo}</Card.Text> */}
+      {/* <Link to={buttonLink}> */}
+        <Button variant="primary" onClick={onDetailsClick}>{buttonText}</Button>
+      {/* </Link> */}
       <Button variant="danger" size='sm' onClick={onCancelClick}>{cancelButton}</Button>
     </Card.Body>
   </Card>
 );
+
+const MyModal = (props) => {
+
+  const toCamelCase = (str) => {
+    return str.replace(/([A-Z])/g, " $1").replace(/^./, (s) => s.toUpperCase()); 
+  }
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          {bookingData.destID}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+
+        <strong>Location:</strong> {bookingData.hotelID}<br /><br />
+        <strong>Price:</strong> {bookingData.price}<br /><br />
+
+          {Object.entries(bookingData.bookingInfo[2]).map(([key, value]) => (
+          <p key={key}>
+            <strong>{toCamelCase(key)}:</strong> {JSON.stringify(value)}
+          </p>
+        ))}
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={props.onHide}>Close</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+};
+
+const onDetailsClick = () => {
+   setShowDetails(!showDetails);
+    setModalShow(true)
+
+
+}
 
 const onCancelClick = async () => {
   console.log('wassup');
@@ -110,13 +158,23 @@ return (
         Hotel = {bookingData.hotelID}
         Price = {bookingData.price}
         imageSrc = {bookingData.price}
+        // bookingInfo ={bookingData.bookingInfo}
         buttonText ="details"
         buttonLink = "/"
         cancelButton ="cancel"
+        onDetailsClick={onDetailsClick}
 
 
         />
+          {showDetails && (
+          <div className="mini-screen">  
+            <MyModal
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
 
+          </div>
+        )}
       </div>
     ) : ( 
        <p>Loading booking details...</p>
