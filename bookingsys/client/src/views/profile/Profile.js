@@ -165,6 +165,8 @@ const Profile = () => {
       .catch((error) => console.error("Error fetching booking info:", error));
   }, []);
 
+  console.log('bookigns', bookings)
+
 //  const [users, setUsers] = useState([]);
   return (
     <div>
@@ -260,7 +262,7 @@ const Profile = () => {
 
 <Tab eventKey="bookings" title="Bookings">
   <div className="bookingcards">
-    {bookings === null ? (
+    {bookings.length === 0? (
       <p>No bookings found.</p>
     ) : (
       bookings.map( (bookingId) => (
@@ -269,7 +271,7 @@ const Profile = () => {
           bookingId={bookingId} // Pass the booking ID as a prop to the ProfileCard component
           email={email}
         />
-      ))
+      )) 
     )}
   </div>
 </Tab>
