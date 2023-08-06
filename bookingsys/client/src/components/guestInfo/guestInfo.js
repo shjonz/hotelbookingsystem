@@ -72,7 +72,7 @@ function GuestInfo(){
       const response = await axios.post("/api/bookings/create", bookingData).then((response)=> {
         console.log(response.data);//Holds the booking id
         alert("Form submitted successfully");
-        globalbookingID= response.data._id;
+        const globalbookingID = response.data._id;
         axios.patch("/api/accounts", {
           "email": user,
           "bookingHistory":globalbookingID// Use the booking ID obtained from the response

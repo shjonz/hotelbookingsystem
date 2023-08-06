@@ -67,20 +67,18 @@ async function hotelListPrices(req, res, next) {
     const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${req.query.destination_id}`)
     list = await response.json()
 
-
-    const cc = list[0].original_metadata.country; //reverted
+    //console.log('hotels routes ',  list[0]);
+    
+    //const cc = list[0].original_metadata.country; //reverted
 
  
-//     try {
-//         if (!list || list.length === 0) {
-//             next();
-//             return;
-//         }
-//         cc = list[0].original_metadata.country;
-//     } catch (error) {
-//         next();
-//         return
-//     }
+    
+    if (!list || list.length === 0) {
+        //next();
+        return;
+    }
+    const cc = list[0].original_metadata.country;
+    
 
 
     // Idk why I have to do this
