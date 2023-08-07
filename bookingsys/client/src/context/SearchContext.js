@@ -11,6 +11,7 @@ const INITIAL_STATE = {
     partner_id : undefined,
     price : undefined,
     room : undefined,
+    hotel_pic : undefined,
 };
 
 export const SearchContext = createContext(INITIAL_STATE);
@@ -41,6 +42,8 @@ const SearchReducer = (state, action) => {
         return {...state, price: action.payload};
       case "UPDATE_ROOM":
         return {...state, room: action.payload};
+      case "UPDATE_HOTEL_PIC":
+        return {...state, hotel_pic: action.payload};
       default:
         return state;
     }
@@ -62,6 +65,7 @@ export const SearchContextProvider = ({ children }) => {
         destination: state.destination,
         price : state.price,
         room: state.room,
+        hotel_pic: state.hotel_pic,
         dispatch
       }}
     >

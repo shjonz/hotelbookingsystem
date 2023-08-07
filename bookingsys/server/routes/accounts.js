@@ -30,7 +30,7 @@ router.post("/one", createAccount, (req, res) => {
 // Updates an account with everything you put into the body. This works for emails passwords and name because why the heck should it not. Do note that this is specifically meant for bookingHistory, in which you put the _id (UID) of the booking made as an array. For example... 
 // bookingHistory : ["64b7b57c7ce93fc68ac620c3"] ** Note that this doesn't check for valid bookings, not that it should be used without confirming a booking's UID.
 router.patch("/one", updateAccount, (req, res) => {
-  res.status(200).send("Account successfully updated.")
+  res.status(200).send(res.updateAccount)
 })
 
 router.patch("/", updateBookingList, (req, res) => {
@@ -106,6 +106,7 @@ async function updateAccount(req, res, next) {
     if (accountValidity == null) {
       return res.status(409).send("Error 404: Account not found")
     }
+    res.updateAccount = accountValidity
   } catch (e) {res.send(e);}
   next();
 } 
