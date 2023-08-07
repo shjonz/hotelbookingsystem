@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
 
-
 @media screen and (max-width: 700px) {
   .leftCard {
     display: none;
@@ -18,7 +17,7 @@
   max-width: 1024px;
 }
 
-.avatars {
+.testimonialAvatars {
   border-radius: 50%;
   margin-top: -6em;
 }
@@ -28,7 +27,7 @@
   width: 100%;
 }
 
-.card {
+.testimonialCard {
   margin: 5em 2em 0em;
   background-color: ivory;
   padding: 2em;
@@ -49,7 +48,7 @@
   margin-top: 7em;
 }
 
-.active {
+.testimonialActive {
   z-index: 1;
   background-image: url("../images/quote-left.svg"), url("../images/quote-right.svg");
   background-repeat: no-repeat;
