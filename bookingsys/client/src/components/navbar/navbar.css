@@ -67,32 +67,19 @@
 .dropdowncountry{
   z-index: 2;
   position: absolute;
-  left: 0px; /* Adjust this value to position the dropdown */
-  top: 50%; /* Vertically center the dropdown */
-  transform: translateY(-50%); /* Center the dropdown vertically */
-  max-height: max-content;
-  overflow: visible;
-  min-width: max-content;
-  max-width: 100px; 
-  overflow-y: auto; 
-  font-weight: bold;
-  font-size: small;
+  left: 20%; /* Adjust this value to position the dropdown */
+  top: 15%; /* Vertically center the dropdown */
+  max-height: 500%;
+  overflow: auto;
   /* font-style:italic; */
-  margin-left: 300px;
   padding: 8px 20px;
-  border:none;
-  border-radius: 4px;
   background-color: #333;
   color: #fff;
-  display:flex;
-  border: none;
   cursor: pointer;
-  align-items: center;
 }
 
 .navButton {
   /* margin-left: 10px; */
-
   padding: 8px 20px;
   background-color: #333;
   color: #fff;

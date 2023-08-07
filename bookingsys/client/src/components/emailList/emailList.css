@@ -1,29 +1,39 @@
 .emailList {
-    width: 100%;
-    margin-top: 50px;
-    background-color: #acefd6;
+    width: 90%;
+    height: 100%;
+    margin-top: 20px;
     color: black;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 50px;
+    border-radius: 16px;
+    background-position: center;
+    background: no-repeat;
+    background-image: url(https://i.pinimg.com/originals/f1/af/b1/f1afb1d4ec91475fe9e10d4e71ac7a84.jpg);
+    background-size: 100%;
 
 }
 
+.emailListInputContainer {
+    margin-top: 10px;
+}
 
 .emailListInputContainer>input {
     height: 30px;
     width: 300px;
     padding: 10px;
-    border: none;
+    border: 3px solid black;
     margin-right: 10px;
+    background-color: lightgray;
+    border-radius: 20px;
 }
 
 .emailListInputContainer>button {
-    height: 50px;
-    width: 100px;
-    background-color: 0071c2;
+    height: 40px;
+    width: 80px;
+    background-color: #34e0a1;
     font-weight: 500;
     border: none;
     border-radius: 5px;
