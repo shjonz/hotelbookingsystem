@@ -49,6 +49,37 @@ describe('Test no results for getAccount ', () => {
     });
 });
 
+// Integration test
+describe('Create account, edit account, delete account', () => {
+    let responseCreate
+    
+    beforeEach(async () => {
+        // Create Account (before)
+        const payload = {name: "King Francois the Seconded", email: "to_be_the_king@royalty.mail.sg", password: "I am the greatest king in history", bookingHistory: []}
+        responseCreate = await request(server).post('/api/accounts/one').send(payload)
+        expect(responseCreate.statusCode).toBe(201)
+        const uid = responseCreate.body._id
+      });
+      
+      afterEach(async () => {
+        // Delete Account (after)
+        const responseDelete = await request(server).delete(`/api/accounts/one?uid=${uid}`)
+        expect(responseDelete.statusCode).toBe(200)
+      });
+
+    test('Full test', async () => {
+        // Update Account
+        const updateName = {email:"to_be_the_king@royalty.mail.sg", name: "King Baby the Third"}
+        const responseName = await request(server).patch('/api/accounts/one').send(updateName)
+        expect(responseName.statusCode).toBe(200)
+
+        // Get New Account Details
+        const responseGet = await request(server).get('/api/accounts/one?email=to_be_the_king@royalty.mail.sg')
+        expect(responseGet.body.name).toBe("King Baby the Third")
+    });
+});
+
+
 // describe('Test createAccount ', () => { // Test creation of account
 //     test('It should response the POST method', async () => {
 //         const response = await request(server).post('/api/accounts/one').send({

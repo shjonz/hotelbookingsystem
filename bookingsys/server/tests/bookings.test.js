@@ -43,14 +43,65 @@ describe('Test failure of getBookingList ', () => {
     });
 });
 
+describe('Test createBooking ', () => { // Get booking info of user using user id
+    test('It should response the POST method', async () => {
+        const body = {
+            destID : "",
+            hotelID : "",
+            price : "",
+            bookingInfo : ""
+        }
+            const response = await request(server).post('/api/bookings/one').send(body);
+            console.log(response.body) // 
+            expect(response.statusCode).toBe(200);
+})});
 
+// Integration test
+describe('Test createBooking, getBooking and deleteBooking ', () => { // Create booking 
+    beforeEach(async () => {
+        // Create Booking
+        const payload = {
+        destID : "",
+        hotelID : "",
+        price : "",
+        bookingInfo : ""
+    }
+        const responseCreate = await request(server).post('/api/bookings/one').send(payload);
+        console.log(responseCreate.body) // 
+        expect(responseCreate.statusCode).toBe(201);
+        const uid = responseCreate.body._id
+    });
 
+    afterEach(async () =>{
+        // Delete Booking
+        const responseDelete= await request(server).delete('/api/bookings/one?uid=${uid}')
+        expect(responseDelete.statusCode).toBe(200);
 
+        // Should not Get booking
+        const responseGet = await request(server).get('/api/bookings/one?uid=${uid}')
+        console.log(responseGet.body)
+        expect(responseGet.statusCode).toBe(200);
+    });
 
+    test('Update and read booking', async () => {
+        // Update booking
+        const updateBooking = {
+            destID : "",
+            hotelID : "",
+            price : "",
+            bookingInfo : ""
+        }
+        const responsePut = await request(server).put('/api/bookings/one?uid=${uid}').send(updateBooking)
+        console.log(responsePut.body)
+        expect(responsePut.statusCode).toBe(200);
 
+        // Should Get booking
+        const responseGet = await request(server).get('/api/bookings/one?uid=${uid}')
+        console.log(responseGet.body)
+        expect(responseGet.statusCode).toBe(200);
+    });
 
-
-
+});
 
 
 // describe('Test createBookingList ', () => {
