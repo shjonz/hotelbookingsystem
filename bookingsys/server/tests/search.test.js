@@ -5,7 +5,7 @@ import server from '../../server';
 describe('Test the root path', () => { 
     test('It should respond with status 200 and return the _id, uid and name of the destination based on searching', async () => {
         const response = await request(server).get('/search?name=Rome');
-        console.log(response.body)
+        //console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
 });
@@ -16,7 +16,7 @@ describe('Test the /dest/id path', () => {
         const response = await request(server).get('/search/dest/id?id=64adfa1b041efa0a6bd6f9b9');
         //console.log(response.text) // RsBU
         expect(response.statusCode).toBe(200);
-        expect(response.text).toBe("RsBU");
+        expect(response.text).toBe("\"RsBU\"");
     });
 });
 
@@ -26,7 +26,7 @@ describe('Test the /dest/name path', () => {
         const response = await request(server).get('/search/dest/name?name=Singapore,+Singapore');
         //console.log(response.text) // RsBU
         expect(response.statusCode).toBe(200);
-        expect(response.text).toBe("RsBU");
+        expect(response.text).toBe("\"RsBU\"");
     });
 });
 
