@@ -23,7 +23,7 @@ class Testimonials extends React.Component {
     componentDidMount() { // gets index of active card from imported data and sets state
         let length = this.getLength();
         for (var i = 0; i < length; i++) {
-            if (items[i].status === 'active') {
+            if (items[i].status === 'testimonialActive') {
                 this.setState({
                     leftCard: i - 1,
                     activeIndex: i,
@@ -82,21 +82,21 @@ class Testimonials extends React.Component {
         }
         return (
             <div className="carousel-container">
-                <div className="cards">
-                    <div className="card leftCard">
-                        <img className="avatars" src={items[this.state.leftCard].imgSrc} alt="avatar"></img>
-                        <div className="text">
-                            <h3 className="name">{items[this.state.leftCard].name} </h3>
-                            <i className="position">{items[this.state.leftCard].position}</i>
+                <div className="testimonialCards">
+                    <div className="testimonialCard leftCard">
+                        <img className="testimonialAvatars" src={items[this.state.leftCard].imgSrc} alt="avatar"></img>
+                        <div className="testimonialText">
+                            <h3 className="testimonialName">{items[this.state.leftCard].name} </h3>
+                            <i className="testimonialPosition">{items[this.state.leftCard].position}</i>
                             <p className="testimony">{items[this.state.leftCard].quote}</p>
                         </div>
                     </div>
-                    <div className="card active">
-                        <img className="avatars" src={items[this.state.activeIndex].imgSrc} alt="avatar"></img>
+                    <div className="testimonialCard active">
+                        <img className="testimonialAvatars" src={items[this.state.activeIndex].imgSrc} alt="avatar"></img>
                         <span>
-                            <div className="text">
-                                <h3 className="name">{items[this.state.activeIndex].name}</h3>
-                                <i className="position">{items[this.state.activeIndex].position}</i>
+                            <div className="testimonialText">
+                                <h3 className="testimonialName">{items[this.state.activeIndex].name}</h3>
+                                <i className="testimonialPosition">{items[this.state.activeIndex].position}</i>
                                 <p className="testimony">{items[this.state.activeIndex].quote}</p>
                             </div>
                             <div className="arrow-container">
@@ -105,11 +105,11 @@ class Testimonials extends React.Component {
                             </div>
                         </span>
                     </div>
-                    <div className="card rightCard">
-                        <img className="avatars" src={items[this.state.rightCard].imgSrc} alt="avatar"></img>
-                        <div className="text">
-                            <h3 className="name">{items[this.state.rightCard].name}</h3>
-                            <i className="position">{items[this.state.rightCard].position}</i>
+                    <div className="testimonialCard rightCard">
+                        <img className="testimonialAvatars" src={items[this.state.rightCard].imgSrc} alt="avatar"></img>
+                        <div className="testimonialText">
+                            <h3 className="testimonialName">{items[this.state.rightCard].name}</h3>
+                            <i className="testimonialPosition">{items[this.state.rightCard].position}</i>
                             <p className="testimony">{items[this.state.rightCard].quote}</p>
                         </div>
                     </div>
