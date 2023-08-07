@@ -1,108 +1,215 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
+ 
+
+ 
 
 @media screen and (max-width: 700px) {
+
   .leftCard {
+
     display: none;
+
   }
+
+ 
 
   .rightCard {
+
     display: none;
+
   }
+
 }
+
+ 
 
 .carousel-container {
+
   display: flex;
+
   flex-flow: column;
+
   max-width: 1024px;
+
 }
+
+ 
 
 .testimonialAvatars {
+
   border-radius: 50%;
+
   margin-top: -6em;
+
 }
 
-.tcards {
+ 
+
+.testimonialCards {
+
   display: flex;
+
   width: 100%;
+
 }
+
+ 
 
 .testimonialCard {
+
   margin: 5em 2em 0em;
+
   background-color: ivory;
+
   padding: 2em;
+
   width: 35%;
+
   height: 600px;
+
   flex: 1; /* each card is of equal size */
+
   box-shadow: 6px 6px 17px 1px rgba(0, 0, 0, 0.36);
+
   -webkit-box-shadow: 6px 6px 17px 1px rgba(0, 0, 0, 0.36);
+
 }
+
+ 
 
 .leftCard {
+
   margin-right: -15em;
+
   margin-top: 7em;
+
 }
+
+ 
 
 .rightCard {
+
   margin-left: -15em;
+
   margin-top: 7em;
+
 }
+
+ 
 
 .testimonialActive {
+
   z-index: 1;
+
   background-image: url("../images/quote-left.svg"), url("../images/quote-right.svg");
+
   background-repeat: no-repeat;
+
   background-position-x: 0, right;
+
   background-position-y: 0, bottom;
+
   background-size: 50px;
+
   background-origin: content-box;
+
 }
+
+ 
 
 .arrow-container {
+
   display: flex;
+
   justify-content: space-between;
+
   position: relative;
+
 }
 
+ 
+
+ 
 
 .arrow:active {
+
   fill: lightgray;
+
 }
 
-.tname {
+ 
+
+.testimonialName {
+
   margin-top: 0.5em;
+
   margin-bottom: -0.2em;
+
 }
 
+ 
+
+ 
 
 .tracker {
+
   display: flex;
+
   justify-content: center;
+
   height: 2.5em;
+
   margin-top: 1em;
+
 }
+
+ 
 
 .circle {
+
   transform: scale(0.3);
+
 }
+
+ 
 
 .viewAll {
+
   margin-top: 25px;
+
   background-color: white;
+
   border: none;
+
   border-radius: 25px;
+
   height: 2em;
+
   width: 20%;
+
   font-weight: bold;
+
   margin-left: 40%;
+
   box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.36);
+
   -webkit-box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.36);
+
 }
+
+ 
 
 .viewAll:hover {
+
   background-color: lightgray;
+
 }
 
+ 
+
 .viewAll:active {
+
   background-color: grey;
+
 }
