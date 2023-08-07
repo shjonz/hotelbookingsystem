@@ -34,6 +34,8 @@ const Header = ({type}) => {
     const [isClicked, setIsClicked] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    //console.log('no context shld be passed around here uid, dest id ', uid, dest_id)
+
     //this is to select the dates
     const [date, setDate] = useState([
         {
