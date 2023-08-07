@@ -23,11 +23,11 @@ const Profile = () => {
   const [lname, setLname] = useState("");  
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
 
   const [uid, setUid] = useState("");
-
   const [uidfetched, setUidfetched] = useState(false);
-  const [country, setCountry] = useState("");
+  
   const [pass, setPass] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [changesSaved, setChangesSaved] = useState(true); 
@@ -62,7 +62,8 @@ const Profile = () => {
           email: user,
           name: fname,
           email: email,
-          password: pass
+          phone: phone,
+          // password: pass
         }),
       });
   
@@ -160,7 +161,7 @@ const Profile = () => {
         setFname(data.name);
       //  setLname(data.lname);
         setEmail(data.email);
-      //  setPhone(data.phone);
+        setPhone(data.phone);
       //  setCountry(data.country);
         setPass(data.password); //this needs to be edited
       })
@@ -182,7 +183,7 @@ const Profile = () => {
 
             <div>
               <div className="utitle">
-                <h3 style={{fontWeight:'normal'}} >My Profile</h3>
+                <h4 style={{fontWeight:'bold'}} >My Profile</h4>
                 {!editMode && changesSaved && ( // Display the "Edit Profile" button only when not in edit mode
                   <Button variant="primary" onClick={handleEditProfile}   style={{
                     backgroundColor: "#34e0a1",

@@ -1,11 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap");
 
-body {
-  text-align: center;
-  margin: 0 auto;
-  font-family: "Poppins", "sans-serif";
-  background-color: antiquewhite;
-}
 
 @media screen and (max-width: 700px) {
   .leftCard {
@@ -28,12 +22,12 @@ body {
   margin-top: -6em;
 }
 
-.cards {
+.tcards {
   display: flex;
   width: 100%;
 }
 
-.card {
+.tcard {
   margin: 5em 2em 0em;
   background-color: ivory;
   padding: 2em;
@@ -54,7 +48,7 @@ body {
   margin-top: 7em;
 }
 
-.active {
+.tactive {
   z-index: 1;
   height: 200px;
   background-image: url("../images/quote-left.svg"), url("../images/quote-right.svg");
@@ -80,16 +74,12 @@ body {
   fill: lightgray;
 }
 
-.name {
+.tname {
   margin-top: 0.5em;
   margin-bottom: -0.2em;
 }
 
-p {
-  padding: 0em 3em;
-}
-
-.text {
+.ttext {
   height: 90%;
   overflow: hidden;
 }

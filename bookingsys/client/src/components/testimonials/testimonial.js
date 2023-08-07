@@ -82,21 +82,21 @@ class Testimonials extends React.Component {
         }
         return (
             <div className="carousel-container">
-                <div className="cards">
-                    <div className="card leftCard">
+                <div className="tcards">
+                    <div className="tcard leftCard">
                         <img className="avatars" src={items[this.state.leftCard].imgSrc} alt="avatar"></img>
-                        <div className="text">
-                            <h3 className="name">{items[this.state.leftCard].name} </h3>
-                            <i className="position">{items[this.state.leftCard].position}</i>
+                        <div className="ttext">
+                            <h3 className="tname">{items[this.state.leftCard].name} </h3>
+                            <i className="tposition">{items[this.state.leftCard].position}</i>
                             <p className="testimony">{items[this.state.leftCard].quote}</p>
                         </div>
                     </div>
-                    <div className="card active">
+                    <div className="tcard tactive">
                         <img className="avatars" src={items[this.state.activeIndex].imgSrc} alt="avatar"></img>
                         <span>
-                            <div className="text">
-                                <h3 className="name">{items[this.state.activeIndex].name}</h3>
-                                <i className="position">{items[this.state.activeIndex].position}</i>
+                            <div className="ttext">
+                                <h3 className="tname">{items[this.state.activeIndex].name}</h3>
+                                <i className="tposition">{items[this.state.activeIndex].position}</i>
                                 <p className="testimony">{items[this.state.activeIndex].quote}</p>
                             </div>
                             <div className="arrow-container">
@@ -105,11 +105,11 @@ class Testimonials extends React.Component {
                             </div>
                         </span>
                     </div>
-                    <div className="card rightCard">
+                    <div className="tcard rightCard">
                         <img className="avatars" src={items[this.state.rightCard].imgSrc} alt="avatar"></img>
-                        <div className="text">
-                            <h3 className="name">{items[this.state.rightCard].name}</h3>
-                            <i className="position">{items[this.state.rightCard].position}</i>
+                        <div className="ttext">
+                            <h3 className="tname">{items[this.state.rightCard].name}</h3>
+                            <i className="tposition">{items[this.state.rightCard].position}</i>
                             <p className="testimony">{items[this.state.rightCard].quote}</p>
                         </div>
                     </div>
