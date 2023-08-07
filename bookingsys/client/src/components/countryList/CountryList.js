@@ -51,7 +51,7 @@ const CountryList = () => {
     useEffect(() => {
         console.log('inside use effect for dest id for countrylist ' , dest_id)
         if ( dest_id && dest_id.length > 0) {
-            dispatch({ type: "NEW_SEARCH", payload: { dest_id, date, guests, lang, currency, partner_id } });
+            dispatch({ type: "NEW_SEARCH", payload: { dest_id, date, guests, lang, currency, partner_id , destination} });
             navigate("/hotels", { state: { destination, date, options, dest_id } });
         }
         // You can dispatch here since dest_id is guaranteed to be updated after the previous useEffect
@@ -64,8 +64,8 @@ const CountryList = () => {
                 console.log('try catch for handlesearch ', country)
                 await axios.get(`http://localhost:3000/search/?name=${country}`).then((response) => {
                     console.log('inside axios, ', response.data, response.data[0].uid, response.data.slice(0,1));
-                    setDestID(response.data[0].uid);
                     setDestination(toString(response.data[0].name));
+                    setDestID(response.data[0].uid);
                 });
 
                 

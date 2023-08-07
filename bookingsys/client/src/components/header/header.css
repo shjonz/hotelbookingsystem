@@ -5,20 +5,29 @@
   background-size: 90%;
   background-position: center;
   margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.headerTitle{
+  color: white;
+  margin: auto;
 }
 
 .headerSearch {
   height: 50px;
   background-color: white;
-  border: 3px solid #febb02;
-  border-radius: 5px;
-  margin: auto;
-  position: relative;
+  border: 3px solid rgb(0, 119, 255);
   display: flex;
-  max-width: max-content;
-  justify-content: space-evenly;
-  gap: 50px;
-  top: 50%;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 0px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: -25px;
+  width: 100%;
+  max-width: 1024px;
 }
 
 .headerSearchItem {
@@ -28,6 +37,11 @@
   margin: auto;
 }
 
+.headerIcon {
+  margin-right: 2px;
+  color: #34e0a1;
+}
+
 .dropdown {
   background-color: white;
   border: 1px solid gray;
@@ -35,6 +49,8 @@
   z-index: 1;
   flex-direction: column;
   position: absolute;
+  width: 300px;
+  left: 22px;
 }
 
 
@@ -49,10 +65,11 @@
 }
 
 .headerSearchInput {
-  border: 3px solid;
   color: black;
-  border-radius: 5px;
+  border-radius: 20px;
   width: 300px;
+  padding: 5px;
+  background-color: lightgrey;
 }
 
 .date {
@@ -63,7 +80,9 @@
 }
 
 .headerSearchText {
-  border: 3px solid black;
+  padding: 5px;
+  border-radius: 20px;
+  background-color: lightgrey;
   color: black;
   width: max-content;
   position: relative;
@@ -109,15 +128,14 @@
 }
 
 .headerButton {
-  padding: 10px;
-  background-color: #0d6efd;
+  background-color: #34e0a1;
+  padding: 3px;
   color: black;
   border: none;
   border-radius: 5px;
   font-weight: 500;
   cursor: pointer;
-  width: max-content;
-  height: max-content;
+  display: flex;
 }
 
 .listMode{
