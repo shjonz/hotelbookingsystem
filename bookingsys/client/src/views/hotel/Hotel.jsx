@@ -11,13 +11,15 @@ import { Carousel } from "../../components/carousel/Carousel";
 
 
 const Hotel = () => {
-  const { uid, dest_id, date, guests, lang, currency, partner_id } =
+  const { uid, dest_id, date, guests, lang, currency, partner_id, price } =
     useContext(SearchContext);
 
   const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [data1, setData1] = useState([]);
   const [data2, setData2] = useState([]);
+  const [hotelid, setHotelID] = useState("");
+  
 
   const openGoogleMaps = (address) => {
     const mapUrl = `https://www.google.com/maps/place/${address}`;

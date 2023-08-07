@@ -40,8 +40,10 @@ const HotelsList = () => {
     currency,
     partner_id,
     destination,
+    price,
+    room,
   } = useContext(SearchContext);
-  console.log(' inside hotelslist check context ', dest_id, date)
+  //console.log(' inside hotelslist check context ', dest_id, date)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -98,9 +100,7 @@ const HotelsList = () => {
       )
         .then((response) => response.json())
         .then((data) => {
-          // if (data.length == 0) {
-          //   return <p>No available hotels</p>
-          // }
+          
           setData(data);
           console.log("data", data)
         });
@@ -236,6 +236,7 @@ const HotelsList = () => {
 
         <div className="listResult">
           {(() => {
+            
             if (loading || data.length === 0) {
               // Display "Loading" while data is being fetched
               return <p className="hotelAvail">Loading</p>;

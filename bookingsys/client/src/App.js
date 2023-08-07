@@ -31,7 +31,7 @@ function App() {
         <Route path = "/profile" element={<Profile />} />
         <Route path = "/login" element = {<Login />} />
         <Route path = "/register" element = {<Register />} />
-        <Route path="/guestInfo" component={GuestInfo} />
+        
       </Routes>
     </BrowserRouter>
   );
