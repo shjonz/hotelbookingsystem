@@ -10,7 +10,6 @@ const Navbar = () => {
     const { user, dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
     const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext); // Use the context here
-    console.log(' navbar lemme see user info ', user);
     const handleClick = () => {
         window.localStorage.clear();
         dispatch({ type: "LOGOUT" });

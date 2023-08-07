@@ -43,7 +43,10 @@ const HotelsList = () => {
     price,
     room,
   } = useContext(SearchContext);
+
+
   //console.log(' inside hotelslist check context ', dest_id, date)
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,6 +54,7 @@ const HotelsList = () => {
   const batchSize = 10;
   const [dataSource, setDataSource] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [emptyArray, setEmptyArray] = useState(false);
 
   //filter params
   const [hotelNameFilter, setHotelNameFilter] = useState("");
@@ -59,7 +63,6 @@ const HotelsList = () => {
   const [minRating, setMinRating] = useState(1);
   const [maxRating, setMaxRating] = useState(5);
 
-  //console.log(' hotels list date ', date , date[0].startDate, date[0].endDate);
 
   //filter handlers
   const handlePriceRangeChange = ({ min, max }) => {
@@ -93,7 +96,7 @@ const HotelsList = () => {
     try {
       const sDate = format(date[0].startDate, "yyyy-MM-dd");
       const eDate = format(date[0].endDate, "yyyy-MM-dd");
-      console.log('inside use effect hotelslist ', dest_id)
+      console.log("destination context", destination)
       fetch(
         // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
         `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`, {timeoutDuration: 5000}
@@ -104,6 +107,9 @@ const HotelsList = () => {
           setData(data);
           console.log("data", data)
         });
+        if (data.length === 0) {
+          setEmptyArray(true);
+        }
         setDataSource([]);
         setHasMore(true);
     } catch (err) {
@@ -119,7 +125,6 @@ const HotelsList = () => {
     }
     
   }, [useContext(SearchContext)]);
-  //console.log('use effect has collected data, records ', data, records);
 
   const sortBySearchRank = (hotelA, hotelB) => {
     // Check if both hotels have searchRank
@@ -175,7 +180,7 @@ const HotelsList = () => {
     }
   }, [memoizedFilteredHotels]);
 
-  useEffect(() => {
+  useEffect(() => { 
   
     try {
       
@@ -189,8 +194,6 @@ const HotelsList = () => {
       console.log(" inf scrolling use effect error");
     }
   }, [dataSource]);
-
-  console.log("dataSource", dataSource)
 
   return (
     <div className="hotelList">
@@ -236,8 +239,10 @@ const HotelsList = () => {
 
         <div className="listResult">
           {(() => {
-            
-            if (loading || data.length === 0) {
+
+            if (!emptyArray) {
+
+          
               // Display "Loading" while data is being fetched
               return <p className="hotelAvail">Loading</p>;
             } else if (sortedHotels.length > 0) {
@@ -253,7 +258,7 @@ const HotelsList = () => {
                       ))}
                     </InfiniteScroll>
                   )
-                } else if (!sortedHotels.length) {
+                } else if (emptyArray) {
               // Display "No available hotels" if there are no hotels available
               return <p className="hotelAvail">No available hotels.</p>;
             }
