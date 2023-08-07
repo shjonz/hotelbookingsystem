@@ -32,13 +32,11 @@ const Home = () => {
                 <div className='homeItem'>
                 <h1 className='homeTitle'>Popular Hotels</h1>
                 <FeaturedHotels/>
-<<<<<<< Updated upstream
                 </div>
-=======
+
                 <Testimonials />
                 <EmailList/>
                 <Footer/>
->>>>>>> Stashed changes
             </div>
             <Footer/>
         </div>
