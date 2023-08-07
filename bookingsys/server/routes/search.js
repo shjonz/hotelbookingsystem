@@ -42,6 +42,12 @@ async function searchBar(req, res, next) {
             results = await Destinations.aggregate(agg)}
     } catch (e) {res.send(e);}
 
+    if (results && results.length) {
+        res.code = 200
+    } else {
+        res.code = 404
+    }
+
     res.results = results;
     next();
 }
