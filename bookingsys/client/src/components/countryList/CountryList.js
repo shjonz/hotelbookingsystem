@@ -7,8 +7,6 @@ import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import {format, addDays} from 'date-fns';
 
-
-
 const CountryList = () => {
     const {dispatch} = useContext(SearchContext);
     const [destination, setDestination] = useState("");
@@ -33,8 +31,8 @@ const CountryList = () => {
     //this is to select the dates
     const [date, setDate] = useState([
         {
-          startDate: new Date(),
-          endDate: addDays(new Date(), 1),
+          startDate: addDays(new Date(), 28),
+          endDate: addDays(new Date(), 29),
           key: 'selection'
         }
       ]);
