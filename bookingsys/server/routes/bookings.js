@@ -1,6 +1,7 @@
 import express from "express";
 import Bookings from "../models/Bookings.js";
 import Accounts from "../models/Accounts.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -50,6 +51,9 @@ async function getAllBookings(req, res, next) {
 }
 
 async function getBooking(req, res, next) {
+    if (!mongoose.Types.ObjectId.isValid(req.query.uid)) {
+        return res.status(404).send("Error 404: Booking not found");
+    }
     try {
         const getBooking = await Bookings.findById(req.query.uid);
         res.getBooking = getBooking;
@@ -67,27 +71,30 @@ async function getBooking(req, res, next) {
 // }
 
 async function getBookingList(req, res, next) {
-        try {
-            const getBookingList = await Accounts.findOne({email: req.query.email})
-            res.getBookingList = getBookingList.bookingHistory
-        } catch (e) {res.send(e);}
-        next();
+    const getBookingList = await Accounts.findOne({email: req.query.email})
+    if (getBookingList != null) {
+        res.getBookingList = getBookingList.bookingHistory
+    } else {
+        return res.status(404).send("Error 404: Account not found")
+        }
+    next();
     }
 
 
 async function deleteBooking(req, res, next) {
-    try {
-      const bookingValidity = await Bookings.findById(req.query.uid)
-      if (bookingValidity != null) {
-        await Bookings.findByIdAndDelete(`${req.query.uid}`)
-      } else {
-        return res.status(404).send("Error 404: Booking not found")
-      }
-    } catch (e) {res.send(e);}
+    if (!mongoose.Types.ObjectId.isValid(req.query.uid)) {
+        return res.status(404).send("Error 404: Booking not found");
+    }
+    const bookingValidity = await Bookings.findById(req.query.uid)
+    if (bookingValidity != null) {
+    await Bookings.findByIdAndDelete(`${req.query.uid}`)
+    } else {
+    return res.status(404).send("Error 404: Booking not found")
+    }
     next();
-  }
+}
 
-  async function createBooking(req, res, next) {
+async function createBooking(req, res, next) {
     try{
         const newBooking = new Bookings({
             destID: req.body.destID,
@@ -104,16 +111,17 @@ async function deleteBooking(req, res, next) {
 }
 
 async function updateBooking(req, res, next) {
-
-    try {
-
+    if (!mongoose.Types.ObjectId.isValid(req.query.uid)) {
+        return res.status(404).send("Error 404: Booking not found");
+    }
+    const bookingValidity = await Bookings.findById(req.query.uid)
+    if (bookingValidity != null) {
         const updatedBooking = await Bookings.findByIdAndUpdate(req.query.uid,{ $set: req.body});
-
         res.updatedBooking = updatedBooking;
-
-      } catch (e) {res.send(e);}
-
-      next();
+    } else {
+        return res.status(404).send("Error 404: Booking not found")
+    }
+    next();
 
 }
 

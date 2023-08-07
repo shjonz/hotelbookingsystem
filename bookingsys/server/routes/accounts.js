@@ -1,5 +1,6 @@
 import express from "express";
 import Accounts from "../models/Accounts.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
@@ -37,10 +38,6 @@ router.patch("/", updateBookingList, (req, res) => {
   res.status(200).send("Account's bookings successfully updated.")
 })
 
-router.patch("/", updateBookingList, (req, res) => {
-  res.status(200).send("Account's bookings successfully updated.")
-})
-
 // New route to delete a booking entry from user's bookingHistory
 router.patch("/del", deleteBookingEntry, (req, res) => {
   res.status(200).send("Booking entry successfully deleted from user's bookingHistory.");
@@ -69,14 +66,15 @@ async function getAccount(req, res, next) {
 }
 
 async function deleteAccount(req, res, next) {
-  try {
+  if (!mongoose.Types.ObjectId.isValid(req.query.uid)) {
+    return res.status(404).send("Error 404: Account not found");
+}
     const accountValidity = await Accounts.findById(req.query.uid)
     if (accountValidity != null) {
       await Accounts.findByIdAndDelete(`${req.query.uid}`)
     } else {
       return res.status(404).send("Error 404: Account not found")
     }
-  } catch (e) {res.send(e);}
   next();
 }
 

@@ -1,17 +1,16 @@
 import request from 'supertest';
 import server from '../../server';
 
-
-describe('Test hotelList ', () => { // Searches for a list of hotels based on the UID of the destination.
-    test('It should response the GET method', async () => {
+// Searches for a list of hotels based on the UID of the destination.
+describe('Test hotelList ', () => {
+    test('It should respond with status 200 and return a list of hotels with a valid destination_id', async () => {
         const response = await request(server).get('/api/hotels/default?destination_id=WD0M');
         //console.log(response.body)
         expect(response.statusCode).toBe(200);
+        expect(response.body.length).toBeGreaterThan(0);
     });
-});
 
-describe('Test no results for hotelList ', () => {
-    test('It should response the GET method', async () => {
+    test('It should respond with status 200 but return an empty body with an invalid destination_id', async () => {
         const response = await request(server).get('/api/hotels/default?destination_id=hihi');
         //console.log(response.statusCode)
         expect(response.statusCode).toBe(200);
@@ -19,8 +18,9 @@ describe('Test no results for hotelList ', () => {
     });
 });
 
-describe('Test hotelSearch ', () => { // Searches for a specific hotel based on its UID.
-    test('It should response the GET method', async () => {
+// Searches for a specific hotel based on its UID.
+describe('Test hotelSearch ', () => { 
+    test('It should respond with status 200 and return information about a particular hotel with a valid hotel id', async () => {
         const response = await request(server).get('/api/hotels/default/diH7');
         //console.log(response.body) 
         /* {
@@ -35,11 +35,8 @@ describe('Test hotelSearch ', () => { // Searches for a specific hotel based on 
         */
         expect(response.statusCode).toBe(200);
     });
-});
 
-
-describe('Test no results for hotelSearch i.e. invalid id ', () => {
-    test('It should response the GET method', async () => {
+    test('It should respond with status 200 but return an empty body with an invalid hotel id', async () => {
         const response = await request(server).get('/api/hotels/default/hihi');
         //console.log(response.body)
         expect(response.statusCode).toBe(200);
@@ -47,34 +44,34 @@ describe('Test no results for hotelSearch i.e. invalid id ', () => {
     });
 });
 
-
-describe('Test hotelListPrices ', () => { // Searches for a list of hotels' prices and info based on UID of destination
-    test('It should response the GET method', async () => {
+// Searches for a list of hotels' prices and info based on UID of destination
+describe('Test hotelListPrices ', () => { 
+    test('It should respond with status 200 and return list of hotel prices with valid parameters', async () => {
         const response = await request(server).get('/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
         //console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
 });
 
-// Bakacomment: This doesn't work cos of timeout, something to do with changes to Ascenda API kicking you now
-describe('Test no results of hotelListPrices i.e. invalid id  ', () => {
-    test('It should response the GET method', async () => { //destination_id=hihi
-        const response = await request(server).get('/api/hotels/prices?destination_id=hihi&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
-        //console.log(response.statusCode)
-        expect(response.statusCode).toBe(200);
-    });
-});
 
-describe('Test hotelSearchPrices ', () => { // Only retrieves list of hotels with prices, no info included.
-    test('It should response the GET method', async () => { 
+// // This doesn't work cos of timeout, something to do with changes to Ascenda API kicking you now
+// describe('Test no results of hotelListPrices i.e. invalid id  ', () => {
+//     test('It should response the GET method', async () => { //destination_id=hihi
+//         const response = await request(server).get('/api/hotels/prices?destination_id=hihi&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
+//         //console.log(response.statusCode)
+//         expect(response.statusCode).toBe(200);
+//     });
+// });
+
+// Only retrieves list of hotels with prices, no info included.
+describe('Test hotelSearchPrices ', () => { 
+    test('It should respond with status 200 and return a list of hotels with their prices using valid parameters', async () => { 
         const response = await request(server).get('/api/hotels/price?uid=diH7&destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
         //console.log(response.body)
         expect(response.statusCode).toBe(200);
     });
-});
 
-describe('Test failure of hotelSearchPrices i.e. invalid id', () => {
-    test('It should response the GET method', async () => { //destination_id=hihi
+    test('It should respond with status 200 but return an empty body with an invalid parameter', async () => { //destination_id=hihi
         const response = await request(server).get('/api/hotels/price?uid=diH7&destination_id=hihi&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
         //console.log(response.statusCode)
         expect(response.body.length).toBe(undefined);
