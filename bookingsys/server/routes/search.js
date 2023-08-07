@@ -7,7 +7,7 @@ const router = express.Router();
 // Basic search function. Use + over spaces when trying to query from here thank you. This returns name, uid and the _id of the destination so you can use it elsewhere.
 router.get("/", searchBar, (req, res) => {
     res.set('Access-Control-Allow-Origin', 'http://localhost:8800');
-    res.status(res.code).json(res.results)
+    res.status(200).json(res.results)
 })
 
 // Destination search gives you your uid that you need for your parsing. Search using the unique _id of the destination.
@@ -42,7 +42,10 @@ async function searchBar(req, res, next) {
             results = await Destinations.aggregate(agg)}
     } catch (e) {res.send(e);}
 
+
     if (results) {
+
+
         res.code = 200
     } else {
         res.code = 404

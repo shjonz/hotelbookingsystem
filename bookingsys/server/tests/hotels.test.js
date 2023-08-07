@@ -56,6 +56,7 @@ describe('Test hotelListPrices ', () => { // Searches for a list of hotels' pric
     });
 });
 
+// Bakacomment: This doesn't work cos of timeout, something to do with changes to Ascenda API kicking you now
 describe('Test no results of hotelListPrices i.e. invalid id  ', () => {
     test('It should response the GET method', async () => { //destination_id=hihi
         const response = await request(server).get('/api/hotels/prices?destination_id=hihi&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1');
