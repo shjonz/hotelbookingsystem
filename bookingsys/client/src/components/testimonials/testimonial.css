@@ -14,11 +14,11 @@
 .carousel-container {
   display: flex;
   flex-flow: column;
+  max-width: 1024px;
 }
 
-.avatars {
+.testimonialAvatars {
   border-radius: 50%;
-  height: 100px;
   margin-top: -6em;
 }
 
@@ -27,12 +27,12 @@
   width: 100%;
 }
 
-.tcard {
+.testimonialCard {
   margin: 5em 2em 0em;
   background-color: ivory;
   padding: 2em;
   width: 35%;
-  height: 200px;
+  height: 600px;
   flex: 1; /* each card is of equal size */
   box-shadow: 6px 6px 17px 1px rgba(0, 0, 0, 0.36);
   -webkit-box-shadow: 6px 6px 17px 1px rgba(0, 0, 0, 0.36);
@@ -48,9 +48,8 @@
   margin-top: 7em;
 }
 
-.tactive {
+.testimonialActive {
   z-index: 1;
-  height: 200px;
   background-image: url("../images/quote-left.svg"), url("../images/quote-right.svg");
   background-repeat: no-repeat;
   background-position-x: 0, right;
@@ -62,13 +61,9 @@
 .arrow-container {
   display: flex;
   justify-content: space-between;
-  margin-top: -10em;
   position: relative;
 }
 
-.arrow {
-  height: 3em;
-}
 
 .arrow:active {
   fill: lightgray;
@@ -79,10 +74,6 @@
   margin-bottom: -0.2em;
 }
 
-.ttext {
-  height: 90%;
-  overflow: hidden;
-}
 
 .tracker {
   display: flex;
@@ -96,13 +87,14 @@
 }
 
 .viewAll {
+  margin-top: 25px;
   background-color: white;
   border: none;
   border-radius: 25px;
   height: 2em;
   width: 20%;
   font-weight: bold;
-  margin: 2em auto;
+  margin-left: 40%;
   box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.36);
   -webkit-box-shadow: 0px 3px 7px 1px rgba(0, 0, 0, 0.36);
 }
