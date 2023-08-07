@@ -72,8 +72,6 @@ async function getBooking(req, res, next) {
 
 async function getBookingList(req, res, next) {
     const getBookingList = await Accounts.findOne({email: req.query.email})
-    console.log("hi")
-    console.log(getBookingList)
     if (getBookingList != null) {
         res.getBookingList = getBookingList.bookingHistory
     } else {

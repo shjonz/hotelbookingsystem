@@ -72,7 +72,7 @@ describe('Test getBookingList ', () => {
 
 // Delete booking 
 describe('Test deleteBooking ', () => { 
-    //     test('It should response the DELETE method', async () => {
+    //     test('It should respond with status 200 and delete a bookin for a valid uid', async () => {
     //         const response = await request(server).delete('/api/bookings/one?uid=64d0fafbc2b058c1b9775534');
     //         //console.log(response.body)
     //         expect(response.statusCode).toBe(200);
