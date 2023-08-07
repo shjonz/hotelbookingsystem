@@ -1,7 +1,7 @@
 .welcome-block{
     width: 100vw;
     height: 130px;
-    background-color: #212a27;
+    background-color: rgb(120, 130, 140);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -30,6 +30,7 @@ align-items: center;
 .nav-tabs {
     display: flex;
     justify-content: center;
+    gap: 0;
 }
 
 /* Override Bootstrap's tab styles */
@@ -53,13 +54,22 @@ align-items: center;
 }
 
 
-/* Update the form fields */
-/* .user-info .form-control { */
- /* width: 75%; Adjust the width as needed */
-/* }
+.form-fields-container .form-control {
+  width: 50%;
+}
 
-.user-info{
-  display: flex;
-  flex-direction: column;
+.form-fields-container .form-group .col-sm-2 {
+  width: 10%;
+  
+}
+
+.form-group{
+  border: 15px solid #acefd6;
+  padding: 50px;
+  margin: auto;
   align-items: center;
-} */
+}
+
+.bold-label {
+  font-weight: bold;
+}
