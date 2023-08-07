@@ -1,9 +1,9 @@
 import request from 'supertest';
 import server from '../../server';
 
-
-describe('Test getAllAccounts ', () => { // Get all users' existing account details 
-    test('It should response the GET method', async () => {
+// Get all users' existing account details 
+describe('Test getAllAccounts ', () => { 
+    test('It should respond with status 200 and return all accounts', async () => {
         const response = await request(server).get('/api/accounts');
         /*console.log(response.body)  
         [
@@ -21,12 +21,14 @@ describe('Test getAllAccounts ', () => { // Get all users' existing account deta
         },
         and other accounts below 
         */
+        expect(response.body.length).toBeGreaterThan(1);
         expect(response.statusCode).toBe(200);
     });
 });
 
-describe('Test getAccount ', () => { // Get a specific user's account details based on email
-    test('It should response the GET method', async () => { 
+// Get a specific user's account details based on email
+describe('Test getAccount ', () => { 
+    test('It should respond with status 200 and return account details for valid email', async () => { 
         const response = await request(server).get('/api/accounts/one?email=jon@gmail.com');
         /*console.log(response.body)      {
             _id: '64b7cea9dd171faed8280a5f',
@@ -37,28 +39,130 @@ describe('Test getAccount ', () => { // Get a specific user's account details ba
             __v: 0
           } */ 
         expect(response.statusCode).toBe(200);
+        expect(response.body._id).toBe('64b7cea9dd171faed8280a5f');
+    });
+
+    test('It should respond with status 404 and not return account details for invalid email', async () => {
+        const response = await request(server).get('/api/accounts/one?email=jk@gmail.com');
+        expect(response.statusCode).toBe(404);
+        expect(response.body.length).toBe(undefined);
     });
 });
 
+// Delete account
+describe('Test deleteAccount ', () => { 
+        // test('It should respond with status 200 and delete an account for a valid uid', async () => {
+        //     const response = await request(server).delete('/api/accounts/one?uid=64d0f63ef7f56a9e13d74693');
+        //     expect(response.statusCode).toBe(200);
+        // });
+    
+        test('It should respond with status 404 and not delete an account for an invalid uid', async () => {
+            const response = await request(server).delete('/api/accounts/one?uid=hihi');
+            expect(response.statusCode).toBe(404);
+        });
+    });
 
-describe('Test no results for getAccount ', () => {
-    test('It should response the GET method', async () => {
-        const response = await request(server).get('/api/accounts/one?email=jk@gmail.com');
-        //console.log(response.body)
+// Create account
+describe('Test createAccount ', () => { 
+    // test('It should respond with status 201 and create an account for a valid body', async () => {
+    //     const response = await request(server).post('/api/accounts/one').send({
+    //         email: 'jacky@gmail.com',
+    //         name: 'jacky',
+    //         password: 'jack',
+    //         bookingHistory: ["64b7c2f4e5ebb8f59401c8ff"]
+    //     });
+    //     expect(response.statusCode).toBe(201);
+    // });
+
+    test('It should respond with status 409 and not create an account for a already registered email', async () => {
+        const response = await request(server).post('/api/accounts/one').send({
+            email: 'jon2@gmail.com',
+            name: 'jacky',
+            password: 'jack',
+            bookingHistory: ["64b7c2f4e5ebb8f59401c8ff"]
+        });
+        expect(response.statusCode).toBe(409);
+    });
+});
+
+// Update account
+describe('Test updateAccount ', () => { 
+    // test('It should respond with status 200 and update an account for a valid body', async () => {
+    //     const response = await request(server).patch('/api/accounts/one').send({
+    //         email: 'jon2@gmail.com',
+    //         name: 'jacky',
+    //         password: 'jack',
+    //         bookingHistory: ["64b7c2f4e5ebb8f59401c8ff", "64b8fe58286659289d61f904", "64c3194623cd9158fe1ea149"]
+    //     });
+    //     expect(response.statusCode).toBe(200);
+    // });
+
+    test('It should respond with status 409 and not update an account for an invalid registered email', async () => {
+        const response = await request(server).patch('/api/accounts/one').send({
+            email: 'blehhh@gmail.com',
+            name: 'jacky',
+            password: 'jack',
+            bookingHistory: ["64b7c2f4e5ebb8f59401c8ff"]
+        });
+        expect(response.statusCode).toBe(409);
+    });
+});
+
+// Update Booking list of account
+describe('Test updateBookingList ', () => { 
+    // test('It should respond with status 200 and update a booking list for a valid body', async () => {
+    //     const response = await request(server).patch('/api/accounts/').send({
+    //         email: 'jon2@gmail.com',
+    //         bookingHistory: ["24ae34"]
+    //     });
+    //     expect(response.statusCode).toBe(200);
+    // });
+
+    test('It should respond with status 404 and not update a booking list for an invalid registered email', async () => {
+        const response = await request(server).patch('/api/accounts/').send({
+            email: 'blehhh@gmail.com',
+            bookingHistory: ["64b7c2f4e5ebb8f59401c8ff"]
+        });
         expect(response.statusCode).toBe(404);
     });
 });
 
+
+
+// Delete a booking entry
+describe('Test deleteBookingEntry ', () => { 
+    // test('It should respond with status 200 and delete a booking entry for a valid email and valid booking entry', async () => {
+    //     const response = await request(server).patch('/api/accounts/del').send({
+    //         email: 'jon2@gmail.com',
+    //         bookingHistory: "24ae34"
+    //     });
+    //     expect(response.statusCode).toBe(200);
+    // });
+
+    test('It should respond with status 404 and not delete a booking entry for an invalid registered email', async () => {
+        const response = await request(server).patch('/api/accounts/del').send({
+            email: 'blehhh@gmail.com',
+            bookingHistory: "64b7c2f4e5ebb8f59401c8ff"
+        });
+        expect(response.statusCode).toBe(404);
+    });
+});
+
+
+
+
+
 // Integration test
-describe('Create account, edit account, delete account', () => {
-    let responseCreate
+describe('Create account, updates account, delete account', () => {
+    let responseCreate;
+    let uid;
     
     beforeEach(async () => {
         // Create Account (before)
         const payload = {name: "King Francois the Seconded", email: "to_be_the_king@royalty.mail.sg", password: "I am the greatest king in history", bookingHistory: []}
         responseCreate = await request(server).post('/api/accounts/one').send(payload)
         expect(responseCreate.statusCode).toBe(201)
-        const uid = responseCreate.body._id
+        uid = responseCreate.body._id
       });
       
       afterEach(async () => {
@@ -80,23 +184,3 @@ describe('Create account, edit account, delete account', () => {
 });
 
 
-// describe('Test createAccount ', () => { // Test creation of account
-//     test('It should response the POST method', async () => {
-//         const response = await request(server).post('/api/accounts/one').send({
-//             email: 'jacky@gmail.com',
-//             name: 'jacky',
-//             password: 'jack',
-//             bookingHistory: ["64b7c2f4e5ebb8f59401c8ff"]
-//         });
-//         //console.log(response)
-//         expect(response.statusCode).toBe(201);
-//     });
-// });
-
-// describe('Test deleteAccount ', () => { // Test deletion of account
-//     test('It should response the delete method', async () => {
-//         const response = await request(server).delete('/api/accounts/one?uid=64bbeb3d5ef31a863f77b669');
-//         //console.log(response.body)
-//         expect(response.statusCode).toBe(200);
-//     });
-// });
