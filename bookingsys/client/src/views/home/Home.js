@@ -33,10 +33,9 @@ const Home = () => {
                 <h1 className='homeTitle'>Popular Hotels</h1>
                 <FeaturedHotels/>
                 </div>
-
+                <div className='homeItem'>
                 <Testimonials />
-                <EmailList/>
-                <Footer/>
+                </div>
             </div>
             <Footer/>
         </div>
