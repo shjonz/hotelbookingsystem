@@ -172,7 +172,7 @@ const Profile = () => {
     <div>
       <Navbar />
       <div className="welcome-block">
-        <h1>Hello, {fname}</h1>
+        <h1 className="welcome-heading">Hello, {fname.charAt(0).toUpperCase() + fname.slice(1)}</h1>
 
       </div>
       <div className="tabs-container">
@@ -182,10 +182,13 @@ const Profile = () => {
 
             <div>
               <div className="utitle">
-                <h2>My Profile</h2>
-
+                <h3 style={{fontWeight:'normal'}} >My Profile</h3>
                 {!editMode && changesSaved && ( // Display the "Edit Profile" button only when not in edit mode
-                  <Button variant="primary" onClick={handleEditProfile}>
+                  <Button variant="primary" onClick={handleEditProfile}   style={{
+                    backgroundColor: "#34e0a1",
+                    borderColor: "white",
+                    color: "black",
+                    fontWeight: "bold",}}>
                     Edit Profile
                   </Button>
                 )}
@@ -195,10 +198,9 @@ const Profile = () => {
                   </Button>
                 )}
 
-
               </div>
-              <div className="user-info">
 
+              <div className="user-info">
               <FormField
                   controlId="fname"
                   label="First Name"
