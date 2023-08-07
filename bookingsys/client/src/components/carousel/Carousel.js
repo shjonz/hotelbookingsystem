@@ -44,19 +44,6 @@ export const Carousel = ({ data }) => {
         onClick={nextSlide}
         className="arrow arrow-right"
       />
-      {/* <span className="indicators">
-        {imageURLs.map((_, idx) => {
-          return (
-            <button
-              key={idx}
-              className={
-                slide === idx ? "indicator" : "indicator indicator-inactive"
-              }
-              onClick={() => setSlide(idx)}
-            ></button>
-          );
-        })}
-      </span> */}
 
 <span className="indicators">
   {`${slide + 1}/${imageURLs.length}`}

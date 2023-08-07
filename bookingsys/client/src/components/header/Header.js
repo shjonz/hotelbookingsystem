@@ -1,3 +1,9 @@
+import {
+    faBed,
+    faCalendarDays,
+    faPerson,
+  } from "@fortawesome/free-solid-svg-icons";
+  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { createContext, useState, useEffect, useContext, useMemo } from "react";
 import "./header.css";
 import background from '../images/beach.jpg';
@@ -9,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 import debounce from "lodash/debounce";
+
 
 const Header = ({type}) => {
     const {dispatch} = useContext(SearchContext);
@@ -26,6 +33,8 @@ const Header = ({type}) => {
     const [dropDownList, setDropdownList] = useState([]);
     const [isClicked, setIsClicked] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    //console.log('no context shld be passed around here uid, dest id ', uid, dest_id)
 
     //this is to select the dates
     const [date, setDate] = useState([
@@ -168,9 +177,13 @@ const Header = ({type}) => {
             
         }} >
 
-            <div className="headerSearch">
+            <h1 className="headerTitle">
+            Creating Memories, One Trip at a Time
+            </h1>
 
+            <div className="headerSearch">
                 <div className="headerSearchItem">
+                <FontAwesomeIcon icon={faBed} size="lg" className="headerIcon" />
                     <input className="headerSearchInput" 
                         type="text" 
                         //this is the input 
@@ -179,37 +192,7 @@ const Header = ({type}) => {
                         onChange={ (e) => handleChange(e.target.value) } 
                         onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
                     /> 
-
-
-                   {/* <div className="dropdown" style={{display: showDropdown ? 'block' : 'none'}}>
-                {dropDownList
-                    .filter((item) => {
-                        //const searchTerm = value.toLowerCase();
-                        //const fullName = item.name.toLower();
-                        
-                        return (
-                            destination && 
-                            item && 
-                            item.name
-                        )
-                        
-                    } ).map( (item) => (
-                        //this is responsible for drop down that appears
-                    <div
-                    className="dropdown-row"
-                    key={item.uid}
-                    onClick={() => {
-                        onSearch(item.name);
-                        setShowDropdown(false); // Hide the dropdown when an item is clicked
-                    }}
-                    >
-                    {item.name}
-                    </div>
-                ))}
-            </div>   */}
-
-
-                <div className="dropdown" style={{ display: showDropdown ? 'flex' : 'none' }}>
+                <div className="dropdown" style={{ display: showDropdown ? 'block' : 'none' }}>
                     {dropDownList.length > 0 && dropDownList
                         .map( (item, idx) => (
                         //this is responsible for drop down that appears
@@ -233,6 +216,7 @@ const Header = ({type}) => {
             
 
             <div className="headerSearchItem">
+            <FontAwesomeIcon icon={faCalendarDays} size="lg" className="headerIcon" />
                 <span onClick={ () => setOpenDate( !openDate ) } className="headerSearchText">{`${format(date[0].startDate, "yyyy-MM-dd")} to 
                 ${format(date[0].endDate, "yyyy-MM-dd")}`}</span>
                 {openDate && <DateRange
@@ -246,6 +230,7 @@ const Header = ({type}) => {
                 /> }
                 </div>
                 <div className="headerSearchItem">
+                <FontAwesomeIcon icon={faPerson} size="lg" className="headerIcon" />
                 <span onClick={ () => setOpenOptions( !openOptions ) }
                 className="headerSearchText">{`${options.adult} adult ${options.children} children 
                 ${options.room} room`}</span>

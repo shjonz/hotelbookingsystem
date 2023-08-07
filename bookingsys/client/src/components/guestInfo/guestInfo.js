@@ -1,11 +1,12 @@
 import React, { useRef,useState, useContext,useEffect } from "react";
 import axios from "axios";
 import Navbar from "../navbar/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext"; // Replace with the correct path to your AuthContextProvider
 import "./guestInfo.css";
 import { SearchContext } from "../../context/SearchContext";
+import { format } from "date-fns";
 
 function GuestInfo(){
   const { user, setUser, loadingauth, error, dispatch } = useContext(AuthContext);
@@ -18,8 +19,11 @@ function GuestInfo(){
     currency,
     partner_id,
     destination,
+    price,
+    room,
   } = useContext(SearchContext);
   console.log(user)
+  const navigate = useNavigate();
   
 
   // Define state variables for each input field
@@ -44,15 +48,20 @@ function GuestInfo(){
       alert("You need to be logged in to submit the form.");
       return;
     }
-
-    console.log("Inside handle submit")
+    const sDate = format(date[0].startDate, "yyyy-MM-dd");
+    const eDate = format(date[0].endDate, "yyyy-MM-dd");
+    console.log("Inside handle submit", price.price, destination, room);
     const guestInfo = {
+      "destination": destination,
+      "checkin" : sDate,
+      "checkout" : eDate,
       "firstName": firstName,
       "secondName":secondName,
       "email":email,
       "phone":phone,
       "billingAddress":billingAddress,
-      "specialRequest":specialRequest
+      "specialRequest":specialRequest,
+      "room": room,
     };
     
     
@@ -63,8 +72,8 @@ function GuestInfo(){
       // Create the booking object to be stored in the database
       const bookingData = {
         "destID":dest_id,
-        "hotelID":hotelID,
-        "price": 50,
+        "hotelID":uid,
+        "price": parseInt(price.price),
         "bookingInfo": { "2": bookingInfoString } // Set the bookingInfo object with the guest information
       };
 
@@ -78,6 +87,12 @@ function GuestInfo(){
           "bookingHistory":globalbookingID// Use the booking ID obtained from the response
         });
       });
+      console.log(' priceeeeeeeeeeeeeee ', price)
+      //console.log('guestinfo context information uid, destid ', uid, dest_id)
+      dispatch({type: "RESET_SEARCH"});
+      navigate("/profile");
+
+      
 
 
       // Handle the response if needed (e.g., show success message)
@@ -113,7 +128,7 @@ function GuestInfo(){
           />
         </div>
         <div className="input-group">
-          <label htmlFor="secondName">Second Name</label>
+          <label htmlFor="secondName">Last Name</label>
           <input
             type="text"
             id="secondName"

@@ -4,7 +4,7 @@ import server from '../../server';
 
 describe('Test the root path', () => { // returns name, uid and the _id of the destinatio
     test('It should response the GET method', async () => {
-        const response = await request(server).get('/search');
+        const response = await request(server).get('/search?name=Rome');
         expect(response.statusCode).toBe(200);
     });
 });

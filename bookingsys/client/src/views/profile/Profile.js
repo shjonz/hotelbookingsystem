@@ -160,7 +160,7 @@ const Profile = () => {
         setEmail(data.email);
       //  setPhone(data.phone);
       //  setCountry(data.country);
-        setPass(data.password);
+        setPass(data.password); //this needs to be edited
       })
       .catch((error) => console.error("Error fetching booking info:", error));
   }, []);

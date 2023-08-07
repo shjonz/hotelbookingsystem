@@ -17,13 +17,13 @@ router.get("/default/:uid", hotelSearch, (req, res) => {
 // Searches for a list of hotels based on UID of destination, extracts its prices and gives it back.
 // localhost:8800/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/prices", hotelListPrices, (req, res) => {
-    res.status(200).send(res.hotelListPrices)
+    res.status(res.code).send(res.hotelListPrices)
 })
 
 // Searches for a specific hotel based on its UID, follows same parameters as the above route so remember to save state. **DOES NOT RETURN HOTEL DETAILS**
 // localhost:8800/api/hotels/price?uid=diH7&destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/price", hotelSearchPrices, (req, res) => {
-    res.status(200).send(res.hotelSearchPrices)
+    res.status(res.code).send(res.hotelSearchPrices)
 })
 
 // Function Space
@@ -67,29 +67,22 @@ async function hotelListPrices(req, res, next) {
     const response = await fetch(`https://hotelapi.loyalty.dev/api/hotels?destination_id=${req.query.destination_id}`)
     list = await response.json()
 
-    //console.log('hotels routes ',  list[0]);
-    
-    //const cc = list[0].original_metadata.country; //reverted
-
- 
-    
     if (!list || list.length === 0) {
-        //next();
         return;
     }
     const cc = list[0].original_metadata.country;
     
-
-
     // Idk why I have to do this
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
     prices = await price_response.json()
 
     while (prices.completed == false) {
         price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
+        if (!price_response.ok) {
+            break;
+        }
         prices = await price_response.json()
     }
-    
 
     // Merging both
     const hotels_list = list.map(hotel => ({
@@ -119,6 +112,13 @@ async function hotelListPrices(req, res, next) {
     });
 
     res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined);
+
+    if (res.hotelListPrices.length) {
+        res.code = 200
+    } else {
+        res.code = 404
+    }
+
     next();
 }
 
@@ -131,16 +131,26 @@ async function hotelSearchPrices(req, res, next) {
 
     const cc = search.original_metadata.country;
 
-    // Idk why I have to do this but fuck you Ascenda
+    // Idk why I have to do this
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${req.query.uid}/price?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`);
     price = await price_response.json();
 
     while (price.completed == false) {
         price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${req.query.uid}/price?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`);
+        if (!price_response.ok) {
+            break;
+        }
         price = await price_response.json();
     }
 
     res.hotelSearchPrices = price;
+
+    if (res.hotelSearchPrices.rooms.length) {
+        res.code = 200
+    } else {
+        res.code = 404
+    }
+
     next();
 }
 
