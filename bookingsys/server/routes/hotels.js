@@ -17,13 +17,13 @@ router.get("/default/:uid", hotelSearch, (req, res) => {
 // Searches for a list of hotels based on UID of destination, extracts its prices and gives it back.
 // localhost:8800/api/hotels/prices?destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/prices", hotelListPrices, (req, res) => {
-    res.status(200).send(res.hotelListPrices)
+    res.status(res.code).send(res.hotelListPrices)
 })
 
 // Searches for a specific hotel based on its UID, follows same parameters as the above route so remember to save state. **DOES NOT RETURN HOTEL DETAILS**
 // localhost:8800/api/hotels/price?uid=diH7&destination_id=WD0M&checkin=2023-10-01&checkout=2023-10-07&lang=en_US&currency=SGD&guests=2&partner_id=1
 router.get("/price", hotelSearchPrices, (req, res) => {
-    res.status(200).send(res.hotelSearchPrices)
+    res.status(res.code).send(res.hotelSearchPrices)
 })
 
 // Function Space
@@ -119,6 +119,13 @@ async function hotelListPrices(req, res, next) {
     });
 
     res.hotelListPrices = hotelListPrices.filter(hotel => hotel.price !== undefined);
+
+    if (res.hotelListPrices.length) {
+        res.code = 200
+    } else {
+        res.code = 404
+    }
+
     next();
 }
 
@@ -141,6 +148,13 @@ async function hotelSearchPrices(req, res, next) {
     }
 
     res.hotelSearchPrices = price;
+
+    if (res.hotelSearchPrices.rooms.length) {
+        res.code = 200
+    } else {
+        res.code = 404
+    }
+
     next();
 }
 
