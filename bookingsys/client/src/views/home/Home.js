@@ -17,15 +17,23 @@ const Home = () => {
         }}>
             <Navbar />
             <Header type=""></Header>
+            
             <div className="homeContainer" >
+            <EmailList/>
+                <div className='homeItem'>
+                <h1 className='homeTitle'>Areas Near You</h1>
                 <Featured/>
-                <h1 className='homeTitle'>Browse country</h1>
+                </div>
+                <div className='homeItem'>
+                <h1 className='homeTitle'>Suggested Destinations</h1>
                 <CountryList/>
-                <h1 className='homeTitle'>Hotels Guests love</h1>
+                </div>
+                <div className='homeItem'>
+                <h1 className='homeTitle'>Popular Hotels</h1>
                 <FeaturedHotels/>
-                <EmailList/>
-                <Footer/>
+                </div>
             </div>
+            <Footer/>
         </div>
     );
 };

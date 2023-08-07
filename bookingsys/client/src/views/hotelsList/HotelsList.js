@@ -241,8 +241,6 @@ const HotelsList = () => {
           {(() => {
 
             if (!emptyArray) {
-
-          
               // Display "Loading" while data is being fetched
               return <p className="hotelAvail">Loading</p>;
             } else if (sortedHotels.length > 0) {
