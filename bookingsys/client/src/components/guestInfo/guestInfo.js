@@ -21,6 +21,7 @@ function GuestInfo(){
     destination,
     price,
     room,
+    hotel_pic,
   } = useContext(SearchContext);
   console.log(user)
   const navigate = useNavigate();
@@ -52,16 +53,17 @@ function GuestInfo(){
     const eDate = format(date[0].endDate, "yyyy-MM-dd");
     console.log("Inside handle submit", price.price, destination, room);
     const guestInfo = {
-      "destination": destination,
-      "checkin" : sDate,
-      "checkout" : eDate,
-      "firstName": firstName,
-      "secondName":secondName,
-      "email":email,
-      "phone":phone,
-      "billingAddress":billingAddress,
-      "specialRequest":specialRequest,
-      "room": room,
+      "Destination": destination,
+      "CheckIn" : sDate,
+      "CheckOut" : eDate,
+      "FirstName": firstName,
+      "LastName":secondName,
+      "Email":email,
+      "Phone":phone,
+      "BillingAddress":billingAddress,
+      "SpecialRequest":specialRequest,
+      "Room": room.room,
+      "HotelImage" : hotel_pic.hotel_pic,
     };
     
     
@@ -134,7 +136,7 @@ function GuestInfo(){
             id="secondName"
             value={secondName}
             onChange={(e) => setSecondName(e.target.value)}
-            placeholder="Second Name"
+            placeholder="Last Name"
           />
         </div>
         <div className="input-group">

@@ -2,7 +2,7 @@ import "./countryList.css";
 import romeimg from '../images/rome.jpg';
 import data from "../../countrycodeflagname.json";
 import { Link, useNavigate } from "react-router-dom";
-import {useState, useContext, useEffect} from "react";
+import {useState, useContext, useEffect, useMemo} from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import {format, addDays} from 'date-fns';
@@ -10,7 +10,6 @@ import {format, addDays} from 'date-fns';
 
 
 const CountryList = () => {
-    
     const {dispatch} = useContext(SearchContext);
     const [destination, setDestination] = useState("");
     const [dest_id, setDestID] = useState("");
@@ -31,7 +30,6 @@ const CountryList = () => {
         }
       );
     
-
     //this is to select the dates
     const [date, setDate] = useState([
         {
@@ -40,8 +38,6 @@ const CountryList = () => {
           key: 'selection'
         }
       ]);
-
-    //console.log(' countrylist ', date[0].startDate, date[0].endDate);
     
     const [country, setCountry] = useState("");
     
@@ -51,16 +47,12 @@ const CountryList = () => {
 
     const navigate = useNavigate();
 
-    
-
     useEffect(() => {
         console.log('inside use effect for dest id for countrylist ' , dest_id)
         if ( dest_id && dest_id.length > 0) {
             dispatch({ type: "NEW_SEARCH", payload: { dest_id, date, guests, lang, currency, partner_id , destination} });
             navigate("/hotels", { state: { destination, date, options, dest_id } });
         }
-        // You can dispatch here since dest_id is guaranteed to be updated after the previous useEffect
-        
     }, [dest_id]);
 
     useEffect(() => {
@@ -73,48 +65,12 @@ const CountryList = () => {
                     setDestID(response.data[0].uid);
                 });
                 
-                console.log('inside use effect for country ', data[0].uid );
-                //console.log();
-                //setDestID(toString(data[0].uid) );
-                // data_1.slice(0,1).map((item) => {
-                //     console.log( ' useeffect fahfsafas',  item.uid)
-                //     setDestID(item.uid)
-                // }
-                // );
-                //fetchData();
-
-                // const today = new Date();
-                // const month = today.getMonth() + 1;
-                // const year = today.getFullYear();
-                // const date2 = today.getDate();
-                // const date3 = today.getDate() + 1;
-                // const currentDate = month + "/" + date2 + "/" + year;
-                // const currentDate2 = month + "/" + date3 + "/" + year;
-                // console.log(currentDate, currentDate2);
-
-                //setDate([{
-                //    startDate: currentDate,
-                //    endDate: currentDate2,
-                //    key: 'selection'
-                //}])
-    //`${month}/${date}/${year}`;
-                
-                //console.log('inside use effect for country check dest_id ====================, ', dest_id, destination)
-                
-                
-                
+                console.log('inside use effect for country ', data[0].uid );        
             } catch (err) {
                 console.log(err);
-            }  
-            
+            }    
         }
-
         defaultCountry();
-        // const timer = setTimeout(() => {
-        //     defaultCountry();
-        // }, 8000);
-        // // Trigger the fetch
-        // return () => clearTimeout(timer);
       }, [country]);
 
     const handleSearch = async (value) => {
@@ -138,6 +94,7 @@ const CountryList = () => {
             array.push(country_3);
             setCountries(array);
         
+            //fFORE SREE N LOGGAN UNCOMMENT THREE THINGS HERE
             //const key = process.env.Access_Key
             // const data = await fetch(
             //     `https://api.unsplash.com/search/photos?page=1&query=${country_1.capital}%20tourist%20places&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
@@ -166,12 +123,11 @@ const CountryList = () => {
             // console.log('result ', result_2 );
             // setImg3(result_2 );
         }
-        fetchImgs();
-         
-          //setRes(result);  
+        fetchImgs();  
     }, [] );
     
-
+    //FOR SREE N LOGGAN CHANGE romeimg to img1
+    //uncomment the 2 div className = clistItem
     return (
         <div className="clist">
 

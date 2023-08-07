@@ -54,12 +54,12 @@ align-items: center;
 
 
 /* Update the form fields */
-.user-info .form-control {
-  width: 75%; /* Adjust the width as needed */
-}
+/* .user-info .form-control { */
+ /* width: 75%; Adjust the width as needed */
+/* }
 
 .user-info{
   display: flex;
   flex-direction: column;
   align-items: center;
-}
+} */
