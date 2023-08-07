@@ -161,7 +161,7 @@ return (
         Dest = {bookingData.destID}
         Hotel = {bookingData.hotelID}
         Price = {bookingData.price}
-        imageSrc = {bookingData.price}
+        imageSrc = {bookingData.bookingInfo[2].HotelImage}
         // bookingInfo ={bookingData.bookingInfo}
         buttonText ="details"
         buttonLink = "/"

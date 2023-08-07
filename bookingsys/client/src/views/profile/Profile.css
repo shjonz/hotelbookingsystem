@@ -25,6 +25,7 @@ align-items: center;
 
 .tabs-container {
     margin-top: -41px; /* Adjust the margin value to align the tabs with the welcome block */
+
   }
 
 .nav-tabs {
@@ -63,9 +64,15 @@ align-items: center;
   
 }
 
+.mb-3{
+  display: flex;
+  justify-content: center;
+}
+
 .form-group{
   border: 15px solid #acefd6;
-  padding: 20px 50px;
+  padding: 20px 18px;
+  
 
 
 }
