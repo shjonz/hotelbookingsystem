@@ -41,6 +41,7 @@ const HotelsList = () => {
     partner_id,
     destination,
   } = useContext(SearchContext);
+  console.log(' inside hotelslist check context ', dest_id, date)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -86,10 +87,11 @@ const HotelsList = () => {
     //setTimeout(() => {
 
   
-    //setLoading(true);
+    setLoading(true);
     try {
       const sDate = format(date[0].startDate, "yyyy-MM-dd");
       const eDate = format(date[0].endDate, "yyyy-MM-dd");
+      console.log('inside use effect hotelslist ', dest_id)
       fetch(
         // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
         `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`, {timeoutDuration: 5000}
@@ -107,7 +109,7 @@ const HotelsList = () => {
     } catch (err) {
       console.log(" use effect error");
     }
-    //setLoading(false);
+    setLoading(false);
  // }, 8000);
     //clearTimeout();
     return () => {

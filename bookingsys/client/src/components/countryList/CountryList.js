@@ -46,14 +46,38 @@ const CountryList = () => {
 
     const navigate = useNavigate();
 
+    
+
+    useEffect(() => {
+        console.log('inside use effect for dest id for countrylist ' , dest_id)
+        if ( dest_id && dest_id.length > 0) {
+            dispatch({ type: "NEW_SEARCH", payload: { dest_id, date, guests, lang, currency, partner_id } });
+            navigate("/hotels", { state: { destination, date, options, dest_id } });
+        }
+        // You can dispatch here since dest_id is guaranteed to be updated after the previous useEffect
+        
+    }, [dest_id]);
+
     useEffect(() => {
         async function defaultCountry() {
             try {       
                 console.log('try catch for handlesearch ', country)
-                const { data } = await axios.get(`http://localhost:3000/search/?name=${country}`);
-                console.log('inside use effect for country ', data[0].uid);
-                console.log(data)
-                setDestID(data[0].uid);
+                await axios.get(`http://localhost:3000/search/?name=${country}`).then((response) => {
+                    console.log('inside axios, ', response.data, response.data[0].uid, response.data.slice(0,1));
+                    setDestID(response.data[0].uid);
+                    setDestination(toString(response.data[0].name));
+                });
+
+                
+                console.log('inside use effect for country ', data[0].uid );
+                //console.log();
+                //setDestID(toString(data[0].uid) );
+                // data_1.slice(0,1).map((item) => {
+                //     console.log( ' useeffect fahfsafas',  item.uid)
+                //     setDestID(item.uid)
+                // }
+                // );
+                //fetchData();
 
                 // const today = new Date();
                 // const month = today.getMonth() + 1;
@@ -70,15 +94,15 @@ const CountryList = () => {
                 //    key: 'selection'
                 //}])
     //`${month}/${date}/${year}`;
-                setDestination(data[0].name);
-                console.log('inside use effect for country, ', data[0].uid, data[0].name)
-                dispatch({type: "NEW_SEARCH", payload: {dest_id, date, guests, lang, currency, partner_id}});
-                navigate("/hotels", { state: { destination, date, options, dest_id } });
+                
+                //console.log('inside use effect for country check dest_id ====================, ', dest_id, destination)
+                
                 
                 
             } catch (err) {
                 console.log(err);
             }  
+            
         }
 
         defaultCountry();
@@ -89,7 +113,7 @@ const CountryList = () => {
         // return () => clearTimeout(timer);
       }, [country]);
 
-      const handleSearch = async (value) => {
+    const handleSearch = async (value) => {
         console.log('handle search for countrylist ', value)
         setCountry(value);
     };
