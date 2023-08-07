@@ -42,10 +42,14 @@ async function searchBar(req, res, next) {
             results = await Destinations.aggregate(agg)}
     } catch (e) {res.send(e);}
 
+<<<<<<< Updated upstream
 
     if (results) {
 
 
+=======
+    if (results) {
+>>>>>>> Stashed changes
         res.code = 200
     } else {
         res.code = 404
