@@ -9,6 +9,7 @@ import EmailList from '../../components/emailList/EmailList';
 import Footer from '../../components/Footer/Footer';
 //import background from '../images/sample.jpeg';
 import img from "../../components/images/biglagoon.jpg";
+import Testimonials from '../../components/testimonials/testimonial';
 
 const Home = () => {
     return (
@@ -32,6 +33,10 @@ const Home = () => {
                 <h1 className='homeTitle'>Popular Hotels</h1>
                 <FeaturedHotels/>
                 </div>
+
+                <Testimonials />
+                <EmailList/>
+                <Footer/>
             </div>
             <Footer/>
         </div>
