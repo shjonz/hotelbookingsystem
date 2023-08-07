@@ -65,9 +65,9 @@ align-items: center;
 
 .form-group{
   border: 15px solid #acefd6;
-  padding: 50px;
-  margin: auto;
-  align-items: center;
+  padding: 20px 50px;
+
+
 }
 
 .bold-label {
