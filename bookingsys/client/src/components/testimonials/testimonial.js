@@ -23,7 +23,7 @@ class Testimonials extends React.Component {
     componentDidMount() { // gets index of active card from imported data and sets state
         let length = this.getLength();
         for (var i = 0; i < length; i++) {
-            if (items[i].status === 'testimonialActive') {
+            if (items[i].status === 'active') {
                 this.setState({
                     leftCard: i - 1,
                     activeIndex: i,
@@ -91,7 +91,7 @@ class Testimonials extends React.Component {
                             <p className="testimony">{items[this.state.leftCard].quote}</p>
                         </div>
                     </div>
-                    <div className="testimonialCard active">
+                    <div className="testimonialCard testimonialActive">
                         <img className="testimonialAvatars" src={items[this.state.activeIndex].imgSrc} alt="avatar"></img>
                         <span>
                             <div className="testimonialText">
