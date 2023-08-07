@@ -1,7 +1,7 @@
 
   /* Navbar Styles */
 .navbar {
-  background-color: #fff;
+  background-color: lightgray;
   height: 60px;
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -16,6 +16,8 @@
   /* align-items: center; */
   justify-content: space-between;
   width: 100%;
+  max-width: 1024px;
+  margin: auto;
 }
 
 .logo {

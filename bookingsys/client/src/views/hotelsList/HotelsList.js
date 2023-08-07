@@ -41,6 +41,7 @@ const HotelsList = () => {
     partner_id,
     destination,
   } = useContext(SearchContext);
+  console.log(' inside hotelslist check context ', dest_id, date)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -55,6 +56,8 @@ const HotelsList = () => {
   const [max, setMax] = useState(2500);
   const [minRating, setMinRating] = useState(1);
   const [maxRating, setMaxRating] = useState(5);
+
+  //console.log(' hotels list date ', date , date[0].startDate, date[0].endDate);
 
   //filter handlers
   const handlePriceRangeChange = ({ min, max }) => {
@@ -81,17 +84,25 @@ const HotelsList = () => {
   
 
   useEffect(() => {
+    //setTimeout(() => {
+
+  
     setLoading(true);
     try {
       const sDate = format(date[0].startDate, "yyyy-MM-dd");
       const eDate = format(date[0].endDate, "yyyy-MM-dd");
+      console.log('inside use effect hotelslist ', dest_id)
       fetch(
         // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
-        `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
+        `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`, {timeoutDuration: 5000}
       )
         .then((response) => response.json())
         .then((data) => {
+          // if (data.length == 0) {
+          //   return <p>No available hotels</p>
+          // }
           setData(data);
+          console.log("data", data)
         });
         setDataSource([]);
         setHasMore(true);
@@ -99,6 +110,14 @@ const HotelsList = () => {
       console.log(" use effect error");
     }
     setLoading(false);
+ // }, 8000);
+    //clearTimeout();
+    return () => {
+      // <p>No available destinations</p>
+      setLoading(true);
+      //clearTimeout();
+    }
+    
   }, [useContext(SearchContext)]);
   //console.log('use effect has collected data, records ', data, records);
 
@@ -169,8 +188,9 @@ const HotelsList = () => {
     } catch (err) {
       console.log(" inf scrolling use effect error");
     }
-   
   }, [dataSource]);
+
+  console.log("dataSource", dataSource)
 
   return (
     <div className="hotelList">

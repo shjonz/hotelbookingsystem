@@ -11,15 +11,25 @@ const Featured = () => {
     const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext);
     console.log(' inside featured, ', selectedOption);
 
-    useEffect(() => {
-        async function defaultCountry() {
-            console.log('inside useeffect selectedoption ', selectedOption.label);
-            const { data } = await axios.get(`http://localhost:3000/search/?name=${selectedOption.label}`);
-            //const { data } = await axios.get(`http://localhost:3000/search/?name=Singapore`);
-            setCountry(data.slice(0,3));
-        }
-        // Trigger the fetch
-        defaultCountry();
+    useEffect( () => {
+        const cancelToken = axios.CancelToken.source();
+        
+        console.log('inside useeffect selectedoption ', selectedOption.label);
+        const { data } = axios.get(`http://localhost:3000/search/?name=${selectedOption.label}`).then((res) => {
+            setCountry(res.data.slice(0,3)) }
+            ).catch(err => {
+            if (axios.isCancel(err)) {
+                console.log('cancelled!');
+            } else {
+                console.log('some other error')
+            }
+        })
+            
+        return () => {
+            cancelToken.cancel()
+        }     
+        
+        
       }, [selectedOption]);
 
     return (
