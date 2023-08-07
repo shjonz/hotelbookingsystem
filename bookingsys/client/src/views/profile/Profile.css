@@ -1,7 +1,7 @@
 .welcome-block{
     width: 100vw;
     height: 130px;
-    background-color: #9fffb9;
+    background-color: rgb(120, 130, 140);
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -11,6 +11,11 @@
     box-sizing: border-box;
    }
 
+.welcome-heading{
+  color: #ffffff;
+  font-weight: normal;
+}
+
 .user-info{
 -webkit-text-fill-color: rgb(122, 107, 107);
 padding: 30px;
@@ -19,8 +24,24 @@ align-items: center;
 }
 
 .tabs-container {
-    margin-top: -48px; /* Adjust the margin value to align the tabs with the welcome block */
+    margin-top: -41px; /* Adjust the margin value to align the tabs with the welcome block */
   }
+
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+}
+
+/* Override Bootstrap's tab styles */
+.nav-tabs .nav-link {
+  border-radius: 0; /* 0 for square tabs */
+  color: #ffffff; 
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  border-bottom-color: transparent; /* Remove the bottom border for active tabs */
+}
 
 .utitle{
   display: flex;
@@ -30,4 +51,25 @@ align-items: center;
 
 .bookingcards{
   padding: 20px 20px;
+}
+
+
+.form-fields-container .form-control {
+  width: 50%;
+}
+
+.form-fields-container .form-group .col-sm-2 {
+  width: 10%;
+  
+}
+
+.form-group{
+  border: 15px solid #acefd6;
+  padding: 20px 50px;
+
+
+}
+
+.bold-label {
+  font-weight: bold;
 }

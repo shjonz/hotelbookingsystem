@@ -1,5 +1,6 @@
 .footer {
-    background-color: #003580;
+    margin-top: 20px;
+    background-color: #acefd6;
     width: 100%;
     font-size: 12px;
     height: max-content;
@@ -10,6 +11,7 @@
     display: flex;
     justify-content: space-around;
     margin-bottom: 50px;
+    margin: auto;
 }
 
 .fList {
@@ -19,11 +21,11 @@
 
 .fListItem {
     margin-bottom: 10px;
-    color: white;
+    color: black;
     cursor: pointer;
 }
 
 .fText{
-    color: white;
+    color: black;
     text-align: center;
 }

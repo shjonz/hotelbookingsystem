@@ -24,7 +24,11 @@ const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, bookingInfo, buttonText,
       <Card.Text>Price: ${Price}</Card.Text>
       {/* <Card.Text>Booking Info: {bookingInfo}</Card.Text> */}
       {/* <Link to={buttonLink}> */}
-        <Button variant="primary" onClick={onDetailsClick}>{buttonText}</Button>
+        <Button variant="primary" onClick={onDetailsClick} style={{
+                    backgroundColor: "#34e0a1",
+                    borderColor: "white",
+                    color: "black",
+                    fontWeight: "normal",}}>{buttonText} </Button>
       {/* </Link> */}
       <Button variant="danger" size='sm' onClick={onCancelClick}>{cancelButton}</Button>
     </Card.Body>

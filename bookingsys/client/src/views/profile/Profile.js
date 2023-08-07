@@ -3,7 +3,9 @@ import "./Profile.css";
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 // import Card from 'react-bootstrap/Card';
@@ -21,11 +23,11 @@ const Profile = () => {
   const [lname, setLname] = useState("");  
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("");
 
   const [uid, setUid] = useState("");
-
   const [uidfetched, setUidfetched] = useState(false);
-  const [country, setCountry] = useState("");
+  
   const [pass, setPass] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [changesSaved, setChangesSaved] = useState(true); 
@@ -60,7 +62,8 @@ const Profile = () => {
           email: user,
           name: fname,
           email: email,
-          password: pass
+          phone: phone,
+          // password: pass
         }),
       });
   
@@ -158,104 +161,135 @@ const Profile = () => {
         setFname(data.name);
       //  setLname(data.lname);
         setEmail(data.email);
-      //  setPhone(data.phone);
+        setPhone(data.phone);
       //  setCountry(data.country);
         setPass(data.password); //this needs to be edited
       })
       .catch((error) => console.error("Error fetching booking info:", error));
   }, []);
 
-  console.log('bookigns', bookings)
-
 //  const [users, setUsers] = useState([]);
   return (
     <div>
       <Navbar />
       <div className="welcome-block">
-        <h1>Hello, {fname}</h1>
+        <h1 className="welcome-heading">Hello, {fname.charAt(0).toUpperCase() + fname.slice(1)}</h1>
 
       </div>
       <div className="tabs-container">
-        <Tabs defaultActiveKey="profile"id="profile-tabs"className="mb-3">     
+        <Tabs defaultActiveKey="profile"id="fill-tab-example"className="mb-3" fill>     
           <Tab eventKey="profile" title="Profile">
 
 
             <div>
               <div className="utitle">
-                <h2>My Profile</h2>
-
+                <h4 style={{fontWeight:'bold'}} >My Profile</h4>
                 {!editMode && changesSaved && ( // Display the "Edit Profile" button only when not in edit mode
-                  <Button variant="primary" onClick={handleEditProfile}>
+                  <Button variant="primary" onClick={handleEditProfile}   style={{
+                    backgroundColor: "#34e0a1",
+                    borderColor: "white",
+                    color: "black",
+                    fontWeight: "bold",}}>
                     Edit Profile
                   </Button>
                 )}
                 {editMode && (
-                  <Button variant="primary" onClick={handleSaveChanges}>
+                  <Button variant="primary" onClick={handleSaveChanges} style={{
+                    backgroundColor: "#34e0a1",
+                    borderColor: "white",
+                    color: "black",
+                    fontWeight: "bold",}}>
                     Save Changes
                   </Button>
                 )}
 
-
               </div>
-              <div className="user-info">
 
-              <FormField
-                  controlId="fname"
-                  label="First Name"
-                  type="text"
-                  placeholder="First Name"
-                  value={fname}
-                  onChange={(e) => setFname(e.target.value)}
-                  readOnly={!editMode}
-                />
-                <FormField
-                  controlId="lname"
-                  label="Last Name"
-                  type="text"
-                  placeholder="Last Name"
-                  value={lname}
-                  onChange={(e) => setLname(e.target.value)}
-                  readOnly={!editMode}
-                />
-                <FormField
-                  controlId="email"
-                  label="Email Address"
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  readOnly={!editMode}
-                />
-                <FormField
-                  controlId="phone"
-                  label="Phone Number"
-                  type="tel"
-                  placeholder="Phone Number"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  readOnly={!editMode}
-                />
-                <FormField
-                  controlId="country"
-                  label="Country"
-                  type="text"
-                  placeholder="Country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  readOnly={!editMode}
-                />
-                <FormField
-                  controlId="pass"
-                  label="Password"
-                  type="password"
-                  placeholder="Password"
-                  value={pass}
-                  onChange={(e) => setPass(e.target.value)}
-                  readOnly={!editMode}
-                />
+              <div className="form-fields-container">
+              <div className="form-group">
+
+    <Form>
+      <Form.Group as={Row} className="mb-3" controlId="fname">
+        <Form.Label column sm="2" className="bold-label">
+          First Name
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="text"
+            placeholder="First Name"
+            value={fname}
+            onChange={(e) => setFname(e.target.value)}
+            readOnly={!editMode}
+            className="form-control"
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row} className="mb-3" controlId="lname">
+        <Form.Label column sm="2" className="bold-label">
+          Last Name
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="text"
+            placeholder="Last Name"
+            value={lname}
+            onChange={(e) => setLname(e.target.value)}
+            readOnly={!editMode}
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row} className="mb-3" controlId="email">
+        <Form.Label column sm="2" className="bold-label">
+          Email Address
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            readOnly={!editMode}
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row} className="mb-3" controlId="phone">
+        <Form.Label column sm="2" className="bold-label">
+          Phone Number
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="tel"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            readOnly={!editMode}
+          />
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row} className="mb-3" controlId="country">
+        <Form.Label column sm="2" className="bold-label">
+          Country
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="text"
+            placeholder="Country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            readOnly={!editMode}
+          />
+        </Col>
+      </Form.Group>
+    </Form>
 
 
 
+
+                </div>
               </div>
             </div>
           </Tab>

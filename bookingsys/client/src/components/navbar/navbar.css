@@ -1,7 +1,7 @@
 
   /* Navbar Styles */
 .navbar {
-  background-color: lightgray;
+  background-color: #acefd6;
   height: 60px;
   padding: 0 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -9,15 +9,17 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
+  /* max-width: 1024px; */
 }
 
 .navbarContainer {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1024px;
+  /* max-width: 1024px; */
   margin: auto;
+  padding: 0 20px;
 }
 
 .logo {
@@ -31,12 +33,13 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  margin-right: 20px;
+  /* margin-right: 20px; */
+  align-items: center;
+  margin-left: auto; /* Push all items to the right */
 }
 
 .nav-item {
   margin-right: 10px;
-  padding-top: 7px;
 }
 
 .nav-item:last-child {
@@ -51,18 +54,6 @@
   
 }
 
-.navButton {
-  margin-left: 10px;
-  padding: 8px 20px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  min-width: 80px;
-  min-height: 40px;
-  max-height: 40px;
-}
 
 .loginregister {
   color: blue;
@@ -75,30 +66,28 @@
 
 .dropdowncountry{
   z-index: 2;
-  position:absolute;
-  max-height: 200px;
-  overflow:visible;
-  min-width: max-content;
-  max-width: 100px; 
-  overflow-y: auto; 
-  font-weight: bold;
-  font-size: small;
+  position: absolute;
+  left: 20%; /* Adjust this value to position the dropdown */
+  top: 15%; /* Vertically center the dropdown */
+  max-height: 500%;
+  overflow: auto;
   /* font-style:italic; */
-  margin-left: 300px;
   padding: 8px 20px;
-  border:none;
-  border-radius: 4px;
   background-color: #333;
   color: #fff;
-  display:flex;
-  border: none;
   cursor: pointer;
-  align-items: center;
+}
 
-  
-  /* color:#333 */
-  
-  /* position: fixed; */
-  
-  /* justify-content: space-between; */
+.navButton {
+  /* margin-left: 10px; */
+  padding: 8px 20px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 80px;
+  min-height: 40px;
+  max-height: max-content;
+  flex: 0 0 auto;
 }

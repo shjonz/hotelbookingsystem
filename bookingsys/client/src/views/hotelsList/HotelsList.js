@@ -42,6 +42,7 @@ const HotelsList = () => {
     destination,
     price,
     room,
+    hotel_pic,
   } = useContext(SearchContext);
 
 
@@ -100,12 +101,13 @@ const HotelsList = () => {
       fetch(
         // `/api/hotels/prices?destination_id=${dest_id}&checkin=2023-10-08&checkout=2023-10-09&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`
         `/api/hotels/prices?destination_id=${dest_id}&checkin=${sDate}&checkout=${eDate}&lang=${lang}&currency=${currency}&guests=${guests}&partner_id=${partner_id}`, {timeoutDuration: 5000}
-      )
+        )
         .then((response) => response.json())
         .then((data) => {
           
           setData(data);
-          console.log("data", data)
+          console.log("data", data);
+          
         });
         if (data.length === 0) {
           setEmptyArray(true);
@@ -149,25 +151,25 @@ const HotelsList = () => {
   const memoizedFilteredHotels = useMemo(() => {
     return data.filter((hotel) => {
          // Check if hotel name contains the filter input (case-insensitive)
-    const isNameFiltered =
-    hotel.name &&
-    (hotelNameFilter.trim() === "" ||
-      hotel.name
+      const isNameFiltered =
+      hotel.name &&
+      (hotelNameFilter.trim() === "" ||
+        hotel.name
         .toLowerCase()
         .includes(hotelNameFilter.trim().toLowerCase()));
 
   // Check if hotel price is within the filter range
-  const isPriceFiltered =
-    hotel.price !== undefined && hotel.price >= min && hotel.price <= max;
+      const isPriceFiltered =
+      hotel.price !== undefined && hotel.price >= min && hotel.price <= max;
 
   // Check if hotel rating is within the filter range
-  const isRatingFiltered =
-  hotel.rating >= minRating && hotel.rating <= maxRating;  
+      const isRatingFiltered =
+      hotel.rating >= minRating && hotel.rating <= maxRating;  
 
   // Return true if all filters match or if filters are not applied
-  return isNameFiltered && isPriceFiltered && isRatingFiltered;
-    });
-  }, [data, min, max, hotelNameFilter, minRating, maxRating]);
+      return isNameFiltered && isPriceFiltered && isRatingFiltered;
+        });
+      }, [data, min, max, hotelNameFilter, minRating, maxRating]);
 
   const sortedHotels = memoizedFilteredHotels.sort(sortBySearchRank);
 
@@ -241,8 +243,6 @@ const HotelsList = () => {
           {(() => {
 
             if (!emptyArray) {
-
-          
               // Display "Loading" while data is being fetched
               return <p className="hotelAvail">Loading</p>;
             } else if (sortedHotels.length > 0) {
