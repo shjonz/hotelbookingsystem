@@ -15,6 +15,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 import debounce from "lodash/debounce";
+import 'animate.css';
+
 
 
 const Header = ({type}) => {
@@ -166,6 +168,27 @@ const Header = ({type}) => {
         }  
     }
 
+    // useEffect(() => {
+    //     const headerTitle = document.querySelector(".headerTitle");
+    
+    //     const handleScroll = () => {
+    //       const rect = headerTitle.getBoundingClientRect();
+    //       const isInViewport = rect.top <= window.innerHeight && rect.bottom >= 0;
+          
+    //       if (isInViewport) {
+    //         headerTitle.classList.add("animate__fadeIn");
+    //       } else {
+    //         headerTitle.classList.remove("animate__fadeIn");
+    //       }
+    //     };
+    
+    //     window.addEventListener("scroll", handleScroll);
+    
+    //     return () => {
+    //       window.removeEventListener("scroll", handleScroll);
+    //     };
+    //   }, []);
+
     return (
         
         <div className={type === "list" ? "listMode" : "nonListMode"}>
@@ -177,7 +200,7 @@ const Header = ({type}) => {
             
         }} >
 
-            <h1 className="headerTitle">
+            <h1 className="headerTitle animate__animated animate__fadeIn">
             Creating Memories, One Trip at a Time
             </h1>
 
