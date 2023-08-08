@@ -16,7 +16,13 @@
 
 }
 
-.homeTitle {
+.homeTitle{
+    margin-top: 10px;
+    max-width: 1024px;
+    font-size: 20px;
+}
+
+.homeTitleLeft {
     margin-top: 10px;
     max-width: 1024px;
     font-size: 20px;

@@ -40,8 +40,8 @@ const Featured = () => {
                 <img className='featuredImg' src={nyimg} alt="newyork"></img>
 
                 <div className='featuredTitles'>
-                    <h1>{item.name}</h1>
-                    <h2>{item.uid}</h2>
+                    <h1 className='featuredh1'>{item.name}</h1>
+                    <h2 className='featuredh2'>{item.uid}</h2>
                 </div>
 
             </div>
