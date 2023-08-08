@@ -22,23 +22,23 @@ require("chromedriver");
         await driver.sleep(1000);
 
         // Testing calendar
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/span')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/span')).click();
 
         // Picking date
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/div/div[2]/button[2]')).click();
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/div/div[2]/button[2]')).click();
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/div/div[3]/div/div[2]/button[6]')).click();
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/div/div[3]/div/div[2]/button[8]')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/div/div[2]/button[2]')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/div/div[2]/button[2]')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/div/div[3]/div/div[2]/button[6]')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/div/div[3]/div/div[2]/button[8]')).click();
         await driver.sleep(1000);
 
         // Closing calendar
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[3]/span')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[2]/span')).click();
         
         // Enter into searchbox the region and click search
         await driver.findElement(By.className('headerSearchInput')).sendKeys('Robertson Quay, Singapore, Singapore');
         await driver.sleep(4000);
         await driver.findElement(By.className('dropdown-row')).click();
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/button')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[2]/div/div/div[4]/button')).click();
 
         // Wait for hotels page to load (it takes quite a while to search!)
         await driver.sleep(5000);
@@ -61,7 +61,6 @@ require("chromedriver");
         // await driver.sleep(5000);
 
         // Guest Ingfo
-        await driver.findElement(By.xpath('//*[@id="hotelID"]')).sendKeys('ABCD');
         await driver.findElement(By.xpath('//*[@id="firstName"]')).sendKeys('John the Shjon');
         await driver.findElement(By.xpath('//*[@id="secondName"]')).sendKeys('Tan Tan Tan');
         await driver.findElement(By.xpath('//*[@id="email"]')).sendKeys('jon@gmail.com');
@@ -70,7 +69,7 @@ require("chromedriver");
         await driver.findElement(By.xpath('//*[@id="specialRequest"]')).sendKeys('I want to eat some pie thank you');
         await driver.sleep(1000);
 
-        await driver.findElement(By.xpath('//*[@id="root"]/div/div[3]/div[1]/div[7]/button')).click();
+        await driver.findElement(By.xpath('//*[@id="root"]/div/div[3]/div[1]/div[6]/button')).click();
         await driver.sleep(1000);
         await driver.switchTo().alert().accept();
 
@@ -80,13 +79,15 @@ require("chromedriver");
         
         // Check Bookings then delete then Logout
         await profile_button.click();
-        await driver.findElement(By.xpath('//*[@id="profile-tabs-tab-bookings"]')).click();
+        await driver.findElement(By.xpath('//*[@id="fill-tab-example-tab-bookings"]')).click();
         await driver.sleep(2000);
-        await driver.findElement(By.xpath('//*[@id="profile-tabs-tabpane-bookings"]/div/div/div/div/div/button')).click();
+        await driver.findElement(By.xpath('//*[@id="fill-tab-example-tabpane-bookings"]/div/div/div/div/div/button[2]')).click();
         await driver.sleep(2000);
-        await driver.findElement(By.xpath('//*[@id="profile-tabs-tab-bookings"]')).click();
+        await driver.findElement(By.xpath('//*[@id="fill-tab-example-tab-bookings"]')).click();
+        await driver.sleep(2000);
+        await driver.findElement(By.xpath('//*[@id="fill-tab-example-tab-profile"]')).click()
 
-        await driver.sleep(5000);
+        // Log Out
         await driver.findElement(By.xpath('//*[@id="root"]/div/div[1]/div/div/button/a')).click();
         await driver.sleep(5000);
            
