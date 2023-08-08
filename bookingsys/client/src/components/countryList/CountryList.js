@@ -81,7 +81,7 @@ const CountryList = () => {
     const country_3 = data[getRandomNumber(0, data.length - 1)];
     const array = [];
     
-
+    
    
 
     useEffect( () => {
@@ -93,9 +93,8 @@ const CountryList = () => {
             setCountries(array);
         
             //fFORE SREE N LOGGAN UNCOMMENT THREE THINGS HERE
-            //const key = process.env.Access_Key
             // const data = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_1.capital}%20tourist%20places&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            //     `https://api.unsplash.com/search/photos?page=1&query=${country_1.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
             // );
             // const dataJ = await data.json();
             // const result = dataJ.results[0].urls.raw;
@@ -104,7 +103,7 @@ const CountryList = () => {
             // setImg1(result );
 
             // const data_1 = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_2.capital}%20tourist%20places&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            //     `https://api.unsplash.com/search/photos?page=1&query=${country_2.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
             // );
             // const dataJ1 = await data_1.json();
             // const result1 = dataJ1.results[0].urls.raw;
@@ -113,7 +112,7 @@ const CountryList = () => {
             // setImg2(result1 );
 
             // const data_2 = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_3.capital}%20tourist%20places&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            //     `https://api.unsplash.com/search/photos?page=1&query=${country_3.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
             // );
             // const dataJ_2 = await data_2.json();
             // const result_2 = dataJ_2.results[0].urls.raw;
