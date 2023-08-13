@@ -93,32 +93,32 @@ const CountryList = () => {
             setCountries(array);
         
             //fFORE SREE N LOGGAN UNCOMMENT THREE THINGS HERE
-            // const data = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_1.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
-            // );
-            // const dataJ = await data.json();
-            // const result = dataJ.results[0].urls.raw;
-            // //const result = dataJ.results.urls.raw;
-            // console.log('result ', result );
-            // setImg1(result );
+            const data = await fetch(
+                `https://api.unsplash.com/search/photos?page=1&query=${country_1.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            );
+            const dataJ = await data.json();
+            const result = dataJ.results[0].urls.raw;
+            //const result = dataJ.results.urls.raw;
+            console.log('result ', result );
+            setImg1(result );
 
-            // const data_1 = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_2.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
-            // );
-            // const dataJ1 = await data_1.json();
-            // const result1 = dataJ1.results[0].urls.raw;
-            // //const result = dataJ.results.urls.raw;
-            // console.log('result ', result1 );
-            // setImg2(result1 );
+            const data_1 = await fetch(
+                `https://api.unsplash.com/search/photos?page=1&query=${country_2.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            );
+            const dataJ1 = await data_1.json();
+            const result1 = dataJ1.results[0].urls.raw;
+            //const result = dataJ.results.urls.raw;
+            console.log('result ', result1 );
+            setImg2(result1 );
 
-            // const data_2 = await fetch(
-            //     `https://api.unsplash.com/search/photos?page=1&query=${country_3.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
-            // );
-            // const dataJ_2 = await data_2.json();
-            // const result_2 = dataJ_2.results[0].urls.raw;
-            // //const result = dataJ.results.urls.raw;
-            // console.log('result ', result_2 );
-            // setImg3(result_2 );
+            const data_2 = await fetch(
+                `https://api.unsplash.com/search/photos?page=1&query=${country_3.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
+            );
+            const dataJ_2 = await data_2.json();
+            const result_2 = dataJ_2.results[0].urls.raw;
+            //const result = dataJ.results.urls.raw;
+            console.log('result ', result_2 );
+            setImg3(result_2 );
         }
         fetchImgs();  
     }, [] );
@@ -129,14 +129,14 @@ const CountryList = () => {
         <div className="clist">
 
             <div className="clistItem">
-                <img className="clistImg" alt="rome" src={romeimg}></img>
+                <img className="clistImg" alt="rome" src={img1}></img>
                 <div className="clistTitles" >
                     <button className="clistButton" onClick={() => handleSearch(country_1.capital)}>{country_1.name}</button>
                     <h2>Capital: {country_1.capital}</h2>
                 </div>
             </div>
 
-            {/* <div className="clistItem">
+            <div className="clistItem">
             <img className="clistImg" alt="france" src={img2}></img>
                 <div className="clistTitles">
                     <button className="clistButton" onClick={() => handleSearch(country_2.capital)}>{country_2.name}</button>
@@ -150,7 +150,7 @@ const CountryList = () => {
                     <button className="clistButton" onClick={() => handleSearch(country_3.capital)}>{country_3.name}</button>
                     <h2>Capital: {country_3.capital}</h2>
                 </div>
-            </div> */}
+            </div>
 
         </div>
     )
