@@ -22,14 +22,11 @@ const ProfileCardMid = ({ Dest, Hotel, Price, imageSrc, bookingInfo, buttonText,
       <Card.Title>{Dest}</Card.Title>
       <Card.Text>Location: {Hotel}</Card.Text>
       <Card.Text>Price: ${Price}</Card.Text>
-      {/* <Card.Text>Booking Info: {bookingInfo}</Card.Text> */}
-      {/* <Link to={buttonLink}> */}
         <Button variant="primary" onClick={onDetailsClick} style={{
                     backgroundColor: "#34e0a1",
                     borderColor: "white",
                     color: "black",
                     fontWeight: "normal",}}>{buttonText} </Button>
-      {/* </Link> */}
       <Button variant="danger" size='sm' onClick={onCancelClick}>{cancelButton}</Button>
     </Card.Body>
   </Card>
@@ -162,7 +159,6 @@ return (
         Hotel = {bookingData.hotelID}
         Price = {bookingData.price}
         imageSrc = {bookingData.bookingInfo[2].HotelImage}
-        // bookingInfo ={bookingData.bookingInfo}
         buttonText ="details"
         buttonLink = "/"
         cancelButton ="cancel"

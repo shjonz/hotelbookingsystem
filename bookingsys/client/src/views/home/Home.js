@@ -7,7 +7,6 @@ import CountryList from '../../components/countryList/CountryList';
 import FeaturedHotels from '../../components/FeaturedHotels/FeaturedHotels';
 import EmailList from '../../components/emailList/EmailList';
 import Footer from '../../components/Footer/Footer';
-//import background from '../images/sample.jpeg';
 import img from "../../components/images/biglagoon.jpg";
 import Testimonials from '../../components/testimonials/testimonial';
 

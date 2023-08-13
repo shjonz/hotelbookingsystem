@@ -4,7 +4,7 @@ import {
     faPerson,
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { createContext, useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo } from "react";
 import "./header.css";
 import background from '../images/beach.jpg';
 import { DateRange } from 'react-date-range';
@@ -12,7 +12,6 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import {format, addDays} from 'date-fns';
 import { useLocation, useNavigate } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
 import { SearchContext } from "../../context/SearchContext";
 import debounce from "lodash/debounce";
 import 'animate.css';
@@ -36,8 +35,6 @@ const Header = ({type}) => {
     const [isClicked, setIsClicked] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    //console.log('no context shld be passed around here uid, dest id ', uid, dest_id)
-
     //this is to select the dates
     const [date, setDate] = useState([
         {
@@ -46,8 +43,6 @@ const Header = ({type}) => {
           key: 'selection'
         }
     ]);
-
-    //console.log('header date ', date, date[0].startDate, date[0].endDate)
 
     //for opening up the option to choose room type and number of children n adults
     const [openOptions, setOpenOptions] = useState(false);
@@ -61,7 +56,6 @@ const Header = ({type}) => {
           room: 1,
         }
       );
-
 
     //this is to handle the options up and down
     //prev is the previous state
@@ -97,43 +91,18 @@ const Header = ({type}) => {
         setDestination(searchTerm);
         setDestID(item_json.uid);
         setIsClicked(true);
-        //console.log("onSearch for header component lemme see whats inside ", searchTerm.uid);
     };
 
-    // useEffect(() => {
-    //     async function handleChangeinsearch(value) {
-            
-    //         }
-    //     // Trigger the fetch
-    //     handleChangeinsearch();
-    //   }, [value]);
-    
     //this is what links to the backend, for backend check the server/routes/search.js as well as server/server.js
     const fetchData = async (value) => {
-        // const controller = AbortController();
-        // const signal = controller.signal;
         try {
             if (value.length > 0) {
                 setLoading(true);
                 const s = await fetch(`/search?name=${value}`)
                 .then( (response) => response.json() )
                 .then( (data) => {
-
-                    // const results = data.filter( (item) => {
-                    
-                    //     return (
-                    //         value && 
-                    //         item && 
-                    //         item.name
-                    // //item.name.toLowerCase().includes(value.toLowerCase())
-                    //         );
-                    // });
-                
-                //setDropdownList(results);
-                setDropdownList(data);
-                setLoading(false);
-                
-                console.log('lemme see value: ', value, ' data: ', data);
+                    setDropdownList(data);
+                    setLoading(false);
             }).catch( error => {
                 if(error.name === 'SyntaxError' && error.message.includes('Unexpected end of JSON input') ) {
                     console.error('Truncated data: Not all of the JSON data was received');
@@ -147,10 +116,6 @@ const Header = ({type}) => {
     } catch (err) {
             console.log('error catched');
         }
-        // return () => {
-        //     controller.abort();
-        //     console.log('cancelled!');
-        // }
     }
 
     const debouncedOnChange = useMemo(() => debounce(fetchData, 100), []);
@@ -231,11 +196,7 @@ const Header = ({type}) => {
                         </div>
                     ))}
                 </div>  
-
-
             </div> 
-                
-
             
 
             <div className="headerSearchItem">
@@ -319,24 +280,22 @@ const Header = ({type}) => {
           onFocus={() => setShowDropdown(true)} // Show the dropdown when the input is focused
           />  
           <div className="dropdownList" style={{ display: showDropdown ? 'block' : 'none' }}>
-      {dropDownList
-          .map( (item) => (
+                {dropDownList
+                    .map( (item) => (
               //this is responsible for drop down that appears
-          <div
-          className="dropdownList-row"
-          key={item.uid}
-          onClick={() => {
-              onSearch(item.name);
-              setShowDropdown(false); // Hide the dropdown when an item is clicked
-          }}
-          >
-          {item.name}
-          </div>
-      ))}
-  </div> 
-          </div>
-          
-          
+                <div
+                    className="dropdownList-row"
+                    key={item.uid}
+                    onClick={() => {
+                        onSearch(item.name);
+                        setShowDropdown(false); // Hide the dropdown when an item is clicked
+                    }}
+                >
+                {item.name}
+                </div>
+                ))}
+            </div> 
+        </div> 
 
         <div className="lsItem">
           <label>Check-in Date</label>

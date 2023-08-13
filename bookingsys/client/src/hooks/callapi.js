@@ -68,10 +68,6 @@ app.get('/:location/:checkin/:checkout/:lang/:currency/:guests/:partner_id', asy
         rating: hotel.rating,
         country: hotel.original_metadata.country,
     }));
-    //console.log(hotelData.length);
-// console.log(hotelData[0].original_metadata);
-// console.log(hotelData[0].original_metadata.country);
-// console.log(country_code);
 
     // Fetch prices from second prices API
     const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destination.uid}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&country_code=${country_code}&guests=${guests}&partner_id=1`);
@@ -104,8 +100,6 @@ app.get('/:location/:checkin/:checkout/:lang/:currency/:guests/:partner_id', asy
     });
     // Send data containing hotels - So far only tested for Singapore 
     res.send(combinedData);
-    //console.log(combinedData);
-
 });
 
 

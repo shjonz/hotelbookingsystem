@@ -72,7 +72,6 @@ async function hotelListPrices(req, res, next) {
     }
     const cc = list[0].original_metadata.country;
     
-    // Idk why I have to do this
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`)
     prices = await price_response.json()
 
@@ -132,7 +131,6 @@ async function hotelSearchPrices(req, res, next) {
 
     const cc = search.original_metadata.country;
 
-    // Idk why I have to do this
     let price_response = await fetch(`https://hotelapi.loyalty.dev/api/hotels/${req.query.uid}/price?destination_id=${req.query.destination_id}&checkin=${req.query.checkin}&checkout=${req.query.checkout}&lang=${req.query.lang}&currency=${req.query.currency}&country_code=${cc}&guests=${req.query.guests}&partner_id=1`);
     price = await price_response.json();
 

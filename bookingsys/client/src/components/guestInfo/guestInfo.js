@@ -1,8 +1,6 @@
-import React, { useRef,useState, useContext,useEffect } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
-import Navbar from "../navbar/Navbar";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext"; // Replace with the correct path to your AuthContextProvider
 import "./guestInfo.css";
 import { SearchContext } from "../../context/SearchContext";
@@ -69,7 +67,6 @@ function GuestInfo(){
     
     try {
       // Convert the guestInfo object to a JSON-formatted string
-      //const bookingInfoString = JSON.stringify(guestInfo);
       const bookingInfoString = guestInfo;
       // Create the booking object to be stored in the database
       const bookingData = {
@@ -109,16 +106,6 @@ function GuestInfo(){
   return (
     <div className="GuestInfo">
       <h1>Guest Information</h1>
-        {/* <div className="input-group">
-          <label htmlFor="destID">Destination ID</label>
-          <input
-            type="text"
-            id="destID"
-            value={destID}
-            onChange={(e) => setDestID(e.target.value)}
-            placeholder="Enter Destination ID"
-          />
-        </div> */}
         <div className="input-group">
           <label htmlFor="firstName">First Name</label>
           <input

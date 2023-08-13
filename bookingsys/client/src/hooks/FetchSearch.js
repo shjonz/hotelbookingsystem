@@ -13,10 +13,7 @@ const FetchSearch = (url) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        //const res = await axios.get(url);
-        //setData(res.data);
-        //console.log(res.data);
-        // /Singapore-Singapore/2023-10-15/2023-10-20/en_US/SGD/2/1
+
         const location = "Singapore, Singapore";
         const checkin = "2023-10-15";
         const checkout = "2023-10-20";
@@ -24,21 +21,11 @@ const FetchSearch = (url) => {
         const guests = "2";
         const partner_id = "1";
         const currency = "SGD";
-        //let location = req.params.location;
-        //location = location.replace(/-|_/g, ', ');
-        //const checkin = req.params.checkin; // YYYY-MM-DD format
-        //const checkout = req.params.checkout; // YYYY-MM-DD format
-        //const lang = req.params.lang; // E.g. “en_US”
-        //const currency = req.params.currency; // ISO code for currencies (E.g SGD)
-        //const guests = req.params.guests; // Number of guests staying per room - /* TODO: Seperator for more than one room
-        //const partner_id = req.params.partner_id; // 1 for now, for loyalty points
 
         // Get UID from destinations.json
-        //const data = fs.readFileSync('../destinations.json', 'utf8');
         const destinations = JSON.parse(data);
         const destination = destinations.find(dest => dest.term === location);
         if (!destination) {
-            //res.status(404).send('No destination found for the specified location.');
             console.log("error");
             return;
         }
@@ -70,10 +57,6 @@ const FetchSearch = (url) => {
             rating: hotel.rating,
             country: hotel.original_metadata.country,
         }));
-    //console.log(hotelData.length);
-// console.log(hotelData[0].original_metadata);
-// console.log(hotelData[0].original_metadata.country);
-// console.log(country_code);
 
     // Fetch prices from second prices API
         const response2 = await fetch(`https://hotelapi.loyalty.dev/api/hotels/prices?destination_id=${destination.uid}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&country_code=${country_code}&guests=${guests}&partner_id=1`);
@@ -118,16 +101,6 @@ const FetchSearch = (url) => {
         fetchData();
     }, []);
 
-    // const reFetch = async () => {
-    //     setLoading(true);
-    //     try {
-    //         const res = await axios.get(url);
-    //         setData(res.data);
-    //     } catch (err) {
-    //         setError(err);
-    //     }
-    //     setLoading(false);
-    // };
     return {data, loading ,error}
   //return { data, loading, error, reFetch };
 };

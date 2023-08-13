@@ -58,12 +58,10 @@ const Profile = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          //uid: "64ba4601fb292664fa578119",
           email: user,
           name: fname,
           email: email,
           phone: phone,
-          // password: pass
         }),
       });
   
@@ -121,37 +119,14 @@ const Profile = () => {
   }, [uid]);
 
 
-
-  // useEffect( () => {
-  //   if (userid !== null) {
-  //     console.log(" account found, now looking for bookings info check if got uid ============= ", userid);
-  //     console.log(' accounts uid ', `/api/bookings/id?uid=${userid}`);
-  //     fetch(`/api/bookings/id?uid=${userid}`) //this is jon (getting his booking history)
-  //     //fetch('/api/bookings/id?uid=64b7cea9dd171faed8280a5f')
-  //   //fetch(`/api/bookings/id?email=${user}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log(' account found and bookings api backend data found here XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ', data, ' type '); // Log the data received from the API
-  //       setBookings(data);
-  //     })
-  //     .catch((error) => console.error("Error fetching booking IDs:", error));
-  //   } else {
-  //     console.log("cant get the uid of the account accoutn dont exist ");
-  //   }
-
-  //   console.log('lemme see bookings object ', bookings); 
-  // }, []);
-
   const [profileData, setProfileData] = useState(null); // State to store the profile data
 
   //useeffect to get account for profile info
   useEffect( () => {
     
-
-    //fetch('/api/accounts/one?email=Gary2@gmail.com') 
     fetch(`/api/accounts/one?email=${user}`) // this works
 
-  //  fetch(`/api/accounts/one?email=${uname.value}`)
+    //  fetch(`/api/accounts/one?email=${uname.value}`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // Log the data received from the API
@@ -168,7 +143,6 @@ const Profile = () => {
       .catch((error) => console.error("Error fetching booking info:", error));
   }, []);
 
-//  const [users, setUsers] = useState([]);
   return (
     <div>
       <Navbar />

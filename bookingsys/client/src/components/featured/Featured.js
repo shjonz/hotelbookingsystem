@@ -11,6 +11,8 @@ const Featured = () => {
     const { selectedOption, setSelectedOption } = useContext(SelectedOptionContext);
     console.log(' inside featured, ', selectedOption);
 
+    //incomplete additional feature should be clickable and can search based on hotel dest for now it just changes recommendations based on country selected 
+    //on dropdown bar
     useEffect( () => {
         const cancelToken = axios.CancelToken.source();
         
