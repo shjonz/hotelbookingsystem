@@ -29,7 +29,6 @@ const Hotel = () => {
   useEffect(() => {
     setLoading(true);
     try {
-      // console.log("payload", uid, dest_id, date, guests, lang, currency, partner_id)
 
       const sDate = format(date[0].startDate, "yyyy-MM-dd");
       const eDate = format(date[0].endDate, "yyyy-MM-dd");
@@ -57,7 +56,6 @@ const Hotel = () => {
     setLoading(false);
   }, []);
 
-  // const photos = data2.rooms[2].images;
 
   const roomListRef = useRef(null);
 
@@ -65,7 +63,6 @@ const Hotel = () => {
     roomListRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
-  // const desc = data.description.split(/<[^>]+>/g).filter((text) => text.trim() !== "")
   const renderedHTML = (
     <div dangerouslySetInnerHTML={{ __html: data1.description }} />
   );
@@ -152,12 +149,3 @@ const Hotel = () => {
 };
 
 export default Hotel;
-
-{
-  /* {data2.rooms &&
-                data2.rooms.map((item) => (
-                    <HotelRoom key={item.key} item={item}/>
-                ))}
-                 
-            {!data2.rooms && <div className="roomAvail"> No rooms available.</div>} */
-}

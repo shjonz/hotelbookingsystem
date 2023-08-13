@@ -92,7 +92,7 @@ const CountryList = () => {
             array.push(country_3);
             setCountries(array);
         
-            //fFORE SREE N LOGGAN UNCOMMENT THREE THINGS HERE
+            //unsplash external api fetch this search engine not that good
             const data = await fetch(
                 `https://api.unsplash.com/search/photos?page=1&query=${country_1.name}%20famous%20attractions&client_id=siJJbrgksSg9HqJ3vRdpofSNb_jJzW-3W5vhPQVqLhQ`
             );
@@ -123,7 +123,7 @@ const CountryList = () => {
         fetchImgs();  
     }, [] );
     
-    //FOR SREE N LOGGAN CHANGE romeimg to img1
+    //external api unsplash only allows 50 images queries for 1 hour.
     //uncomment the 2 div className = clistItem
     return (
         <div className="clist">

@@ -124,8 +124,6 @@ async function updateBookingList(req, res, next) {
 
 async function deleteBookingEntry(req, res, next) {
   try {
-    //const { email, bookingId } = req.body;
-
     const accountValidity = await Accounts.findOneAndUpdate(
       { email: req.body.email },
       { $pull: { bookingHistory: req.body.bookingHistory } },

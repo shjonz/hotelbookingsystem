@@ -3,6 +3,7 @@ import "./featuredHotels.css";
 import hotelImg from '../images/hotel.jpg'
 
 const FeaturedHotels = () => {
+    //incomplete additional feature, should recommend diff hotels based on country/destination. for now its hardcoded
     return (
         <div className='fh'>
             <div className='fhItem'>

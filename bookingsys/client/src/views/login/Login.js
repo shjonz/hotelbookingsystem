@@ -23,21 +23,17 @@ const navigate = useNavigate()
 
 const errors = {
   uname: "invalid username",
-  pass: "invalid password"
+  pass: "invalid password or email"
 };
 
 const handleSubmit = (event) => {
   //Prevent page reload
   event.preventDefault();
 
-  //console.log('handlesubmit document.forms[0] ', document.forms[0].uname, document.forms[0].pass )
   var { uname, pass } = document.forms[0];
   dispatch({ type: "LOGIN_START" });
 
-  //console.log(' uname, pass ', uname.value, pass.value);
-
   // Find user login info
-  //const userData = database.find((user) => user.username === uname.value);
   setLoading(true);
   try {
     console.log(' use effet login page ' );
@@ -45,10 +41,6 @@ const handleSubmit = (event) => {
     .then(
       response => response.json()
     ).then(async data => {
-      console.log('inside use effect fetch ', data.email, data.password, data.name, uname.value, pass.value);
-      //datapw = data.password;
-      //dataemail = data.email;
-      //console.log('check if retrieved ', datapw, dataemail);
 
       if (uname.value && pass.value) {
         const isPwCorrect = await bcrypt.compare( pass.value, data.password );
@@ -70,14 +62,12 @@ const handleSubmit = (event) => {
           navigate("/" );
           
         } 
-      } else {
-        //   // Username not found
-        setErrorMessages({ name: "uname", message: errors.uname });
-        
-      }
+      } 
     }).catch( error => {
-      console.log('error caught ');
-      dispatch({ type: "LOGIN_FAILURE", payload: error.response.data });
+      console.log('error caught  or email wrong  ');
+      
+      setErrorMessages({ name: "pass", message: errors.pass });
+      dispatch({ type: "LOGIN_FAILURE", payload: error.response });
     });
   } catch (err) {
     console.log(' use effect error');
@@ -98,7 +88,7 @@ const renderForm = (
   <div className="form">
     <form onSubmit={handleSubmit}>
       <div className="input-container">
-        <label>Username </label>
+        <label>Email </label>
         <input type="text" name="uname" required />
         {renderErrorMessage("uname")}
       </div>

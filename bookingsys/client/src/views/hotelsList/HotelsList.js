@@ -90,9 +90,6 @@ const HotelsList = () => {
   
 
   useEffect(() => {
-    //setTimeout(() => {
-
-  
     setLoading(true);
     try {
       const sDate = format(date[0].startDate, "yyyy-MM-dd");
@@ -118,13 +115,7 @@ const HotelsList = () => {
       console.log(" use effect error");
     }
     setLoading(false);
- // }, 8000);
-    //clearTimeout();
-    return () => {
-      // <p>No available destinations</p>
-      setLoading(true);
-      //clearTimeout();
-    }
+ 
     
   }, [useContext(SearchContext)]);
 
