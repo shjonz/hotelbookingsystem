@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import "../login/Login.css";
 import { Link } from 'react-router-dom';
-import background from '../../components/images/palmtree1.jpg';
+import background from '../../components/images/palmtree.jpg';
+
 
 const Register = () => {
 // React States
@@ -114,7 +115,7 @@ const renderForm = (
       return (
         <div>
             <Navbar />
-        <div className="app" style={{ backgroundImage: `url(${background})`}}>
+        <div className="app" style={{ backgroundImage: `url(${background})` }}>
         <div className="login-form">
           <div className="title">Register</div>
           {isSubmitted ? <div>User is successfully registered

@@ -5,7 +5,7 @@ import "./Login.css";
 import { Link } from 'react-router-dom';
 import bcrypt from "bcryptjs";
 import { AuthContext } from "../../context/AuthContext";
-import background from '../../components/images/palmtree1.jpg';
+import background from '../../components/images/palmtree.jpg';
 
 const Login = () => {
 
@@ -109,7 +109,7 @@ const renderForm = (
       return (
         <div>
             <Navbar />
-        <div className="app" style={{ backgroundImage: `url(${background})`}}>
+        <div className="app" style={{ backgroundImage: `url(${background})` }}>
         <div className="login-form">
           <div className="title">Sign In</div>
           {isSubmitted ? <div>User is successfully logged in
