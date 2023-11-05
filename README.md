@@ -1,19 +1,22 @@
-### Hotel Booking System Web Application
-- module 50.003 Elements of Software Construction
-- Worked with realtime data using <a href="https://www.ascendaloyalty.com/">Ascenda</a> APIs
-- MERN Stack
-- AGILE SDLC
-
-# Editor.md
+# Icon
 
 ![Hotel_Booking_System](https://github.com/shjonz/hotelbookingsystem/assets/81726240/121df415-25a3-40e4-b5fe-18fffe296465)
 
 
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
 
+### Hotel Booking System Web Application
+- module 50.003 Elements of Software Construction
+- Worked with realtime data using <a href="https://www.ascendaloyalty.com/">Ascenda</a> APIs
+- MERN Stack
+- AGILE SDLC
 
 Video
 -----------
+
+
+https://github.com/shjonz/hotelbookingsystem/assets/81726240/124bd3b4-3ab9-4fc6-af26-526ef8c2f593
+
 
 
 Description
@@ -39,14 +42,8 @@ Image:
 
 > Change later
 
-![](https://pandao.github.io/editor.md/examples/images/8.jpg)
-
-> Change later
-
-
-                
+          
 ----
-
 
 #### Pages
 
