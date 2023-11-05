@@ -38,7 +38,7 @@ Designed with robust and maintainable software principles such as favouring comp
 
 Image:
 
-![](https://pandao.github.io/editor.md/examples/images/4.jpg)
+
 
 > Change later
 
@@ -63,27 +63,9 @@ Image:
 * Login/Register
 * Edit Bookings/Cancel Bookings
 
-                
-### FlowChart
-
-```flow
-st=>start: Login
-op=>operation: Login operation
-cond=>condition: Successful Yes or No?
-e=>end: To admin
-
-st->op->cond
-cond(yes)->e
-cond(no)->op
-```
-
-### Sequence Diagram
+### UML Diagram
                     
-```seq
-Andrew->China: Says Hello 
-Note right of China: China thinks\nabout it 
-China-->Andrew: How are you? 
-Andrew->>China: I am good thanks!
-```
+![Project Meeting 1-Page-2 drawio](https://github.com/shjonz/hotelbookingsystem/assets/81726240/701dac34-00e7-46af-8e3f-438545a55505)
+
 
 ### End
