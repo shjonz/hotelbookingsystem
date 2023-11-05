@@ -6,7 +6,8 @@
 
 # Editor.md
 
-![](https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png)
+![Hotel_Booking_System](https://github.com/shjonz/hotelbookingsystem/assets/81726240/121df415-25a3-40e4-b5fe-18fffe296465)
+
 
 ![](https://img.shields.io/github/stars/pandao/editor.md.svg) ![](https://img.shields.io/github/forks/pandao/editor.md.svg) ![](https://img.shields.io/github/tag/pandao/editor.md.svg) ![](https://img.shields.io/github/release/pandao/editor.md.svg) ![](https://img.shields.io/github/issues/pandao/editor.md.svg) ![](https://img.shields.io/bower/v/editor.md.svg)
 
@@ -23,14 +24,14 @@ With an intuitive interface, users can effortlessly browse through an endless li
 
 Designed with robust and maintainable software principles such as favouring composition over inheritance, encapsulation and polymorphism, this ensures a maintainable code base. Whether you're planning a weekend getaway, a well-organised business trip, or discovering hidden gems in your hometown, this is your ultimate travel companion.
 
-####Installation
+#### Installation
 
     git clone "https://github.com/shjonz/hotelbookingsystem.git"
 	npm i
 	npm start
 
 
-###Images
+### Images
 
 Image:
 
@@ -47,7 +48,7 @@ Image:
 ----
 
 
-####Pages
+#### Pages
 
 - Login/Register
 - View Bookings
@@ -58,7 +59,7 @@ Image:
 - Booking Form
 - Payment Gateway
     
-####Features
+#### Features
 
 * Realtime search using location, dates, number of rooms and people
 * Infinite Scrolling
@@ -66,7 +67,7 @@ Image:
 * Edit Bookings/Cancel Bookings
 
                 
-###FlowChart
+### FlowChart
 
 ```flow
 st=>start: Login
@@ -79,7 +80,7 @@ cond(yes)->e
 cond(no)->op
 ```
 
-###Sequence Diagram
+### Sequence Diagram
                     
 ```seq
 Andrew->China: Says Hello 
@@ -88,4 +89,4 @@ China-->Andrew: How are you?
 Andrew->>China: I am good thanks!
 ```
 
-###End
+### End
