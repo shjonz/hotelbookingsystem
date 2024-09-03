@@ -63,9 +63,4 @@ Image:
 * Login/Register
 * Edit Bookings/Cancel Bookings
 
-### UML Diagram
-                    
-![Project Meeting 1-Page-2 drawio](https://github.com/shjonz/hotelbookingsystem/assets/81726240/701dac34-00e7-46af-8e3f-438545a55505)
-
-
 ### End
